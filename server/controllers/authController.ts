@@ -121,24 +121,36 @@ export const verifyPhoneOtp = async (req: Request, res: Response) => {
       userId = dbUser._id.toString();
       userProfile = dbUser.toJSON();
     } catch {
-      // In-memory fallback
-      userProfile = {
-        id: userId,
-        role: 'patient',
-        name: name || 'Shantabai Gawande',
-        nameMr: 'शांताबाई गावंडे',
-        mobile: cleanMobile,
-        isPhoneVerified: true,
-        village: 'Ramtek',
-        taluka: 'Ramtek',
-        district: 'Nagpur',
-        pinCode: '441106',
-        age: 48,
-        gender: 'Female',
-        bloodGroup: 'B+',
-        emergencyContactName: 'Ramesh Gawande (Son)',
-        emergencyContactMobile: '+91 98221 55667',
-      };
+      // In-memory persistent store fallback
+      const existingInDb = db.getUserByMobile(cleanMobile) || db.getUser(userId);
+      if (existingInDb) {
+        userProfile = {
+          ...existingInDb,
+          id: userId,
+          mobile: cleanMobile,
+          isPhoneVerified: true,
+        };
+      } else {
+        userProfile = db.upsertUser({
+          id: userId,
+          role: 'patient',
+          name: name || 'Shantabai Gawande (शांताबाई)',
+          nameMr: 'शांताबाई गावंडे',
+          nameHi: 'शांताबाई गावंडे',
+          mobile: cleanMobile,
+          isPhoneVerified: true,
+          place: 'Ramtek',
+          village: 'Ramtek',
+          taluka: 'Ramtek',
+          district: 'Nagpur',
+          pinCode: '441106',
+          age: 48,
+          gender: 'Female',
+          bloodGroup: 'B+',
+          emergencyContactName: 'Ramesh Gawande (Son)',
+          emergencyContactMobile: '+91 98221 55667',
+        });
+      }
     }
 
     const token = generateToken({
@@ -390,6 +402,24 @@ export const getCurrentUserProfile = async (req: AuthRequest, res: Response) => 
     }
 
     if (!user) {
+      const userInDb = db.getUser(userId) || db.getUserByMobile(req.user.mobile) || db.getUser();
+      if (userInDb) {
+        const userObj: any = { ...userInDb };
+        userObj.userId = userObj.id || userId;
+        userObj.profilePhoto = userObj.profilePhoto || userObj.avatar || '';
+        userObj.avatar = userObj.avatar || userObj.profilePhoto || '';
+        userObj.dateOfBirth = userObj.dateOfBirth || userObj.dob || '';
+        userObj.dob = userObj.dob || userObj.dateOfBirth || '';
+        userObj.place = userObj.place || userObj.village || 'Ramtek';
+        userObj.village = userObj.village || userObj.place || 'Ramtek';
+        userObj.mobileNumber = userObj.mobileNumber || userObj.mobile || req.user.mobile;
+        userObj.emergencyContact = userObj.emergencyContact || userObj.emergencyContactMobile || userObj.emergencyContactName || '';
+        return res.json({
+          success: true,
+          profile: userObj,
+        });
+      }
+
       return res.json({
         success: true,
         profile: {
@@ -400,6 +430,8 @@ export const getCurrentUserProfile = async (req: AuthRequest, res: Response) => 
           mobile: req.user.mobile,
           mobileNumber: req.user.mobile,
           email: req.user.email,
+          place: 'Ramtek',
+          village: 'Ramtek',
           avatar: '',
           profilePhoto: '',
         },
@@ -455,9 +487,18 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
     if (profileData.dateOfBirth && !profileData.dob) profileData.dob = profileData.dateOfBirth;
     if (profileData.dob && !profileData.dateOfBirth) profileData.dateOfBirth = profileData.dob;
     if (profileData.mobileNumber && !profileData.mobile) profileData.mobile = profileData.mobileNumber;
+    if (profileData.place && !profileData.village) profileData.village = profileData.place;
+    if (profileData.village && !profileData.place) profileData.place = profileData.village;
     if (profileData.emergencyContact) {
       if (!profileData.emergencyContactMobile) profileData.emergencyContactMobile = profileData.emergencyContact;
     }
+
+    // Always persist to db store
+    const storeSavedUser = db.upsertUser({
+      ...profileData,
+      id: authenticatedUserId,
+      mobile: authenticatedMobile,
+    });
 
     try {
       let user: any = null;
@@ -495,6 +536,7 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
         const permittedFields = [
           'name',
           'nameMr',
+          'nameHi',
           'age',
           'gender',
           'dob',
@@ -502,6 +544,7 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
           'mobile',
           'mobileNumber',
           'address',
+          'place',
           'village',
           'taluka',
           'district',
@@ -529,6 +572,8 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
         userObj.avatar = userObj.avatar || userObj.profilePhoto || '';
         userObj.dateOfBirth = userObj.dateOfBirth || userObj.dob || '';
         userObj.dob = userObj.dob || userObj.dateOfBirth || '';
+        userObj.place = userObj.place || userObj.village || 'Ramtek';
+        userObj.village = userObj.village || userObj.place || 'Ramtek';
         userObj.mobileNumber = userObj.mobileNumber || userObj.mobile || '';
         userObj.emergencyContact = userObj.emergencyContact || userObj.emergencyContactMobile || '';
 
@@ -543,11 +588,14 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
     }
 
     const fallbackProfile = {
+      ...storeSavedUser,
       ...profileData,
       userId: authenticatedUserId,
       id: authenticatedUserId,
-      profilePhoto: profileData.profilePhoto || profileData.avatar || '',
-      avatar: profileData.avatar || profileData.profilePhoto || '',
+      profilePhoto: profileData.profilePhoto || profileData.avatar || storeSavedUser.profilePhoto || '',
+      avatar: profileData.avatar || profileData.profilePhoto || storeSavedUser.avatar || '',
+      place: profileData.place || profileData.village || storeSavedUser.place || 'Ramtek',
+      village: profileData.village || profileData.place || storeSavedUser.village || 'Ramtek',
     };
 
     return res.json({
@@ -605,6 +653,12 @@ export const uploadProfilePhoto = async (req: AuthRequest, res: Response) => {
       }
     } catch (dbErr: any) {
       console.warn('MongoDB photo update notice:', dbErr.message);
+    }
+
+    // Persist photo to db store
+    db.updateUserPhoto(userId, photoUrl);
+    if (req.user.mobile) {
+      db.upsertUser({ id: userId, mobile: req.user.mobile, avatar: photoUrl, profilePhoto: photoUrl });
     }
 
     return res.json({

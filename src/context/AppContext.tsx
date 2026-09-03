@@ -68,7 +68,7 @@ export interface AppContextType {
   userRole: UserRole | null;
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string, params?: Record<string, string | number>) => string;
+  t: (key: string, params?: Record<string, string | number | undefined>) => string;
   formatDate: (date: string | number | Date | undefined, formatStyle?: 'short' | 'medium' | 'long' | 'full') => string;
   formatTime: (timeInput: string | Date | undefined) => string;
   formatDateTime: (dateInput: string | number | Date | undefined) => string;
@@ -518,12 +518,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setAccessibility((prev) => ({ ...prev, ...settings }));
   };
 
-  const t = (key: string, params?: Record<string, string | number>): string => {
+  const t = (key: string, params?: Record<string, string | number | undefined>): string => {
     const dict = translations[language] || translations.mr || {};
-    let text = dict[key] || translations.mr?.[key] || translations.en?.[key] || key;
+    let text = dict[key] || translations.mr?.[key] || translations.en?.[key] || (params && params.default ? String(params.default) : key);
     if (params && typeof text === 'string') {
       Object.entries(params).forEach(([paramKey, paramVal]) => {
-        text = text.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(paramVal));
+        if (paramVal !== undefined) {
+          text = text.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(paramVal));
+        }
       });
     }
     return text;
@@ -586,14 +588,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     if (currentUser.role === 'patient') {
       const forbiddenForPatient = ['doctor-dashboard', 'admin-dashboard'];
       if (forbiddenForPatient.includes(page)) {
-        showToast(language === 'mr' ? 'अनधिकृत: केवळ रुग्ण पोर्टल उपलब्ध' : 'Unauthorized: Patient access only');
+        showToast(t('auto.text_1177'));
         setCurrentPageState('patient-dashboard');
         return;
       }
     } else if (currentUser.role === 'doctor') {
       const forbiddenForDoctor = ['patient-dashboard', 'admin-dashboard'];
       if (forbiddenForDoctor.includes(page)) {
-        showToast(language === 'mr' ? 'अनधिकृत: केवळ डॉक्टर पोर्टल उपलब्ध' : 'Unauthorized: Doctor access only');
+        showToast(t('auto.text_1178'));
         setCurrentPageState('doctor-dashboard');
         return;
       }
@@ -668,7 +670,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       localStorage.setItem('gramarogya_user', JSON.stringify(patientUser));
       setCurrentUser(patientUser);
       setCurrentPage('patient-dashboard');
-      showToast(language === 'mr' ? 'रुग्ण / नागरिक पोर्टलमध्ये आपले स्वागत आहे' : 'Welcome to Patient Portal');
+      showToast(t('auto.text_1179'));
       return true;
     } else if (role === 'doctor') {
       const matchedDoctor = doctors.find((d) => d.id === identifier || d.registrationNumber === identifier || (profile && profile.providerId === d.registrationNumber));
@@ -700,23 +702,25 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       localStorage.setItem('gramarogya_user', JSON.stringify(doctorUser));
       setCurrentUser(doctorUser);
       setCurrentPage('doctor-dashboard');
-      showToast(language === 'mr' ? 'वैद्यकीय अधिकारी डॅशबोर्डमध्ये आपले स्वागत आहे' : 'Welcome to Doctor Portal');
+      showToast(t('auto.text_1180'));
       return true;
     } else if (role === 'admin') {
+      const adminUser: UserProfile = {
+        id: 'admin-1',
+        role: 'admin',
+        name: 'District Health Officer (DHO)',
+        nameMr: 'जिल्हा आरोग्य अधिकारी',
+        mobile: identifier || '9822099999',
+        preferredLanguage: 'mr',
+        department: 'District Health Administration',
+        ...profile,
+      };
       localStorage.setItem('gramarogya_auth_token', authToken);
       sessionStorage.setItem('gramarogya_auth_session', JSON.stringify({ token: authToken, role: 'admin', user: adminUser }));
       localStorage.setItem('gramarogya_user', JSON.stringify(adminUser));
       setCurrentUser(adminUser);
       setCurrentPage('admin-dashboard');
-      showToast(language === 'mr' ? 'सार्वजनिक आरोग्य प्रशासक लॉगिन' : 'Admin Portal Login');
-      return true;
-    } else if (role === 'admin') {
-      localStorage.setItem('gramarogya_auth_token', authToken);
-      sessionStorage.setItem('gramarogya_auth_session', JSON.stringify({ token: authToken, role: 'admin', user: adminUser }));
-      localStorage.setItem('gramarogya_user', JSON.stringify(adminUser));
-      setCurrentUser(adminUser);
-      setCurrentPage('admin-dashboard');
-      showToast(language === 'mr' ? 'सार्वजनिक आरोग्य प्रशासक लॉगिन' : 'Admin Portal Login');
+      showToast(t('auto.text_1181'));
       return true;
     }
     return false;
@@ -752,10 +756,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const updateUserProfile = async (profile: UserProfile): Promise<void> => {
-    const res = await SupabaseService.updateProfile(profile);
-    if (res.success) {
-      setCurrentUser(res.data);
+    try {
+      await apiClient.updateProfile(profile);
+    } catch (e) {
+      console.warn('apiClient.updateProfile notice:', e);
     }
+    const res = await SupabaseService.updateProfile(profile);
+    const updated = res.success && res.data ? res.data : profile;
+    setCurrentUser(updated);
+    localStorage.setItem('gramarogya_user', JSON.stringify(updated));
   };
 
   const logout = async () => {
@@ -771,7 +780,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     localStorage.removeItem('gramarogya_jwt_auth_token');
     localStorage.removeItem('gramarogya_user_profile');
     sessionStorage.removeItem('gramarogya_auth_session');
-    showToast(language === 'mr' ? 'यशस्वीरित्या बाहेर पडलात - ॲप लॉक झाले आहे' : 'Signed Out - App Locked');
+    showToast(t('auto.text_1182'));
     setCurrentPageState('login');
   };
 
@@ -857,9 +866,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           prev.map((apt) => (apt.id === appointmentId ? { ...apt, ...response.data! } : apt))
         );
         showToast(
-          language === 'mr'
-            ? 'व्हिडिओ टेलिमेडिसिन सल्ला पाठवला आहे.'
-            : 'Telemedicine consultation suggested to patient.'
+          t('auto.text_1183')
         );
         return { success: true, data: response.data };
       }
@@ -897,9 +904,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           prev.map((apt) => (apt.id === appointmentId ? { ...apt, ...response.data! } : apt))
         );
         showToast(
-          language === 'mr'
-            ? 'व्हिडिओ सल्लामसलत स्वीकारली आहे.'
-            : 'Telemedicine consultation accepted.'
+          t('auto.text_1184')
         );
         return { success: true, data: response.data };
       }

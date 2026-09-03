@@ -126,6 +126,31 @@ function extractReportedConcerns(text: string, language: 'mr' | 'hi' | 'en'): { 
     symptoms.push(language === 'mr' ? 'सांधेदुखी / हाडांची दुखापत' : language === 'hi' ? 'जोड़ों का दर्द / हड्डी की चोट' : 'Joint pain / Orthopedic issue');
   }
 
+  // Skin / Rash / Allergy
+  if (lower.includes('skin') || lower.includes('rash') || lower.includes('itching') || lower.includes('पुरळ') || lower.includes('खाज') || lower.includes('खुजली') || lower.includes('दाद') || lower.includes('त्वचा')) {
+    symptoms.push(language === 'mr' ? 'त्वचारोग व खाज / पुरळ' : language === 'hi' ? 'त्वचा रोग / खुजली' : 'Skin rash / Dermatological issue');
+  }
+
+  // Eye issues
+  if (lower.includes('eye') || lower.includes('vision') || lower.includes('डोळे') || lower.includes('आँख') || lower.includes('जळजळ')) {
+    symptoms.push(language === 'mr' ? 'नेत्रविकार / डोळ्यांची जळजळ' : language === 'hi' ? 'आंखों की समस्या' : 'Eye discomfort / Ophthalmology concern');
+  }
+
+  // Dizziness / Vertigo
+  if (lower.includes('dizz') || lower.includes('giddi') || lower.includes('चक्कर') || lower.includes('भोवळ')) {
+    symptoms.push(language === 'mr' ? 'चक्कर येणे / भोवळ' : language === 'hi' ? 'चक्कर आना' : 'Dizziness / Vertigo');
+  }
+
+  // Throat / Sore throat
+  if (lower.includes('throat') || lower.includes('घसा') || lower.includes('गळा') || lower.includes('गले')) {
+    symptoms.push(language === 'mr' ? 'घसादुखी / खवखव' : language === 'hi' ? 'गले में खराश / दर्द' : 'Sore throat / Throat irritation');
+  }
+
+  // Diabetes / Hypertension / BP
+  if (lower.includes('sugar') || lower.includes('diabetes') || lower.includes('मधुमेह') || lower.includes('रक्तदाब') || lower.includes('bp') || lower.includes('बीपी')) {
+    symptoms.push(language === 'mr' ? 'मधुमेह व रक्तदाब तपासणी' : language === 'hi' ? 'शुगर एवं बीपी जांच' : 'Diabetes / Blood Pressure evaluation');
+  }
+
   // Fallback if no specific matched keyword
   if (symptoms.length === 0) {
     const preview = text.length > 50 ? text.substring(0, 50) + '...' : text;
@@ -295,7 +320,7 @@ function buildRecommendedHealthcareOptions(
   return results;
 }
 
-// Pure healthcare navigation fallback response (ZERO MEDICAL TREATMENT / ZERO DIAGNOSIS)
+// Pure healthcare navigation fallback response (ZERO MEDICAL ADVICE / ZERO MEDICINE / STRICT SYMPTOM & DOCTOR NAVIGATION)
 function generateSafeNavigationResponse(
   message: string,
   language: 'mr' | 'hi' | 'en',
@@ -306,6 +331,9 @@ function generateSafeNavigationResponse(
   const lower = message.toLowerCase();
   const firstFac = recommendedOptions[0];
   const firstDoc = firstFac?.relevantDoctor;
+  const docName = language === 'mr' ? firstDoc?.nameMr || firstDoc?.name : firstDoc?.name;
+  const docSpec = language === 'mr' ? firstDoc?.specializationMr || firstDoc?.specialization : firstDoc?.specialization;
+  const facName = language === 'mr' ? firstFac?.officialNameMr || firstFac?.facilityName : firstFac?.facilityName;
 
   // 1. EMERGENCY SAFETY PROTOCOL
   if (isEmergency) {
@@ -318,36 +346,36 @@ function generateSafeNavigationResponse(
     }
   }
 
-  // 2. SPECIFIC DISEASE REPORTED (e.g. Typhoid, Malaria)
-  if (lower.includes('typhoid') || lower.includes('टायफॉईड') || lower.includes('टाइफाइड')) {
+  // 2. SPECIFIC DISEASE CONCERN REPORTED (e.g. Typhoid, Malaria)
+  if (lower.includes('typhoid') || lower.includes('टायफॉईड') || lower.includes('टाइफाइड') || lower.includes('malaria') || lower.includes('मलेरिया')) {
     if (language === 'mr') {
-      return `मी समजतो की तुम्हाला टायफॉईडबद्दल काळजी वाटत आहे. मी कोणत्याही आजाराचे निदान करू शकत नाही किंवा उपचार देऊ शकत नाही, परंतु मी तुम्हाला नजीकचे योग्य शासकीय आरोग्य केंद्र आणि उपलब्ध डॉक्टर शोधण्यात मदत करू शकतो.\n\nखालील आरोग्य केंद्रांची माहिती तपासून आपण तपासणीसाठी डॉक्टरांची भेट घेऊ शकता:`;
+      return `मी आपली आरोग्य चिंता समजून घेतली आहे. मी वैद्यकीय सल्ला किंवा औषध देऊ शकत नाही. आपल्या लक्षणांचे अचूक निदान करण्यासाठी कृपया ${firstDoc ? `${docName} (${docSpec}), ${facName} (ओपीडी: ${firstFac?.opdTiming})` : facName} यांची प्रत्यक्ष तपासणीसाठी भेट घ्या.`;
     } else if (language === 'hi') {
-      return `मैं समझता हूँ कि आप टाइफाइड को लेकर चिंतित हैं। मैं किसी बीमारी की पुष्टि या इलाज नहीं कर सकता, लेकिन मैं आपको नजदीकी उपयुक्त स्वास्थ्य केंद्र और उपलब्ध डॉक्टर खोजने में मदद कर सकता हूँ।\n\nकृपया नीचे दिए गए केंद्रों में से उपयुक्त डॉक्टर का चयन करें:`;
+      return `मैंने आपकी स्वास्थ्य समस्या नोट कर ली है। मैं कोई स्वास्थ्य सलाह या दवा नहीं दे सकता। आपकी समस्या के सही निदान के लिए कृपया ${firstDoc ? `${docName} (${docSpec}), ${facName} (OPD: ${firstFac?.opdTiming})` : facName} से संपर्क करें, जो आपकी जांच कर रोग का निदान करेंगे।`;
     } else {
-      return `I understand that you are concerned about typhoid. I cannot confirm a diagnosis or provide treatment, but I can help you find an appropriate nearby healthcare facility and available doctor.\n\nPlease review the recommended healthcare options below:`;
+      return `I have noted your reported health concern. I cannot provide health advice or medicines. To diagnose the problem you are facing, please consult ${firstDoc ? `${docName} (${docSpec}) at ${facName} (OPD: ${firstFac?.opdTiming})` : facName} for clinical examination and diagnosis.`;
     }
   }
 
-  // 3. GENERAL SYMPTOMS (Fever, Weakness, Cough, Headache, etc.)
+  // 3. GENERAL SYMPTOMS REPORTED (Fever, Weakness, Cough, Headache, etc.)
   if (reportedSymptoms.length > 0) {
     const symptomsText = reportedSymptoms.join(', ');
     if (language === 'mr') {
-      return `आपण नोंदवलेली आरोग्य लक्षणे (${symptomsText}) मी नोंदवून घेतली आहेत. मी वैद्यकीय उपचार किंवा औषध सुचवत नाही; अचूक तपासणीसाठी कृपया नजीकच्या प्राथमिक आरोग्य केंद्रातील (PHC) डॉक्टरांचा सल्ला घ्या. आपल्या सोयीसाठी जवळचे आरोग्य केंद्र व डॉक्टरांची माहिती खाली दिली आहे.`;
+      return `मी आपण नोंदवलेली लक्षणे (${symptomsText}) नोंदवून घेतली आहेत. मी कोणताही वैद्यकीय सल्ला किंवा औषध देऊ शकत नाही. या लक्षणांचे योग्य निदान करण्यासाठी कृपया ${firstDoc ? `${docName} (${docSpec}), ${facName} (ओपीडी: ${firstFac?.opdTiming}, अंतर: ${firstFac?.distanceKm} किमी)` : facName} यांच्याकडे जाऊन प्रत्यक्ष तपासणी करून घ्या.`;
     } else if (language === 'hi') {
-      return `आपके द्वारा बताए गए स्वास्थ्य लक्षण (${symptomsText}) दर्ज कर लिए गए हैं। मैं चिकित्सकीय उपचार या दवाएं नहीं दे सकता; सही जांच के लिए कृपया नजदीकी प्राथमिक स्वास्थ्य केंद्र (PHC) के डॉक्टर से मिलें। उपलब्ध स्वास्थ्य केंद्र और डॉक्टरों की सूची नीचे दी गई है।`;
+      return `मैंने आपके बताए गए लक्षण (${symptomsText}) दर्ज कर लिए हैं। मैं कोई स्वास्थ्य सलाह या दवा नहीं दे सकता। इन लक्षणों के सही निदान के लिए कृपया ${firstDoc ? `${docName} (${docSpec}), ${facName} (OPD: ${firstFac?.opdTiming}, दूरी: ${firstFac?.distanceKm} किमी)` : facName} से संपर्क करें, जो आपकी जांच कर समस्या का निदान करेंगे।`;
     } else {
-      return `I have noted your reported symptoms (${symptomsText}). I cannot confirm a diagnosis or provide medical treatment, but I can help guide you to a qualified doctor at your nearest Primary Health Centre (PHC) for in-person evaluation.`;
+      return `I have read your reported symptoms (${symptomsText}). I cannot provide health advice or medicine. To diagnose the problem you are facing, please consult ${firstDoc ? `${docName} (${docSpec}) at ${facName} (OPD: ${firstFac?.opdTiming}, Distance: ${firstFac?.distanceKm} km)` : facName} for a clinical diagnosis.`;
     }
   }
 
   // 4. GENERAL NAVIGATION ASSISTANCE
   if (language === 'mr') {
-    return `मी ग्रामआरोग्य आरोग्य नेव्हिगेशन सहाय्यक आहे. मी आजारांचे निदान किंवा उपचार करत नाही, परंतु आपल्या परिसरातील योग्य शासकीय आरोग्य केंद्र, ओपीडी वेळ आणि उपलब्ध डॉक्टर शोधण्यात मदत करतो.`;
+    return `मी ग्रामआरोग्य आरोग्य नेव्हिगेशन सहाय्यक आहे. मी वैद्यकीय सल्ला किंवा औषध देत नाही. आपण आपली लक्षणे सांगितल्यास त्या समस्येचे निदान करण्यासाठी उपलब्ध शासकीय रुग्णालय आणि डॉक्टरांची माहिती मी देऊ शकतो.`;
   } else if (language === 'hi') {
-    return `मैं ग्रामआरोग्य स्वास्थ्य नेविगेशन सहायक हूँ। मैं बीमारी का इलाज या दवा नहीं देता, लेकिन आपके नजदीकी सरकारी अस्पताल, ओपीडी समय और उपलब्ध डॉक्टरों को खोजने में आपकी मदद कर सकता हूँ।`;
+    return `मैं ग्रामआरोग्य स्वास्थ्य नेविगेशन सहायक हूँ। मैं स्वास्थ्य सलाह या दवा नहीं देता। आप अपने लक्षण बताएं, मैं आपकी समस्या के निदान हेतु उपलब्ध सरकारी अस्पताल और डॉक्टर की जानकारी प्रदान करूंगा।`;
   } else {
-    return `I am the GramAarogya Healthcare Navigation Assistant. I do not diagnose illnesses or provide medical treatment, but I can help you find appropriate nearby public healthcare facilities, OPD timings, and available doctors.`;
+    return `I am the GramAarogya Healthcare Navigation Assistant. I never provide health advice or medicine. Please describe the symptoms you are facing, and I will provide the nearby hospitals and doctors available to diagnose your problem.`;
   }
 }
 
@@ -392,31 +420,49 @@ export const handleHealthChatbot = async (req: AuthRequest, res: Response) => {
       try {
         const langName = language === 'mr' ? 'Marathi (मराठी)' : language === 'hi' ? 'Hindi (हिंदी)' : 'English';
 
-        const systemPrompt = `You are "GramAarogya Healthcare Navigation Assistant" (ग्रामआरोग्य स्वास्थ्य नेव्हिगेशन सहाय्यक), a healthcare navigation AI for rural Maharashtra, India.
+        // Prepare verified facilities and doctors text to feed into Gemini prompt
+        const facilityListSummary = recommendedFacilities
+          .map((f, i) => {
+            const doc = f.relevantDoctor;
+            const docName = language === 'mr' ? doc?.nameMr || doc?.name : doc?.name;
+            const docSpec = language === 'mr' ? doc?.specializationMr || doc?.specialization : doc?.specialization;
+            const facName = language === 'mr' ? f.officialNameMr || f.facilityName : f.facilityName;
+            return `Option ${i + 1}: ${facName} (${f.type}, Distance: ${f.distanceKm} km, OPD: ${f.opdTiming})${
+              doc ? ` - Doctor: ${docName} (${docSpec})` : ''
+            }`;
+          })
+          .join('\n');
 
-CRITICAL MEDICAL SAFETY DIRECTIVES:
-1. YOU ARE NOT A DOCTOR. You must NEVER behave like a doctor.
-2. ABSOLUTELY FORBIDDEN:
-   - ❌ NEVER diagnose diseases.
-   - ❌ NEVER confirm that a patient has typhoid, malaria, dengue, or ANY other disease (e.g. If patient says "I am suffering from typhoid", DO NOT say "You have typhoid". Treat it strictly as their reported concern: "I understand that you are concerned about typhoid. I cannot confirm a diagnosis or provide treatment, but I can help you find an appropriate nearby healthcare facility and available doctor.").
-   - ❌ NEVER prescribe medicines or suggest dosages (NO paracetamol, antibiotics, etc.).
-   - ❌ NEVER give treatment plans, therapies, or clinical remedies.
-   - ❌ NEVER give diet plans, food suggestions, fluid intake recommendations, or ORS recipes.
-   - ❌ NEVER tell the patient to "rest", "drink fluids", or "take ORS".
-   - ❌ NEVER replace a qualified medical practitioner.
+        const systemPrompt = `You are "GramAarogya Healthcare Navigation Assistant" (ग्रामआरोग्य स्वास्थ्य नेव्हिगेशन सहाय्यक) powered by Gemini, designed for rural Maharashtra healthcare navigation.
 
-ROLE & BEHAVIOR:
-1. Understand and record the patient's reported health concern with empathy.
-2. State clearly and politely that you cannot diagnose or treat conditions, but can help navigate to qualified doctors and nearby public health facilities.
-3. If necessary, ask at most ONE basic clarifying question (such as how many days the symptoms have lasted), without offering any treatment.
-4. If the message describes an EMERGENCY (snakebite, heart attack, chest pain, stroke, heavy bleeding, accident, poisoning, seizure, severe breathing trouble, active labor):
-   - Immediately output: "This may require urgent medical attention." (or in Marathi: "यासाठी तातडीने वैद्यकीय उपचारांची आवश्यकता असू शकते.", in Hindi: "इसके लिए तत्काल चिकित्सा सहायता की आवश्यकता हो सकती है।")
-   - Guide them to immediately dial 108 Ambulance and reach the nearest 24x7 emergency hospital.
-   - DO NOT attempt any medical treatment.
+YOUR SPECIFIED, STRICT TASK:
+You are trained solely for ONE specific task:
+1. READ THE SYMPTOMS: Read and identify the symptoms or health concerns reported by the patient.
+2. NEVER RECOMMEND HEALTH ADVICE OR MEDICINE:
+   - ❌ You can NEVER recommend any health advice, home remedies, rest advice, fluid/diet intake, or exercises.
+   - ❌ You can NEVER recommend, suggest, or mention ANY medicine or drugs (NO paracetamol, antibiotics, painkillers, syrups, or dosages).
+   - ❌ You can NEVER diagnose the disease yourself or confirm an illness (do NOT say "You have typhoid" or "You have malaria").
+3. ONLY GIVE THE HOSPITAL AND DOCTOR TO DIAGNOSE THE PROBLEM PATIENT IS FACING:
+   - State that proper clinical examination by a qualified doctor is required to diagnose these symptoms.
+   - Give the specific verified hospital(s) and doctor(s) from the list below who are available to diagnose the problem the patient is facing.
+   - Mention the doctor's name, specialization, hospital name, OPD hours, and distance.
 
-LANGUAGE RULE:
-You MUST write your entire answer in ${langName}. Do NOT mix languages unnecessarily.
-Keep the response under 80 words. Simple, reassuring, non-prescriptive, and focused purely on healthcare navigation.`;
+VERIFIED GOVERNMENT HOSPITALS & DOCTORS AVAILABLE TO DIAGNOSE THE PATIENT:
+${facilityListSummary || '1. Primary Health Centre (PHC) Ramtek - Dr. Rameshwar Deshmukh (Medical Officer, OPD: 10:00 AM - 02:00 PM)\n2. Sub-District Hospital Katol - Dr. Snehal Patil (Medical Officer, OPD: 09:00 AM - 04:00 PM)'}
+
+EMERGENCY PROTOCOL:
+If the symptoms indicate an emergency (severe chest pain, stroke, snakebite, unconsciousness, heavy bleeding, acute breathlessness):
+- Immediately instruct dialing 108 Ambulance and going to the nearest 24x7 emergency hospital without delay.
+- DO NOT provide any medical advice or medicine.
+
+OUTPUT RULES:
+- Format your response EXACTLY like this:
+  {advice}
+  
+  [Clinical Summary: {summary}]
+- Where {advice} is the plain-language advice in ${langName}, keeping it concise.
+- And {summary} is a clinical summary of the patient's reported symptoms and concerns, written strictly in standard English for doctor handoff.
+- Acknowledge the symptoms. State that you do not provide health advice and a doctor's examination is needed. Give the recommended hospital and doctor.`;
 
         // Format conversation history
         const contents: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
@@ -439,22 +485,43 @@ Keep the response under 80 words. Simple, reassuring, non-prescriptive, and focu
           parts: [{ text: trimmedMsg }],
         });
 
-        // Use gemini-3.8-flash as specified by Gemini API guidelines
-        const aiResponse = await gemini.models.generateContent({
-          model: 'gemini-3.8-flash',
-          contents,
-          config: {
-            systemInstruction: systemPrompt,
-            temperature: 0.2,
-          },
-        });
+        // Candidate models with graceful fallback for high demand (503) or rate limits
+        const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'];
 
-        const generated = (aiResponse.text || '').trim();
-        if (generated) {
-          replyText = generated;
+        for (const modelName of candidateModels) {
+          try {
+            const aiResponse = await gemini.models.generateContent({
+              model: modelName,
+              contents,
+              config: {
+                systemInstruction: systemPrompt,
+                temperature: 0.2,
+              },
+            });
+
+            const generated = (aiResponse.text || '').trim();
+            if (generated) {
+              replyText = generated;
+              break;
+            }
+          } catch (geminiError: any) {
+            // Graceful handling of high demand (503), rate limit (429), or temporary outages
+            const errorMsg = geminiError?.message || '';
+            const isHighDemand =
+              geminiError?.status === 503 ||
+              errorMsg.includes('503') ||
+              errorMsg.includes('high demand') ||
+              geminiError?.status === 'UNAVAILABLE';
+
+            if (isHighDemand) {
+              console.info(`Gemini model ${modelName} experiencing temporary high demand; checking fallback model...`);
+            } else {
+              console.info(`Gemini model ${modelName} notice; checking next available option...`);
+            }
+          }
         }
-      } catch (geminiError: any) {
-        console.warn('Gemini API navigation warning:', geminiError?.message || geminiError);
+      } catch (outerErr: any) {
+        console.info('AI navigation handler fallback active:', outerErr?.message || 'Local navigation fallback');
       }
     }
 

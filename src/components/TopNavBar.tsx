@@ -101,10 +101,10 @@ export const TopNavBar: React.FC = () => {
   };
 
   const getRoleBadge = () => {
-    if (!currentUser) return { label: language === 'mr' ? 'अनधिकृत' : 'Locked', color: 'bg-slate-100 text-slate-800' };
-    if (currentUser.role === 'doctor') return { label: language === 'mr' ? 'वैद्यकीय अधिकारी' : language === 'hi' ? 'चिकित्सा अधिकारी' : 'Doctor', color: 'bg-blue-100 text-blue-800' };
-    if (currentUser.role === 'admin') return { label: language === 'mr' ? 'प्रशासक' : language === 'hi' ? 'प्रशासक' : 'Health Officer', color: 'bg-purple-100 text-purple-800' };
-    return { label: language === 'mr' ? 'रुग्ण / नागरिक' : language === 'hi' ? 'मरीज' : 'Patient', color: 'bg-emerald-100 text-emerald-800' };
+    if (!currentUser) return { label: t('auto.text_1142'), color: 'bg-slate-100 text-slate-800' };
+    if (currentUser.role === 'doctor') return { label: t('auto.text_1125'), color: 'bg-blue-100 text-blue-800' };
+    if (currentUser.role === 'admin') return { label: t('auto.text_1126'), color: 'bg-purple-100 text-purple-800' };
+    return { label: t('auto.text_1127'), color: 'bg-emerald-100 text-emerald-800' };
   };
 
   const roleInfo = getRoleBadge();
@@ -113,36 +113,36 @@ export const TopNavBar: React.FC = () => {
   const healthServicesItems = [
     {
       id: 'schemes',
-      label: language === 'mr' ? 'शासकीय आरोग्य योजना (MJPJAY)' : language === 'hi' ? 'सरकारी स्वास्थ्य योजनाएं (MJPJAY)' : 'Govt Health Schemes (MJPJAY)',
-      desc: language === 'mr' ? '₹५ लाख मोफत कॅशलेस उपचार' : language === 'hi' ? '₹5 लाख तक मुफ्त कैशलेस इलाज' : 'Free cashless treatment up to ₹5 Lakh',
+      label: t('auto.text_1128'),
+      desc: t('auto.text_1129'),
       icon: ShieldCheck,
       page: 'schemes',
     },
     {
       id: 'medicines',
-      label: language === 'mr' ? 'औषध उपलब्धता नेटवर्क' : language === 'hi' ? 'दवा उपलब्धता नेटवर्क' : 'Medicine Availability Network',
-      desc: language === 'mr' ? 'जवळच्या केंद्रांमधील मोफत साठा' : language === 'hi' ? 'निकटतम केंद्रों में मुफ्त दवा भंडार' : 'Stock levels across government PHCs',
+      label: t('auto.text_1130'),
+      desc: t('auto.text_1131'),
       icon: Pill,
       page: 'medicines',
     },
     {
       id: 'health-camps',
-      label: language === 'mr' ? 'आरोग्य शिबिरे व जनजागृती' : language === 'hi' ? 'स्वास्थ्य शिविर व जागरूकता' : 'Health Camps & Preventive Programs',
-      desc: language === 'mr' ? 'गावांमधील मोफत तपासणी शिबिरे' : language === 'hi' ? 'गांवों में मुफ्त विशेषज्ञ जांच शिविर' : 'Specialist screening camps in villages',
+      label: t('auto.text_1132'),
+      desc: t('auto.text_1133'),
       icon: Megaphone,
       page: 'health-camps',
     },
     {
       id: 'records',
-      label: language === 'mr' ? 'डिजिटल आरोग्य नोंदी (ABHA)' : language === 'hi' ? 'डिजिटल स्वास्थ्य रिकॉर्ड (ABHA)' : 'Digital Health Records (ABHA)',
-      desc: language === 'mr' ? 'वैद्यकीय अहवाल व औषधोपचार पत्रिका' : language === 'hi' ? 'पर्चे, लैब टेस्ट रिपोर्ट व टीका रिकॉर्ड' : 'Prescriptions, lab reports, vaccines',
+      label: t('auto.text_1134'),
+      desc: t('auto.text_1135'),
       icon: FileText,
       page: 'records',
     },
     {
       id: 'access-score',
-      label: language === 'mr' ? 'ग्रामीण आरोग्य सुलभता निर्देशांक' : language === 'hi' ? 'ग्रामीण स्वास्थ्य सुलभता सूचकांक' : 'Rural Health Access Index',
-      desc: language === 'mr' ? 'गावनिहाय आरोग्य सेवा अंतर विश्लेषण' : language === 'hi' ? 'गांव स्तर पर स्वास्थ्य दूरी विश्लेषण' : 'Village-level healthcare access metrics',
+      label: t('auto.text_1136'),
+      desc: t('auto.text_1137'),
       icon: HeartPulse,
       page: 'access-score',
     },
@@ -159,15 +159,15 @@ export const TopNavBar: React.FC = () => {
           <div className="flex items-center gap-3 sm:gap-4 overflow-x-auto text-[11px] sm:text-xs">
             <span className="inline-flex items-center gap-1.5 font-bold text-white shrink-0">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              {language === 'mr' ? 'महाराष्ट्र शासन' : language === 'hi' ? 'महाराष्ट्र शासन' : 'Govt of Maharashtra'}
+              {t('auto.text_1138')}
             </span>
             <span className="text-emerald-400/60 hidden sm:inline">•</span>
             <span className="text-emerald-200 font-medium hidden md:inline shrink-0">
-              {language === 'mr' ? 'सार्वजनिक आरोग्य विभाग' : language === 'hi' ? 'सार्वजनिक स्वास्थ्य विभाग' : 'Public Health Department'}
+              {t('auto.text_1139')}
             </span>
             <span className="text-emerald-400/60 hidden sm:inline">•</span>
             <span className="text-emerald-300 font-semibold hidden sm:inline shrink-0">
-              {language === 'mr' ? '१०८ रुग्णवाहिका (मोफत) | १०४ आरोग्य हेल्पलाइन' : '108 Ambulance (Free) | 104 Health Helpline'}
+              {t('auto.text_1143')}
             </span>
           </div>
 
@@ -176,12 +176,12 @@ export const TopNavBar: React.FC = () => {
             {currentUser ? (
               <span className="inline-flex items-center gap-1 text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/50">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                <span>{language === 'mr' ? 'प्रमाणीकृत सत्र चालू' : 'Authenticated Session Active'}</span>
+                <span>{t('auto.text_1144')}</span>
               </span>
             ) : (
               <span className="inline-flex items-center gap-1 text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-600/50">
                 <Lock className="w-3 h-3 text-amber-400" />
-                <span>{language === 'mr' ? 'सुरक्षित पोर्टल • लॉगिन आवश्यक' : 'Secure Portal • Login Required'}</span>
+                <span>{t('auto.text_1145')}</span>
               </span>
             )}
           </div>
@@ -219,15 +219,11 @@ export const TopNavBar: React.FC = () => {
                   GramAarogya
                 </span>
                 <span className="hidden sm:inline-block text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                  {language === 'mr' ? 'महाराष्ट्र' : language === 'hi' ? 'महाराष्ट्र' : 'Public Health'}
+                  {t('auto.text_1140')}
                 </span>
               </div>
               <p className="text-[11px] font-semibold text-emerald-800 dark:text-emerald-400 leading-tight">
-                {language === 'mr'
-                  ? 'महाराष्ट्र सार्वजनिक आरोग्य नेटवर्क'
-                  : language === 'hi'
-                  ? 'महाराष्ट्र सार्वजनिक स्वास्थ्य नेटवर्क'
-                  : 'Maharashtra Public Healthcare Network'}
+                {t('brandSubtitle')}
               </p>
             </div>
           </div>
@@ -248,7 +244,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <LayoutDashboard className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'डॅशबोर्ड' : 'Dashboard'}</span>
+                    <span>{t('auto.text_1146')}</span>
                   </button>
 
                   <button
@@ -261,7 +257,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    <span>{language === 'mr' ? 'आरोग्य AI' : 'Health AI'}</span>
+                    <span>{t('auto.text_1147')}</span>
                   </button>
 
                   <button
@@ -274,7 +270,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <Stethoscope className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'डॉक्टरांचा सल्ला' : 'Consult Doctor'}</span>
+                    <span>{t('auto.text_1148')}</span>
                   </button>
 
                   <button
@@ -287,7 +283,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <Building2 className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'जवळचे PHC' : 'Find PHC'}</span>
+                    <span>{t('auto.text_1149')}</span>
                   </button>
 
                   <button
@@ -300,7 +296,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <Calendar className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'अपॉइंटमेंट' : 'Appointments'}</span>
+                    <span>{t('auto.text_1150')}</span>
                   </button>
 
                   {/* 108 Emergency SOS */}
@@ -310,7 +306,7 @@ export const TopNavBar: React.FC = () => {
                     className="ml-1 px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer animate-pulse hover:animate-none"
                   >
                     <PhoneCall className="w-3.5 h-3.5" />
-                    <span>{language === 'mr' ? '१०८ आपत्कालीन' : '108 SOS'}</span>
+                    <span>{t('auto.text_1151')}</span>
                   </button>
                 </>
               )}
@@ -328,7 +324,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <LayoutDashboard className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'क्लिनिकल OPD डॅशबोर्ड' : 'Clinical OPD Dashboard'}</span>
+                    <span>{t('auto.text_1152')}</span>
                   </button>
                 </>
               )}
@@ -346,7 +342,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <LayoutDashboard className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'प्रशासन केंद्र' : 'Admin Console'}</span>
+                    <span>{t('auto.text_1153')}</span>
                   </button>
 
                   <button
@@ -359,7 +355,7 @@ export const TopNavBar: React.FC = () => {
                     }`}
                   >
                     <Database className="w-4 h-4" />
-                    <span>{language === 'mr' ? 'सिस्टम डायग्नोस्टिक्स' : 'Diagnostics'}</span>
+                    <span>{t('auto.text_1154')}</span>
                   </button>
                 </>
               )}
@@ -369,9 +365,7 @@ export const TopNavBar: React.FC = () => {
             <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs text-amber-900 dark:text-amber-200 font-semibold">
               <Lock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
               <span>
-                {language === 'mr'
-                  ? 'शासकीय सार्वजनिक आरोग्य पोर्टल | सुरक्षित प्रवेशासाठी लॉगिन करा'
-                  : 'Maharashtra Public Healthcare Network | Please login to access your role dashboard'}
+                {t('auto.text_1155')}
               </span>
             </div>
           )}
@@ -388,7 +382,7 @@ export const TopNavBar: React.FC = () => {
               >
                 <Globe className="w-4 h-4 text-emerald-600" />
                 <span className="hidden sm:inline">
-                  {language === 'mr' ? 'मराठी' : language === 'hi' ? 'हिंदी' : 'English'}
+                  {t('auto.text_1141')}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
@@ -446,10 +440,10 @@ export const TopNavBar: React.FC = () => {
                   >
                     <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-700">
                       <span className="font-bold text-xs text-slate-800 dark:text-slate-100">
-                        {language === 'mr' ? 'आरोग्य सूचना व अलर्ट' : 'Health Alerts & Notifications'}
+                        {t('auto.text_1156')}
                       </span>
                       <span className="text-[11px] text-emerald-600 font-semibold bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded-full">
-                        {unreadCount} {language === 'mr' ? 'नवीन' : 'New'}
+                        {unreadCount} {t('auto.text_1157')}
                       </span>
                     </div>
 
@@ -482,7 +476,7 @@ export const TopNavBar: React.FC = () => {
                 id="patient-top-profile-button"
                 onClick={() => handleNav('patient-profile')}
                 className="flex items-center gap-2 p-1 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 bg-white dark:bg-slate-800 hover:bg-emerald-50/50 dark:hover:bg-slate-750 transition-all cursor-pointer shadow-2xs group"
-                title={language === 'mr' ? 'रुग्ण प्रोफाईल' : 'Patient Profile'}
+                title={t('auto.text_1158')}
                 aria-label="Patient Profile"
               >
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden flex items-center justify-center bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700 shrink-0">
@@ -503,7 +497,7 @@ export const TopNavBar: React.FC = () => {
                     {currentUser.name}
                   </span>
                   <span className="text-[10px] text-[#0F6B4F] dark:text-emerald-400 font-semibold leading-tight">
-                    {language === 'mr' ? '👤 प्रोफाईल' : '👤 Profile'}
+                    {t('auto.text_1159')}
                   </span>
                 </div>
               </button>
@@ -573,7 +567,7 @@ export const TopNavBar: React.FC = () => {
                         className="text-slate-600 dark:text-slate-300 hover:text-emerald-700 font-semibold text-[11px] flex items-center gap-1 py-1 cursor-pointer"
                       >
                         <User className="w-3.5 h-3.5" />
-                        <span>{language === 'mr' ? 'प्रोफाईल पहा' : 'View Profile'}</span>
+                        <span>{t('auto.text_1160')}</span>
                       </button>
 
                       <button
@@ -585,7 +579,7 @@ export const TopNavBar: React.FC = () => {
                         className="text-rose-600 hover:text-rose-700 font-bold text-[11px] flex items-center gap-1.5 py-1 px-2.5 bg-rose-50 dark:bg-rose-950/60 rounded-lg hover:bg-rose-100 transition-colors cursor-pointer"
                       >
                         <LogOut className="w-3.5 h-3.5" />
-                        <span>{language === 'mr' ? 'बाहेर पडा (Lock)' : 'Logout (Lock)'}</span>
+                        <span>{t('auto.text_1161')}</span>
                       </button>
                     </div>
                   </div>
@@ -599,7 +593,7 @@ export const TopNavBar: React.FC = () => {
                 className="px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-[#0F6B4F] text-white hover:bg-emerald-800 transition-all shadow-xs cursor-pointer"
               >
                 <LogIn className="w-3.5 h-3.5 shrink-0" />
-                <span>{language === 'mr' ? 'लॉगिन करा' : language === 'hi' ? 'लॉगिन करें' : 'Login'}</span>
+                <span>{t('auth.loginBtn')}</span>
               </button>
             )}
 
@@ -644,7 +638,7 @@ export const TopNavBar: React.FC = () => {
               className="px-2.5 py-1 text-[11px] font-bold text-rose-600 bg-rose-50 dark:bg-rose-950/60 rounded-lg hover:bg-rose-100 transition-colors flex items-center gap-1 cursor-pointer"
             >
               <LogOut className="w-3 h-3" />
-              <span>{language === 'mr' ? 'बाहेर पडा' : 'Logout'}</span>
+              <span>{t('auto.text_1162')}</span>
             </button>
           </div>
 
@@ -656,35 +650,35 @@ export const TopNavBar: React.FC = () => {
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <LayoutDashboard className="w-4 h-4 text-emerald-600" />
-                <span>{language === 'mr' ? 'रुग्ण डॅशबोर्ड' : 'Patient Dashboard'}</span>
+                <span>{t('auto.text_1163')}</span>
               </button>
               <button
                 onClick={() => handleNav('ai-assistant')}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40"
               >
                 <Sparkles className="w-4 h-4 text-emerald-600" />
-                <span>{language === 'mr' ? 'आरोग्य AI' : 'Health AI Assistant'}</span>
+                <span>{t('auto.text_1164')}</span>
               </button>
               <button
                 onClick={() => handleNav('facilities')}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <Building2 className="w-4 h-4 text-emerald-500" />
-                <span>{language === 'mr' ? 'जवळचे PHC' : 'Find Facilities'}</span>
+                <span>{t('auto.text_1165')}</span>
               </button>
               <button
                 onClick={() => handleNav('appointments')}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <Calendar className="w-4 h-4 text-blue-500" />
-                <span>{language === 'mr' ? 'अपॉइंटमेंट' : 'Appointments'}</span>
+                <span>{t('auto.text_1166')}</span>
               </button>
               <button
                 onClick={() => handleNav('appointments')}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <Stethoscope className="w-4 h-4 text-blue-500" />
-                <span>{language === 'mr' ? 'डॉक्टरांचा सल्ला' : 'Telemedicine'}</span>
+                <span>{t('auto.text_1167')}</span>
               </button>
               <button
                 onClick={() => handleNav('emergency')}
@@ -692,7 +686,7 @@ export const TopNavBar: React.FC = () => {
               >
                 <div className="flex items-center gap-3">
                   <PhoneCall className="w-4 h-4 text-rose-600" />
-                  <span>{language === 'mr' ? '१०८ आपत्कालीन रुग्णवाहिका' : '108 Emergency Ambulance'}</span>
+                  <span>{t('auto.text_1168')}</span>
                 </div>
               </button>
             </div>
@@ -705,7 +699,7 @@ export const TopNavBar: React.FC = () => {
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 dark:bg-blue-950/40"
               >
                 <LayoutDashboard className="w-4 h-4 text-blue-600" />
-                <span>{language === 'mr' ? 'क्लिनिकल OPD डॅशबोर्ड' : 'Doctor Clinical OPD'}</span>
+                <span>{t('auto.text_1169')}</span>
               </button>
             </div>
           )}

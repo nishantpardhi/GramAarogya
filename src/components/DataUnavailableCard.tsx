@@ -16,14 +16,10 @@ export const DataUnavailableCard: React.FC<DataUnavailableCardProps> = ({
   requiredEndpoint,
   message,
 }) => {
-  const { language, setCurrentPage } = useApp();
+  const { t, language, setCurrentPage } = useApp();
 
   const defaultTitle =
-    language === 'mr'
-      ? 'माहिती अनुपलब्ध — अधिकृत आरोग्य डेटा स्रोत जोडा'
-      : language === 'hi'
-      ? 'डेटा अनुपलब्ध — अधिकृत स्वास्थ्य डेटा स्रोत कनेक्ट करें'
-      : 'Data unavailable — connect authorized government health data source.';
+    t('auto.text_1040');
 
   const defaultDesc =
     language === 'mr'
@@ -51,11 +47,7 @@ export const DataUnavailableCard: React.FC<DataUnavailableCardProps> = ({
         <Server className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
         <div>
           <div className="font-bold text-slate-900 dark:text-white font-sans text-xs">
-            {language === 'mr'
-              ? 'अपेक्षित अधिकृत गेटवे:'
-              : language === 'hi'
-              ? 'अपेक्षित अधिकृत गेटवे:'
-              : 'Required Authorized Gateway:'}
+            {t('auto.text_1041')}
           </div>
           <div className="text-slate-500 break-all">{requiredEndpoint}</div>
         </div>
@@ -71,11 +63,7 @@ export const DataUnavailableCard: React.FC<DataUnavailableCardProps> = ({
         >
           <KeyRound className="w-4 h-4 text-emerald-600" />
           <span>
-            {language === 'mr'
-              ? 'API क्रेडेन्शियल्स कॉन्फिगर करा'
-              : language === 'hi'
-              ? 'API क्रेडेंशियल कॉन्फ़िगर करें'
-              : 'Configure API Gateway'}
+            {t('auto.text_1042')}
           </span>
         </button>
       </div>
@@ -83,11 +71,7 @@ export const DataUnavailableCard: React.FC<DataUnavailableCardProps> = ({
       <div className="mt-4 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1">
         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
         <span>
-          {language === 'mr'
-            ? '१००% पारदर्शक डेटा आर्किटेक्चर: कोणतीही बनावट माहिती नाही'
-            : language === 'hi'
-            ? '100% पारदर्शी डेटा आर्किटेक्चर: कोई नकली डेटा नहीं'
-            : '100% Real-Data Transparency: No silent substitution with invented records.'}
+          {t('auto.text_1043')}
         </span>
       </div>
     </div>

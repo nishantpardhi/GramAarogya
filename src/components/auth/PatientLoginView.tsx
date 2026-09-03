@@ -76,7 +76,7 @@ export const PatientLoginView: React.FC<PatientLoginViewProps> = ({
         setOtpSent(true);
         setCountdown(60);
         setSuccessMessage(response.message || t('auth.otpSub', { phone: `${countryCode} ${cleanMobile}` }));
-        showToast(language === 'mr' ? 'ओटीपी पाठवला आहे' : language === 'hi' ? 'ओटीपी भेजा गया है' : 'OTP dispatched');
+        showToast(t('auto.text_1171'));
       } else {
         setErrorMessage(response.error || t('auth.enterValidMobile'));
       }
@@ -124,7 +124,7 @@ export const PatientLoginView: React.FC<PatientLoginViewProps> = ({
       const response = await authService.verifyPatientOTP(mobileNumber, otpCode);
       if (response.success) {
         setSuccessMessage(t('common.success'));
-        showToast(language === 'mr' ? 'प्रवेश यशस्वी!' : language === 'hi' ? 'प्रवेश सफल!' : 'Login successful!');
+        showToast(t('auto.text_1172'));
         if (onLoginSuccess) {
           onLoginSuccess(response.data);
         } else {
@@ -152,7 +152,7 @@ export const PatientLoginView: React.FC<PatientLoginViewProps> = ({
         setCountdown(60);
         setOtpDigits(['', '', '', '', '', '']);
         setSuccessMessage(t('auth.otpSub', { phone: `${countryCode} ${mobileNumber}` }));
-        showToast(language === 'mr' ? 'ओटीपी पुन्हा पाठवला' : language === 'hi' ? 'ओटीपी पुनः भेजा गया' : 'OTP resent successfully');
+        showToast(t('auto.text_1173'));
         otpInputsRef.current[0]?.focus();
       } else {
         setErrorMessage(res.error || t('common.error'));
@@ -336,7 +336,7 @@ export const PatientLoginView: React.FC<PatientLoginViewProps> = ({
                 {countdown > 0 ? (
                   t('auth.resendIn', { seconds: countdown })
                 ) : (
-                  <span>{language === 'mr' ? 'ओटीपी आला नाही?' : language === 'hi' ? 'ओटीपी नहीं मिला?' : 'Didn\'t receive OTP?'}</span>
+                  <span>{t('auto.text_1174')}</span>
                 )}
               </span>
 

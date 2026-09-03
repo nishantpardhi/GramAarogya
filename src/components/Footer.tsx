@@ -14,16 +14,10 @@ export const Footer: React.FC = () => {
             <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0" />
             <div>
               <div className="font-bold text-white text-xs sm:text-sm">
-                {language === 'mr'
-                  ? '२४x७ महाराष्ट्र शासकीय आरोग्य आपत्कालीन हेल्पलाइन'
-                  : language === 'hi'
-                  ? '24x7 महाराष्ट्र सरकारी स्वास्थ्य हेल्पलाइन'
-                  : '24x7 Maharashtra Govt. Health Helplines'}
+                {t('auto.text_1054')}
               </div>
               <div className="text-[11px] text-slate-300">
-                {language === 'mr'
-                  ? 'टोल-फ्री शासकीय क्रमांक'
-                  : 'Official Toll-free Emergency Numbers'}
+                {t('auto.text_1055')}
               </div>
             </div>
           </div>
@@ -31,15 +25,15 @@ export const Footer: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-bold">
             <span className="bg-rose-600 text-white px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
               <PhoneCall className="w-3 h-3" />
-              {language === 'mr' ? '१०८ : रुग्णवाहिका' : '108 : Ambulance'}
+              {t('auto.text_1056')}
             </span>
             <span className="bg-blue-600 text-white px-3 py-1 rounded-full flex items-center gap-1.5">
               <PhoneCall className="w-3 h-3" />
-              {language === 'mr' ? '१०४ : आरोग्य सल्ला' : '104 : Health Advice'}
+              {t('auto.text_1057')}
             </span>
             <span className="bg-purple-600 text-white px-3 py-1 rounded-full flex items-center gap-1.5">
               <PhoneCall className="w-3 h-3" />
-              {language === 'mr' ? '१४४१६ : टेली-मानस' : '14416 : Tele-MANAS'}
+              {t('auto.text_1058')}
             </span>
           </div>
         </div>
@@ -56,9 +50,7 @@ export const Footer: React.FC = () => {
             <div>
               <span className="text-base font-black text-white tracking-tight">GramAarogya Maharashtra</span>
               <p className="text-xs text-slate-400">
-                {language === 'mr'
-                  ? 'सार्वजनिक आरोग्य विभाग, महाराष्ट्र शासन'
-                  : 'Public Health Department, Govt of Maharashtra'}
+                {t('auto.text_1059')}
               </p>
             </div>
           </div>
@@ -78,16 +70,12 @@ export const Footer: React.FC = () => {
               <div className="text-amber-400 font-semibold flex items-center gap-1.5 justify-center md:justify-end">
                 <Lock className="w-3.5 h-3.5" />
                 <span>
-                  {language === 'mr'
-                    ? 'सुरक्षित आरोग्य पोर्टल • अनधिकृत प्रवेश प्रतिबंधित'
-                    : 'Secure Healthcare Network • Authentication Required'}
+                  {t('auto.text_1060')}
                 </span>
               </div>
             )}
             <p className="text-[11px] text-slate-500">
-              {language === 'mr'
-                ? 'महाराष्ट्र राज्य सार्वजनिक आरोग्य डिजिटल सुरक्षा मानके २०२६'
-                : 'Maharashtra State Public Health Digital Security Standards 2026'}
+              {t('auto.text_1061')}
             </p>
           </div>
         </div>

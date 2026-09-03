@@ -394,4 +394,1018 @@ export const hi = {
   'common.days': 'दिन',
   'common.hours': 'घंटे',
   'common.minutes': 'मिनट',
+
+  'auto.text_1000': 'अभिगम्यता और दृश्य विकल्प',
+
+  'auto.text_1001': 'अक्षर का आकार',
+
+  'auto.text_1002': 'उच्च कंट्रास्ट मोड',
+
+  'auto.text_1003': 'कम डेटा मोड',
+
+  'auto.text_1004': 'ध्वनि सहायक',
+
+  'auto.text_1005': 'Regular',
+
+  'auto.text_1006': 'Large',
+
+  'auto.text_1007': 'Extra Large',
+
+  'auto.text_1008': 'Optimized for high readability',
+
+  'auto.text_1009': 'Optimized for 2G/3G rural networks',
+
+  'auto.text_1010': 'Audio guidance for low literacy',
+
+  'auto.text_1011': 'Apply Settings',
+
+  'auto.text_1012': 'hi-IN',
+
+  'auto.text_1013': 'hi-IN',
+
+  'auto.text_1014': 'मुझे दो दिनों से तेज बुखार और खांसी है।',
+
+  'auto.text_1015': 'मनसर, रामटेक, नागपुर',
+
+  'auto.text_1016': 'मनसर, रामटेक, नागपुर',
+
+  'auto.text_1017': '₹5 लाख तक का कैशलेस इलाज',
+
+  'auto.text_1018': 'तुरंत 108 एम्बुलेंस से संपर्क करें। पीड़ित अंग को स्थिर रखें। प्राथमिक स्वास्थ्य केंद्र रामटेक पर 24x7 एंटी-स्नेक वेनम उपलब्ध है।',
+
+  'auto.text_1019': '100% मुफ्त आपातकालीन चिकित्सा',
+
+  'auto.text_1020': 'सरकारी अस्पतालों में मुफ्त ओपीडी, जांच व दवाएं',
+
+  'auto.text_1021': 'महाराष्ट्र सार्वजनिक स्वास्थ्य सहायक',
+
+  'auto.text_1022': 'हर नागरिक के लिए गुणवत्तापूर्ण सेवा।',
+
+  'auto.text_1023': 'मेरा स्थान प्रयोग करें',
+
+  'auto.text_1024': 'बोलकर बताएं',
+
+  'auto.text_1025': 'उदाहरण (किसी एक पर क्लिक करें):',
+
+  'auto.text_1026': 'AI स्वास्थ्य नेविगेशन',
+
+  'auto.text_1027': 'अनुशंसित स्वास्थ्य केंद्र',
+
+  'auto.text_1028': 'उपलब्ध चिकित्सक',
+
+  'auto.text_1029': 'सरकारी योजना',
+
+  'auto.text_1030': 'Dr. Rameshwar Deshmukh',
+
+  'auto.text_1031': 'PHC Ramtek',
+
+  'auto.text_1032': 'Dr. Rameshwar Deshmukh',
+
+  'auto.text_1033': 'Free cashless treatment up to ₹5,00,000.',
+
+  'auto.text_1034': 'होम',
+
+  'auto.text_1035': 'स्वास्थ्य सेवा',
+
+  'auto.text_1036': 'अपडेट्स',
+
+  'auto.text_1037': 'प्रोफ़ाइल',
+
+  'auto.text_1038': 'क्लिनिकल OPD',
+
+  'auto.text_1039': 'प्रोफ़ाइल',
+
+  'auto.text_1040': 'डेटा अनुपलब्ध — अधिकृत स्वास्थ्य डेटा स्रोत कनेक्ट करें',
+
+  'auto.text_1041': 'अपेक्षित अधिकृत गेटवे:',
+
+  'auto.text_1042': 'API क्रेडेंशियल कॉन्फ़िगर करें',
+
+  'auto.text_1043': '100% पारदर्शी डेटा आर्किटेक्चर: कोई नकली डेटा नहीं',
+
+  'auto.text_1044': 'टेलीमेडिसिन अनुरोध',
+
+  'auto.text_1045': 'दिशा प्राप्त करें',
+
+  'auto.text_1046': 'OPD Timings',
+
+  'auto.text_1047': 'Distance',
+
+  'auto.text_1048': 'Total Beds',
+
+  'auto.text_1049': 'Available Beds',
+
+  'auto.text_1050': 'Available Doctors',
+
+  'auto.text_1051': 'No verified doctors currently available at this facility.',
+
+  'auto.text_1052': 'Available',
+
+  'auto.text_1053': 'Offline',
+
+  'auto.text_1054': '24x7 महाराष्ट्र सरकारी स्वास्थ्य हेल्पलाइन',
+
+  'auto.text_1055': 'Official Toll-free Emergency Numbers',
+
+  'auto.text_1056': '108 : Ambulance',
+
+  'auto.text_1057': '104 : Health Advice',
+
+  'auto.text_1058': '14416 : Tele-MANAS',
+
+  'auto.text_1059': 'Public Health Department, Govt of Maharashtra',
+
+  'auto.text_1060': 'Secure Healthcare Network • Authentication Required',
+
+  'auto.text_1061': 'Maharashtra State Public Health Digital Security Standards 2026',
+
+  'auto.text_1062': 'आपका वर्तमान स्थान',
+
+  'auto.text_1063': 'कॉल करें',
+
+  'auto.text_1064': 'दिशा मार्ग',
+
+  'auto.text_1065': 'बेड्स',
+
+  'auto.text_1066': 'डॉक्टर्स',
+
+  'auto.text_1067': '24x7 आपातकालीन व 108 एम्बुलेंस',
+
+  'auto.text_1068': 'मेरा GPS स्थान',
+
+  'auto.text_1069': 'स्थान खोज रहे हैं...',
+
+  'auto.text_1070': 'मेरा GPS स्थान प्राप्त करें',
+
+  'auto.text_1071': 'स्थान बदलें:',
+
+  'auto.text_1072': 'त्रिज्या:',
+
+  'auto.text_1073': 'GPS अनुमति अस्वीकृत हुई। डिफ़ॉल्ट रूप से रामटेक (नागपुर) का उपयोग हो रहा है।',
+
+  'auto.text_1074': 'सभी संस्थान (All Types)',
+
+  'auto.text_1075': 'प्राथमिक स्वास्थ्य केंद्र',
+
+  'auto.text_1076': 'सामुदायिक स्वास्थ्य केंद्र',
+
+  'auto.text_1077': 'जिला अस्पताल',
+
+  'auto.text_1078': 'उप-जिला अस्पताल',
+
+  'auto.text_1079': '24x7 आपातकालीन',
+
+  'auto.text_1080': 'मुफ्त दवा भंडार',
+
+  'auto.text_1081': 'पुनः केंद्रित करें',
+
+  'auto.text_1082': 'District Hospital',
+
+  'auto.text_1083': 'SDH',
+
+  'auto.text_1084': 'प्रोफ़ाइल फोटो सफलतापूर्वक सेव हो गया!',
+
+  'auto.text_1085': 'आपकी प्रोफ़ाइल जानकारी डेटाबेस में सफलतापूर्वक सेव हो गई है।',
+
+  'auto.text_1086': 'जानकारी सुरक्षित हो गई!',
+
+  'auto.text_1087': 'उपयोगकर्ता प्रोफ़ाइल प्रबंधन (Supabase)',
+
+  'auto.text_1088': 'अधिकृत जानकारी बदलें और Supabase स्टोरेज पर फोटो अपलोड करें',
+
+  'auto.text_1089': 'प्रोफ़ाइल फ़ोटो (Supabase Storage)',
+
+  'auto.text_1090': 'फोटो सीधे Supabase Storage बकेट में सुरक्षित अपलोड होगा।',
+
+  'auto.text_1091': 'फोटो अपलोड करें',
+
+  'auto.text_1092': 'हटाएं',
+
+  'auto.text_1093': 'पूरा नाम (English)',
+
+  'auto.text_1094': 'नाम (हिंदी / स्थानीय भाषा)',
+
+  'auto.text_1095': 'ईमेल पता',
+
+  'auto.text_1096': 'मरीज व्यक्तिगत व स्वास्थ्य विवरण',
+
+  'auto.text_1097': 'उम्र (Age)',
+
+  'auto.text_1098': 'लिंग (Gender)',
+
+  'auto.text_1099': 'रक्त समूह (Blood Group)',
+
+  'auto.text_1100': 'गाँव / स्थान (Place / Village)',
+
+  'auto.text_1101': 'तालुका',
+
+  'auto.text_1102': 'जिला',
+
+  'auto.text_1103': 'आपातकालीन संपर्क व्यक्ति का नाम',
+
+  'auto.text_1104': 'आपातकालीन संपर्क मोबाइल',
+
+  'auto.text_1105': 'चिकित्सीय योग्यता व पद विवरण',
+
+  'auto.text_1106': 'योग्यता (Qualification)',
+
+  'auto.text_1107': 'विशेषज्ञता (Specialization)',
+
+  'auto.text_1108': 'MMC पंजीकरण संख्या',
+
+  'auto.text_1109': 'कार्य समय (Working Hours)',
+
+  'auto.text_1110': 'बदलाव सेव करें',
+
+  'auto.text_1111': 'Saving to Supabase...',
+
+  'auto.text_1112': 'प्रवेश के लिए लॉगिन आवश्यक है',
+
+  'auto.text_1113': 'Verifying Security Credentials...',
+
+  'auto.text_1114': 'Checking active session and database role permissions.',
+
+  'auto.text_1115': 'Sign In to GramAarogya',
+
+  'auto.text_1116': 'Patient',
+
+  'auto.text_1117': 'Doctor',
+
+  'auto.text_1118': 'Admin',
+
+  'auto.text_1119': 'Access Denied: Role Unauthorized',
+
+  'auto.text_1120': 'Go to My Authorized Portal',
+
+  'auto.text_1121': 'Switch Account',
+
+  'auto.text_1122': 'SQL Script copied to clipboard!',
+
+  'auto.text_1123': 'Supabase Database Schema & Architecture',
+
+  'auto.text_1124': 'Production PostgreSQL Tables, Row Level Security (RLS) & Storage Policies',
+
+  'auto.text_1125': 'चिकित्सा अधिकारी',
+
+  'auto.text_1126': 'प्रशासक',
+
+  'auto.text_1127': 'मरीज',
+
+  'auto.text_1128': 'सरकारी स्वास्थ्य योजनाएं (MJPJAY)',
+
+  'auto.text_1129': '₹5 लाख तक मुफ्त कैशलेस इलाज',
+
+  'auto.text_1130': 'दवा उपलब्धता नेटवर्क',
+
+  'auto.text_1131': 'निकटतम केंद्रों में मुफ्त दवा भंडार',
+
+  'auto.text_1132': 'स्वास्थ्य शिविर व जागरूकता',
+
+  'auto.text_1133': 'गांवों में मुफ्त विशेषज्ञ जांच शिविर',
+
+  'auto.text_1134': 'डिजिटल स्वास्थ्य रिकॉर्ड (ABHA)',
+
+  'auto.text_1135': 'पर्चे, लैब टेस्ट रिपोर्ट व टीका रिकॉर्ड',
+
+  'auto.text_1136': 'ग्रामीण स्वास्थ्य सुलभता सूचकांक',
+
+  'auto.text_1137': 'गांव स्तर पर स्वास्थ्य दूरी विश्लेषण',
+
+  'auto.text_1138': 'महाराष्ट्र शासन',
+
+  'auto.text_1139': 'सार्वजनिक स्वास्थ्य विभाग',
+
+  'auto.text_1140': 'महाराष्ट्र',
+
+  'auto.text_1141': 'हिंदी',
+
+  'auto.text_1142': 'Locked',
+
+  'auto.text_1143': '108 Ambulance (Free) | 104 Health Helpline',
+
+  'auto.text_1144': 'Authenticated Session Active',
+
+  'auto.text_1145': 'Secure Portal • Login Required',
+
+  'auto.text_1146': 'Dashboard',
+
+  'auto.text_1147': 'Health AI',
+
+  'auto.text_1148': 'Consult Doctor',
+
+  'auto.text_1149': 'Find PHC',
+
+  'auto.text_1150': 'Appointments',
+
+  'auto.text_1151': '108 SOS',
+
+  'auto.text_1152': 'Clinical OPD Dashboard',
+
+  'auto.text_1153': 'Admin Console',
+
+  'auto.text_1154': 'Diagnostics',
+
+  'auto.text_1155': 'Maharashtra Public Healthcare Network | Please login to access your role dashboard',
+
+  'auto.text_1156': 'Health Alerts & Notifications',
+
+  'auto.text_1157': 'New',
+
+  'auto.text_1158': 'Patient Profile',
+
+  'auto.text_1159': '👤 Profile',
+
+  'auto.text_1160': 'View Profile',
+
+  'auto.text_1161': 'Logout (Lock)',
+
+  'auto.text_1162': 'Logout',
+
+  'auto.text_1163': 'Patient Dashboard',
+
+  'auto.text_1164': 'Health AI Assistant',
+
+  'auto.text_1165': 'Find Facilities',
+
+  'auto.text_1166': 'Appointments',
+
+  'auto.text_1167': 'Telemedicine',
+
+  'auto.text_1168': '108 Emergency Ambulance',
+
+  'auto.text_1169': 'Doctor Clinical OPD',
+
+  'auto.text_1170': 'डॉक्टर लॉगिन सफल!',
+
+  'auto.text_1171': 'ओटीपी भेजा गया है',
+
+  'auto.text_1172': 'प्रवेश सफल!',
+
+  'auto.text_1173': 'ओटीपी पुनः भेजा गया',
+
+  'auto.text_1174': 'ओटीपी नहीं मिला?',
+
+  'auto.text_1175': 'मोबाइल OTP',
+
+  'auto.text_1176': 'सरकारी चिकित्सा',
+
+  'auto.text_1177': 'Unauthorized: Patient access only',
+
+  'auto.text_1178': 'Unauthorized: Doctor access only',
+
+  'auto.text_1179': 'Welcome to Patient Portal',
+
+  'auto.text_1180': 'Welcome to Doctor Portal',
+
+  'auto.text_1181': 'Admin Portal Login',
+
+  'auto.text_1182': 'Signed Out - App Locked',
+
+  'auto.text_1183': 'Telemedicine consultation suggested to patient.',
+
+  'auto.text_1184': 'Telemedicine consultation accepted.',
+
+  'auto.text_1185': 'कृपया स्वास्थ्य संस्थान का नाम दर्ज करें।',
+
+  'auto.text_1186': 'नया सरकारी स्वास्थ्य संस्थान सफलतापूर्वक पंजीकृत हुआ!',
+
+  'auto.text_1187': 'सार्वजनिक स्वास्थ्य प्रशासनिक नियंत्रण कक्ष',
+
+  'auto.text_1188': 'जिला स्वास्थ्य अधिकारी (DHO) प्रशासनिक पोर्टल',
+
+  'auto.text_1189': 'चिकित्सक पंजीकरण सत्यापन, स्वास्थ्य केंद्र प्रबंधन एवं लाइव डेटा स्रोत नियंत्रण',
+
+  'auto.text_1190': 'जिला सांख्यिकी व निगरानी',
+
+  'auto.text_1191': 'डॉक्टर सत्यापन कतार',
+
+  'auto.text_1192': 'स्वास्थ्य संस्थान प्रबंधन',
+
+  'auto.text_1193': 'डेटा स्रोत व ऑडिट लॉग',
+
+  'auto.text_1194': 'सक्रिय PHC / CHC',
+
+  'auto.text_1195': '100% सत्यापित व सक्रिय',
+
+  'auto.text_1196': '108 एम्बुलेंस बेड़ा',
+
+  'auto.text_1197': 'औसत प्रतिक्रिया समय: 12 मिनट',
+
+  'auto.text_1198': 'MJPJAY योजना दावे',
+
+  'auto.text_1199': '100% मुफ्त कैशलेस उपचार',
+
+  'auto.text_1200': 'PHC दवा स्टॉक',
+
+  'auto.text_1201': 'सर्पदंश टीका प्रचुर',
+
+  'auto.text_1202': 'महाराष्ट्र मेडिकल काउंसिल (MMC) पंजीकरण सत्यापन',
+
+  'auto.text_1203': 'नए पंजीकृत डॉक्टरों के प्रमाण पत्रों की जांच कर उन्हें आधिकारिक निर्देशिका में शामिल करें।',
+
+  'auto.text_1204': 'ताज़ा करें',
+
+  'auto.text_1205': 'सभी डॉक्टर प्रमाण पत्र सत्यापित हैं!',
+
+  'auto.text_1206': 'वर्तमान में सभी चिकित्सा अधिकारियों का सत्यापन पूर्ण है।',
+
+  'auto.text_1207': 'सत्यापन लंबित',
+
+  'auto.text_1208': 'स्वीकृत करें',
+
+  'auto.text_1209': 'अस्वीकार करें',
+
+  'auto.text_1210': 'सत्यापित',
+
+  'auto.text_1211': 'सरकारी स्वास्थ्य संस्थान प्रबंधन',
+
+  'auto.text_1212': 'नए प्राथमिक स्वास्थ्य केंद्र या ग्रामीण अस्पताल का पंजीकरण करें।',
+
+  'auto.text_1213': 'नया केंद्र जोड़ें',
+
+  'auto.text_1214': 'केंद्र का नाम',
+
+  'auto.text_1215': 'प्रकार',
+
+  'auto.text_1216': 'तहसील / जिला',
+
+  'auto.text_1217': 'बिस्तर / आपातकाल',
+
+  'auto.text_1218': 'स्थिति',
+
+  'auto.text_1219': 'बिस्तर',
+
+  'auto.text_1220': 'सत्यापित',
+
+  'auto.text_1221': 'लाइव डेटा स्रोत गेटवे प्रबंधन',
+
+  'auto.text_1222': 'सिस्टम वर्तमान में निम्न डेटा स्रोतों से जुड़ी है। आप कभी भी बदल सकते हैं।',
+
+  'auto.text_1223': 'डेटा स्रोत ऑडिट जर्नल (Audit Journal)',
+
+  'auto.text_1224': 'नवीन सरकारी स्वास्थ्य केंद्र पंजीकरण',
+
+  'auto.text_1225': 'नाम (हिंदी)',
+
+  'auto.text_1226': 'केंद्र पंजीकृत करें',
+
+  'auto.text_1227': 'No audit logs recorded yet.',
+
+  'auto.text_1228': 'प्राथमिक स्वास्थ्य केंद्र मानसर',
+
+  'auto.text_1229': 'API गेटवे सेटिंग्स सहेजी गईं!',
+
+  'auto.text_1230': 'TLS हैंडशेक व टोकन सत्यापन जारी है...',
+
+  'auto.text_1231': 'गेटवे परीक्षण पूर्ण हुआ।',
+
+  'auto.text_1232': 'स्वास्थ्य डेटा गेटवे व API डायग्नोस्टिक्स',
+
+  'auto.text_1233': 'सरकारी स्वास्थ्य रिकॉर्ड, ABDM रजिस्ट्री व डेटा पारदर्शिता प्रबंधन',
+
+  'auto.text_1234': 'सक्रिय मोड:',
+
+  'auto.text_1235': 'लाइव सरकारी डेटा मोड सक्रिय किया गया',
+
+  'auto.text_1236': 'लाइव सरकारी मोड',
+
+  'auto.text_1237': 'SIH डेमो मोड सक्रिय किया गया',
+
+  'auto.text_1238': 'SIH डेमो मोड',
+
+  'auto.text_1239': 'SIH डेमो मोड वर्तमान में सक्रिय है',
+
+  'auto.text_1240': 'लाइव उत्पादन (वास्तविक डेटा) मोड सक्रिय है',
+
+  'auto.text_1241': 'मूल्यांकन के लिए नमूना डेटा स्पष्ट पारदर्शिता बैज के साथ प्रदर्शित किया जाता है।',
+
+  'auto.text_1242': 'लाइव मोड में केवल अधिकृत सरकारी API से आने वाला वास्तविक डेटा दिखाया जाता है।',
+
+  'auto.text_1243': 'सरकारी API गेटवे स्थिति',
+
+  'auto.text_1244': 'जांच जारी...',
+
+  'auto.text_1245': 'सभी एंडपॉइंट्स जांचें',
+
+  'auto.text_1246': 'रीअल-टाइम ऑडिट लॉग्स',
+
+  'auto.text_1247': 'पिछले 50 रिकॉर्ड',
+
+  'auto.text_1248': 'गेटवे क्रेडेंशियल्स',
+
+  'auto.text_1249': 'राज्य स्वास्थ्य पोर्टल के साथ सुरक्षित एन्क्रिप्टेड अनुरोध सक्षम करता है।',
+
+  'auto.text_1250': 'क्रेडेंशियल सहेजें',
+
+  'auto.text_1251': 'सुरक्षा एवं गोपनीयता नीति',
+
+  'auto.text_1252': 'ग्रामआरोग्य डिजिटल व्यक्तिगत डेटा संरक्षण (DPDP) अधिनियम व ABDM मानकों का कड़ाई से पालन करता है।',
+
+  'auto.text_1253': 'कृपया मरीज का नाम और मोबाइल नंबर दर्ज करें।',
+
+  'auto.text_1254': 'चिकित्सा अधिकारी उपलब्ध नहीं हैं।',
+
+  'auto.text_1255': 'अपॉइंटमेंट बुकिंग विफल रही।',
+
+  'auto.text_1256': 'टेलीमेडिसिन वीडियो परामर्श',
+
+  'auto.text_1257': 'विशेषज्ञ डॉक्टरों के साथ वीडियो कॉल बुक करें',
+
+  'auto.text_1258': 'विशेषज्ञ डॉक्टरों के साथ घर बैठे वीडियो परामर्श बुक करें।',
+
+  'auto.text_1259': 'अनुरोध भेजा गया',
+
+  'auto.text_1260': 'डॉक्टर की मंजूरी की प्रतीक्षा में',
+
+  'auto.text_1261': 'अनुरोध आईडी',
+
+  'auto.text_1262': 'आपका अपॉइंटमेंट अनुरोध डॉक्टर को भेज दिया गया है। डॉक्टर द्वारा स्वीकार किए जाने के बाद आपको SMS द्वारा सूचित किया जाएगा। कृपया प्रतीक्षा करें।',
+
+  'auto.text_1263': 'अन्य अपॉइंटमेंट बुक करें',
+
+  'auto.text_1264': 'मरीज डैशबोर्ड देखें',
+
+  'auto.text_1265': '1. परामर्श का प्रकार चुनें',
+
+  'auto.text_1266': 'टेलीमेडिसिन वीडियो परामर्श (Telemedicine)',
+
+  'auto.text_1267': 'घर बैठे डॉक्टर से वीडियो बातचीत',
+
+  'auto.text_1268': '2. उपलब्ध चिकित्सा अधिकारी चुनें',
+
+  'auto.text_1269': 'कोई प्रमाणित डॉक्टर वर्तमान में उपलब्ध नहीं हैं।',
+
+  'auto.text_1270': 'कृपया कुछ समय बाद पुनः प्रयास करें।',
+
+  'auto.text_1271': 'मरीज का नाम',
+
+  'auto.text_1272': 'मोबाइल नंबर (अपडेट्स के लिए)',
+
+  'auto.text_1273': 'तारीख',
+
+  'auto.text_1274': 'समय स्लॉट',
+
+  'auto.text_1275': 'लक्षण या परामर्श का कारण',
+
+  'auto.text_1276': 'उदा. पिछले 2 दिनों से बुखार, खांसी और बदन दर्द...',
+
+  'auto.text_1277': 'सबमिट हो रहा है...',
+
+  'auto.text_1278': 'वीडियो परामर्श बुक करें',
+
+  'auto.text_1279': '🟢 Available',
+
+  'auto.text_1280': '⚪ Offline',
+
+  'auto.text_1281': 'Please enter clinical diagnosis',
+
+  'auto.text_1282': 'Doctor Clinical Portal',
+
+  'auto.text_1283': 'Available for Patients',
+
+  'auto.text_1284': 'Offline',
+
+  'auto.text_1285': 'Go Offline',
+
+  'auto.text_1286': 'Go Online',
+
+  'auto.text_1287': 'OPD Appointments',
+
+  'auto.text_1288': 'Telemedicine (Video)',
+
+  'auto.text_1289': 'Consulted & Prescriptions',
+
+  'auto.text_1290': 'Completed Consultations',
+
+  'auto.text_1291': 'Pending Requests',
+
+  'auto.text_1292': 'No completed consultation records yet.',
+
+  'auto.text_1293': 'No pending requests',
+
+  'auto.text_1294': 'All incoming appointment requests are processed.',
+
+  'auto.text_1295': 'Reject',
+
+  'auto.text_1296': 'Accept',
+
+  'auto.text_1297': 'Confirmed Schedule',
+
+  'auto.text_1298': 'No confirmed appointments scheduled',
+
+  'auto.text_1299': 'Clinical Diagnosis & Prescription',
+
+  'auto.text_1300': 'Consultation Completed & Prescription Issued!',
+
+  'auto.text_1301': 'The patient can now view their official digital prescription in their portal.',
+
+  'auto.text_1302': 'Clinical Diagnosis by Doctor *',
+
+  'auto.text_1303': 'Doctor',
+
+  'auto.text_1304': 'Prescribed Medicines',
+
+  'auto.text_1305': 'Add Medicine',
+
+  'auto.text_1306': 'Free Government PHC Supply Medicine',
+
+  'auto.text_1307': 'Issue Prescription & Complete',
+
+  'auto.text_1308': '24x7 महाराष्ट्र शासन आपातकालीन सेवा',
+
+  'auto.text_1309': '108 आपातकालीन एम्बुलेंस व तत्काल चिकित्सा सहायता',
+
+  'auto.text_1310': 'सर्पदंश, हृदय रोग, दुर्घटना, प्रसव या गंभीर स्थिति के लिए एक क्लिक पर GPS द्वारा निकटतम 108 एम्बुलेंस तुरंत रवाना की जाती है।',
+
+  'auto.text_1311': '108 एम्बुलेंस बुलाएं (DISPATCH SOS)',
+
+  'auto.text_1312': 'सीधा कॉल: 108',
+
+  'auto.text_1313': 'महाराष्ट्र 108 कम्प्यूटरीकृत डिस्पैच नेटवर्क',
+
+  'auto.text_1314': 'एम्बुलेंस रास्ते में है (Ambulance En Route)',
+
+  'auto.text_1315': 'एम्बुलेंस संख्या:',
+
+  'auto.text_1316': 'चालक व पैरामेडिक:',
+
+  'auto.text_1317': 'मूल केंद्र (Base PHC):',
+
+  'auto.text_1318': 'ग्रामीण आपातकालीन प्राथमिक उपचार निर्देश',
+
+  'auto.text_1319': 'एम्बुलेंस आने तक क्या करें और क्या न करें के नियम',
+
+  'auto.text_1320': 'सर्पदंश',
+
+  'auto.text_1321': 'दिल का दौरा',
+
+  'auto.text_1322': 'स्ट्रोक',
+
+  'auto.text_1323': 'सरकारी स्वास्थ्य संस्थान व जीआईएस मानचित्र',
+
+  'auto.text_1324': 'प्राथमिक स्वास्थ्य केंद्र (PHC), सामुदायिक स्वास्थ्य केंद्र (CHC) व जिला अस्पताल',
+
+  'auto.text_1325': 'महाराष्ट्र के सभी सरकारी स्वास्थ्य केंद्रों की 24x7 आपातकालीन उपलब्धता, बिस्तरों की संख्या, विशेषज्ञ डॉक्टर और दूरी।',
+
+  'auto.text_1326': 'तहसील, गांव या अस्पताल खोजें...',
+
+  'auto.text_1327': 'सभी प्रकार (All Types)',
+
+  'auto.text_1328': '24x7 आपातकालीन सेवा उपलब्ध',
+
+  'auto.text_1329': 'मुफ्त औषधि काउंटर',
+
+  'auto.text_1330': 'मानचित्र (Map)',
+
+  'auto.text_1331': 'कार्ड सूची (Cards)',
+
+  'auto.text_1332': 'आपकी खोज के लिए कोई स्वास्थ्य केंद्र नहीं मिला।',
+
+  'auto.text_1333': 'कृपया फ़िल्टर हटाएं या कोई अन्य स्थान चुनकर पुनः प्रयास करें।',
+
+  'auto.text_1334': 'फ़िल्टर साफ़ करें',
+
+  'auto.text_1335': 'पुनः खोजें',
+
+  'auto.text_1336': 'मानचित्र पर केंद्र (त्वरित चयन):',
+
+  'auto.text_1337': 'केंद्र उपलब्ध',
+
+  'auto.text_1338': 'बिस्तर',
+
+  'auto.text_1339': 'उपलब्ध बिस्तर',
+
+  'auto.text_1340': '24x7 आपातकाल',
+
+  'auto.text_1341': 'उपलब्ध (Active)',
+
+  'auto.text_1342': 'नहीं',
+
+  'auto.text_1343': 'उपलब्ध विशेषज्ञ डॉक्टर:',
+
+  'auto.text_1344': 'दिशा प्राप्त करें',
+
+  'auto.text_1345': 'निकटतम PHC / अस्पताल',
+
+  'auto.text_1346': 'निकटतम सरकारी स्वास्थ्य केंद्र व बिस्तरों की उपलब्धता खोजें',
+
+  'auto.text_1347': 'डॉक्टर से परामर्श',
+
+  'auto.text_1348': 'सरकारी विशेषज्ञ डॉक्टरों से वीडियो या ओपीडी परामर्श',
+
+  'auto.text_1349': 'ओपीडी या टेलीमेडिसिन के लिए त्वरित डिजिटल टोकन',
+
+  'auto.text_1350': 'तत्काल सहायता के लिए एम्बुलेंस व ट्रॉमा केयर',
+
+  'auto.text_1351': 'स्वास्थ्य रिकॉर्ड',
+
+  'auto.text_1352': 'अपनी मेडिकल जांच, लैब रिपोर्ट और पर्चे देखें',
+
+  'auto.text_1353': 'स्वास्थ्य योजनाएं',
+
+  'auto.text_1354': 'MJPJAY, PM-JAY व सरकारी योजनाओं के मुफ्त लाभ',
+
+  'auto.text_1355': 'निकटतम केंद्रों में मुफ्त आवश्यक दवा भंडार देखें',
+
+  'auto.text_1356': 'स्वास्थ्य शिविर व कार्यक्रम',
+
+  'auto.text_1357': 'गांवों में जारी व आगामी मुफ्त स्वास्थ्य शिविर',
+
+  'auto.text_1358': 'अपनी भाषा में स्वास्थ्य संबंधी प्रश्नों के उत्तर पाएं',
+
+  'auto.text_1359': 'प्राथमिक स्वास्थ्य सेवा (PHC)',
+
+  'auto.text_1360': 'गांव-गांव मुफ्त ओपीडी, बुखार-सर्दी उपचार, बुनियादी रक्त जांच व 24 घंटे प्राथमिक मदद।',
+
+  'auto.text_1361': 'सरकारी व ग्रामीण अस्पताल',
+
+  'auto.text_1362': 'तहसील व जिला स्तर पर इनडोर बेड, सर्जरी, सोनोग्राफी व आईसीयू सुविधाएं।',
+
+  'auto.text_1363': 'विशेषज्ञ डॉक्टर व रेफरल',
+
+  'auto.text_1364': 'हृदयरोग, हड्डी रोग, स्त्री रोग व बालरोग विशेषज्ञों के लिए डिजिटल रेफरल सुविधा।',
+
+  'auto.text_1365': 'टेलीमेडिसिन व ई-संजीवनी',
+
+  'auto.text_1366': 'घर बैठे या उपकेंद्र से विशेषज्ञ डॉक्टरों के साथ मुफ्त वीडियो परामर्श।',
+
+  'auto.text_1367': 'मातृ एवं शिशु देखभाल (JSSK)',
+
+  'auto.text_1368': 'मुफ्त प्रसव, जननी सुरक्षा योजना, बाल पोषण व मुफ्त एम्बुलेंस सुविधा।',
+
+  'auto.text_1369': 'सार्वभौमिक टीकाकरण अभियान',
+
+  'auto.text_1370': 'बच्चों और गर्भवती माताओं के लिए सभी सरकारी टीकों का मुफ्त समय-सारणी व प्रमाण-पत्र।',
+
+  'auto.text_1371': '24x7 आपातकालीन व एम्बुलेंस सेवा',
+
+  'auto.text_1372': 'दुर्घटना, सर्पदंश व हृदय संबंधी आपात स्थिति के लिए तुरंत 108 जीपीएस एम्बुलेंस सेवा।',
+
+  'auto.text_1373': 'सरकारी योजनाएं (MJPJAY / PM-JAY)',
+
+  'auto.text_1374': 'प्रति परिवार प्रति वर्ष ₹5 लाख तक का मुफ्त व कैशलेस उपचार।',
+
+  'auto.text_1375': 'महाराष्ट्र सरकार • सार्वजनिक स्वास्थ्य विभाग',
+
+  'auto.text_1376': 'ग्रामीण महाराष्ट्र के प्रत्येक नागरिक के लिए प्राथमिक स्वास्थ्य केंद्र (PHC), सरकारी डॉक्टर, मुफ्त दवाएं और 108 एम्बुलेंस सेवा।',
+
+  'auto.text_1377': 'शुरू करें (Get Started)',
+
+  'auto.text_1378': 'पोर्टल लॉगिन',
+
+  'auto.text_1379': 'सरकारी डॉक्टर',
+
+  'auto.text_1380': 'स्वास्थ्य कर्मी',
+
+  'auto.text_1381': 'निकटतम PHC',
+
+  'auto.text_1382': 'आगामी अपॉइंटमेंट',
+
+  'auto.text_1383': '12 मई, सुबह 11:30',
+
+  'auto.text_1384': 'डॉ. प्रिया देशमुख',
+
+  'auto.text_1385': 'अपॉइंटमेंट देखें',
+
+  'auto.text_1386': 'स्वास्थ्य रिकॉर्ड',
+
+  'auto.text_1387': 'रिकॉर्ड उपलब्ध',
+
+  'auto.text_1388': 'रिकॉर्ड देखें',
+
+  'auto.text_1389': 'कभी भी कॉल करें (24x7)',
+
+  'auto.text_1390': 'त्वरित सेवाएं (Quick Actions)',
+
+  'auto.text_1391': 'नागरिकों के लिए आवश्यक प्राथमिक स्वास्थ्य सेवाएं एक क्लिक पर',
+
+  'auto.text_1392': 'सभी सेवाएं देखें',
+
+  'auto.text_1393': 'सार्वजनिक स्वास्थ्य सेवाएं',
+
+  'auto.text_1394': 'महाराष्ट्र शासन द्वारा प्रदान की जाने वाली व्यापक मुफ्त व रियायती स्वास्थ्य सेवाएं',
+
+  'auto.text_1395': 'जानकारी देखें',
+
+  'auto.text_1396': 'आपके निकटतम स्वास्थ्य केंद्र',
+
+  'auto.text_1397': 'प्राथमिक स्वास्थ्य केंद्र (PHC), ग्रामीण अस्पताल व जिला अस्पतालों की सत्यापित जानकारी',
+
+  'auto.text_1398': 'केंद्र या तहसील खोजें...',
+
+  'auto.text_1399': 'कार्ड',
+
+  'auto.text_1400': 'मानचित्र',
+
+  'auto.text_1401': 'संपूर्ण भौगोलिक मानचित्र खोलें',
+
+  'auto.text_1402': '24x7 आपातकालीन',
+
+  'auto.text_1403': 'बिस्तर उपलब्ध',
+
+  'auto.text_1404': 'डॉक्टर',
+
+  'auto.text_1405': 'विवरण',
+
+  'auto.text_1406': 'टोकन बुक करें',
+
+  'auto.text_1407': 'स्वास्थ्य शिविर व जागरूकता अभियान',
+
+  'auto.text_1408': 'आपके क्षेत्र में आगामी मुफ्त स्वास्थ्य जांच शिविर',
+
+  'auto.text_1409': 'सभी शिविर देखें',
+
+  'auto.text_1410': 'मुफ्त जांच शिविर',
+
+  'auto.text_1411': 'नागरिक पंजीकृत',
+
+  'auto.text_1412': 'मुफ्त पंजीकरण करें',
+
+  'auto.text_1413': 'ABHA & Appointments',
+
+  'auto.text_1414': 'Clinical & Referrals',
+
+  'auto.text_1415': 'Dispatch & Dispensary',
+
+  'auto.text_1416': 'Open My Dashboard',
+
+  'auto.text_1417': 'My Appointments & Prescriptions',
+
+  'auto.text_1418': 'Track your doctor consultations, clinical diagnoses, and prescriptions',
+
+  'auto.text_1419': 'Book Consultation',
+
+  'auto.text_1420': 'No Consultations Found',
+
+  'auto.text_1421': 'You have not booked any appointments or telemedicine consultations yet.',
+
+  'auto.text_1422': 'Describe Symptoms & Find Doctor',
+
+  'auto.text_1423': 'View Healthcare Facilities',
+
+  'auto.text_1424': 'Join Video Call',
+
+  'auto.text_1425': 'View Prescription',
+
+  'auto.text_1426': 'अपडेट्स',
+
+  'auto.text_1427': 'कोई अपडेट नहीं',
+
+  'auto.text_1428': 'वर्तमान में कोई नया अपडेट या सूचना नहीं है।',
+
+  'auto.text_1429': 'en-IN',
+
+  'auto.text_1430': 'रोगी',
+
+  'auto.text_1431': 'अपना स्थान या पिन कोड दर्ज करें:',
+
+  'auto.text_1432': 'आज हम आपकी कैसे मदद कर सकते हैं?',
+
+  'auto.text_1433': 'अपनी स्वास्थ्य समस्या बताएं',
+
+  'auto.text_1434': 'लक्षण बताकर सही मार्गदर्शन प्राप्त करें',
+
+  'auto.text_1435': 'मेरे पास स्वास्थ्य सेवा खोजें',
+
+  'auto.text_1436': 'निकटतम अस्पताल और डॉक्टरों की जानकारी',
+
+  'auto.text_1437': '१०८ पर कॉल करें',
+
+  'auto.text_1438': 'निकटतम आपातकालीन केंद्र खोजें',
+
+  'auto.text_1439': 'महत्वपूर्ण अपडेट्स',
+
+  'auto.text_1440': 'वर्तमान में कोई नया अपडेट नहीं है।',
+
+  'auto.text_1441': 'Please select a valid image file (JPG, PNG, WebP).',
+
+  'auto.text_1442': 'Image size should be less than 5MB.',
+
+  'auto.text_1443': 'Profile photo successfully saved to database!',
+
+  'auto.text_1444': 'All profile changes (name, photo, age, gender, place) successfully saved to database!',
+
+  'auto.text_1445': 'Back to Dashboard',
+
+  'auto.text_1446': 'Please Complete Profile Setup',
+
+  'auto.text_1447': 'Logout',
+
+  'auto.text_1448': 'Citizen Patient',
+
+  'auto.text_1449': 'Verified Patient Account',
+
+  'auto.text_1450': 'Edit Profile',
+
+  'auto.text_1451': 'Cancel',
+
+  'auto.text_1452': 'New photo selected. Upload to save to database.',
+
+  'auto.text_1453': 'Save Photo',
+
+  'auto.text_1454': 'Edit Personal Information',
+
+  'auto.text_1455': 'All changes (name, photo, age, gender, place) will be saved directly to the database.',
+
+  'auto.text_1456': 'Profile Photo',
+
+  'auto.text_1457': 'Upload or change your profile picture (JPG, PNG)',
+
+  'auto.text_1458': 'Choose Photo',
+
+  'auto.text_1459': 'Remove',
+
+  'auto.text_1460': 'Full Name *',
+
+  'auto.text_1461': 'e.g. Shantabai Gawande',
+
+  'auto.text_1462': 'Age',
+
+  'auto.text_1463': 'Date of Birth',
+
+  'auto.text_1464': 'Gender',
+
+  'auto.text_1465': 'Female',
+
+  'auto.text_1466': 'Male',
+
+  'auto.text_1467': 'Other',
+
+  'auto.text_1468': 'Mobile Number *',
+
+  'auto.text_1469': 'Place / Village',
+
+  'auto.text_1470': 'e.g. Ramtek',
+
+  'auto.text_1471': 'Emergency Contact',
+
+  'auto.text_1472': 'Address',
+
+  'auto.text_1473': 'House No., Ward, Village, Taluka, District',
+
+  'auto.text_1474': 'Cancel',
+
+  'auto.text_1475': 'Save Changes',
+
+  'auto.text_1476': 'Registered Details',
+
+  'auto.text_1477': 'Database Synced',
+
+  'auto.text_1478': 'Full Name',
+
+  'auto.text_1479': 'Mobile Number',
+
+  'auto.text_1480': 'Age & Date of Birth',
+
+  'auto.text_1481': 'Gender',
+
+  'auto.text_1482': 'Place / Village',
+
+  'auto.text_1483': 'Emergency Contact',
+
+  'auto.text_1484': 'Full Address',
+
+  'auto.text_1485': 'Address not specified',
+
+  'auto.text_1486': 'Edit Profile',
+
+  'auto.text_1487': 'Hello Doctor, I am experiencing fever and mild throat irritation since 2 days.',
+
+  'auto.text_1488': 'Hello! How are you feeling today? We are connected securely via video consultation.',
+
+  'auto.text_1489': 'You',
+
+  'auto.text_1490': 'Telemedicine prescription issued and synced to patient records!',
+
+  'auto.text_1491': '← Return to Doctor Dashboard',
+
+  'auto.text_1492': '← Return to Patient Dashboard',
+
+  'auto.text_1493': 'e-Sanjeevani Active Teleconsultation Room',
+
+  'auto.text_1494': 'Consulting:',
+
+  'auto.text_1495': 'Doctor:',
+
+  'auto.text_1496': 'Active WebRTC Stream',
+
+  'auto.text_1497': 'Call Paused',
+
+  'auto.text_1498': 'End Call',
+
+  'auto.text_1499': 'Resume Call',
+
+  'auto.text_1500': 'Hide Prescription',
+
+  'auto.text_1501': 'Write e-Prescription',
+
+  'auto.text_1502': 'Live e-Prescription Pad',
+
+  'auto.text_1503': 'Add Medicine',
+
+  'auto.text_1504': 'Sign & Issue Digital Prescription',
+
+  'auto.text_1505': 'Consultation Chat',
+
+  'auto.text_1506': 'Type message or symptoms...',
 };

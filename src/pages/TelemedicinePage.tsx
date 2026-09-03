@@ -210,6 +210,35 @@ export const TelemedicinePage: React.FC = () => {
 
     await updateAppointmentStatus(activeAppt.id, 'Completed', diagnosis);
 
+    try {
+      await apiClient.updateAppointmentStatus(activeAppt.id, {
+        status: 'Completed',
+        diagnosis: diagnosis || 'Telemedicine clinical assessment',
+        doctorNotes: 'Prescription issued via Telemedicine session',
+        prescription: {
+          patientId: activeAppt.patientId,
+          patientName: activeAppt.patientName,
+          patientAge: activeAppt.patientAge,
+          patientGender: activeAppt.patientGender,
+          doctorId: currentUser?.id || activeDoctor.id,
+          doctorName: currentUser?.name || activeDoctor.name,
+          doctorSpecialization: activeDoctor.specialization,
+          facilityName: activeDoctor.facilityName,
+          diagnosis: diagnosis || 'Telemedicine clinical assessment',
+          medicines: medicines.map((m) => ({
+            medicineName: m.name,
+            dosage: m.dosage,
+            duration: m.duration,
+            timing: m.timing,
+            governmentSupply: m.isFreeGovtSupply,
+          })),
+          date: new Date().toISOString().split('T')[0],
+        },
+      });
+    } catch (e) {
+      console.error('Failed to sync appointment with backend API', e);
+    }
+
     showToast(
       language === 'mr'
         ? 'टेलिमेडिसिन औषधोपचार पत्रिका रुग्णाच्या ABHA खात्यात सेव्ह झाली!'

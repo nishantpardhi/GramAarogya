@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { apiClient } from '../services/apiClient';
+import { SupabaseService } from '../services/supabaseService';
 import {
   User,
   Camera,
@@ -18,6 +19,7 @@ import {
   LogOut,
   RefreshCw,
   CheckCircle2,
+  Trash2,
 } from 'lucide-react';
 
 export const PatientProfilePage: React.FC = () => {
@@ -49,6 +51,7 @@ export const PatientProfilePage: React.FC = () => {
     dateOfBirth: '',
     gender: 'Female',
     mobileNumber: '',
+    place: '',
     village: '',
     address: '',
     emergencyContact: '',
@@ -68,13 +71,15 @@ export const PatientProfilePage: React.FC = () => {
       const res = await apiClient.getProfile();
       if (res.success && res.profile) {
         const p = res.profile;
+        const resolvedPlace = p.place || p.village || 'Ramtek';
         setFormData({
           name: p.name || '',
-          age: p.age || '',
+          age: p.age !== undefined && p.age !== null ? p.age : '',
           dateOfBirth: p.dateOfBirth || p.dob || '',
           gender: p.gender || 'Female',
           mobileNumber: p.mobileNumber || p.mobile || '',
-          village: p.village || 'Ramtek',
+          place: resolvedPlace,
+          village: resolvedPlace,
           address: p.address || '',
           emergencyContact: p.emergencyContact || p.emergencyContactMobile || '',
         });
@@ -87,19 +92,23 @@ export const PatientProfilePage: React.FC = () => {
           setCurrentUser({
             ...currentUser,
             ...p,
+            place: resolvedPlace,
+            village: resolvedPlace,
             profilePhoto: activePhoto || '',
             avatar: activePhoto || '',
           });
         }
       } else if (currentUser) {
         // Fallback to existing user in memory
+        const resolvedPlace = currentUser.place || currentUser.village || 'Ramtek';
         setFormData({
           name: currentUser.name || '',
-          age: currentUser.age || '',
+          age: currentUser.age !== undefined && currentUser.age !== null ? currentUser.age : '',
           dateOfBirth: currentUser.dateOfBirth || currentUser.dob || '',
           gender: currentUser.gender || 'Female',
           mobileNumber: currentUser.mobileNumber || currentUser.mobile || '',
-          village: currentUser.village || 'Ramtek',
+          place: resolvedPlace,
+          village: resolvedPlace,
           address: currentUser.address || '',
           emergencyContact: currentUser.emergencyContact || currentUser.emergencyContactMobile || '',
         });
@@ -108,13 +117,15 @@ export const PatientProfilePage: React.FC = () => {
     } catch (err: any) {
       console.warn('Could not fetch remote profile:', err);
       if (currentUser) {
+        const resolvedPlace = currentUser.place || currentUser.village || 'Ramtek';
         setFormData({
           name: currentUser.name || '',
-          age: currentUser.age || '',
+          age: currentUser.age !== undefined && currentUser.age !== null ? currentUser.age : '',
           dateOfBirth: currentUser.dateOfBirth || currentUser.dob || '',
           gender: currentUser.gender || 'Female',
           mobileNumber: currentUser.mobileNumber || currentUser.mobile || '',
-          village: currentUser.village || 'Ramtek',
+          place: resolvedPlace,
+          village: resolvedPlace,
           address: currentUser.address || '',
           emergencyContact: currentUser.emergencyContact || currentUser.emergencyContactMobile || '',
         });
@@ -202,10 +213,23 @@ export const PatientProfilePage: React.FC = () => {
   // Handle form field change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === 'place' || name === 'village') {
+      setFormData((prev) => ({
+        ...prev,
+        place: value,
+        village: value,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setPhotoPreview(null);
+    setSelectedPhotoFile('REMOVE_PHOTO');
   };
 
   // Save full profile changes to backend
@@ -216,38 +240,47 @@ export const PatientProfilePage: React.FC = () => {
     setSuccessMessage(null);
 
     try {
+      const resolvedPlace = (formData.place || formData.village || 'Ramtek').trim();
       const payload: any = {
         name: formData.name.trim(),
-        age: formData.age ? Number(formData.age) : undefined,
+        age: formData.age !== '' ? Number(formData.age) : undefined,
         dateOfBirth: formData.dateOfBirth,
         dob: formData.dateOfBirth,
         gender: formData.gender,
         mobile: formData.mobileNumber.trim(),
         mobileNumber: formData.mobileNumber.trim(),
-        village: formData.village.trim(),
+        place: resolvedPlace,
+        village: resolvedPlace,
         address: formData.address.trim(),
         emergencyContact: formData.emergencyContact.trim(),
         emergencyContactMobile: formData.emergencyContact.trim(),
       };
 
-      // Include photo if new photo was chosen
-      if (selectedPhotoFile) {
+      // Include photo if changed or present
+      if (selectedPhotoFile === 'REMOVE_PHOTO') {
+        payload.profilePhoto = '';
+        payload.avatar = '';
+      } else if (selectedPhotoFile) {
         payload.profilePhoto = selectedPhotoFile;
         payload.avatar = selectedPhotoFile;
+      } else if (photoPreview) {
+        payload.profilePhoto = photoPreview;
+        payload.avatar = photoPreview;
       }
 
       const res = await apiClient.updateProfile(payload);
       if (res.success) {
         const updated = res.profile || payload;
-        const finalPhoto = updated.profilePhoto || updated.avatar || photoPreview || '';
+        const finalPhoto = selectedPhotoFile === 'REMOVE_PHOTO' ? '' : (updated.profilePhoto || updated.avatar || photoPreview || '');
 
         setFormData({
           name: updated.name || formData.name,
-          age: updated.age || formData.age,
+          age: updated.age !== undefined && updated.age !== null ? updated.age : formData.age,
           dateOfBirth: updated.dateOfBirth || updated.dob || formData.dateOfBirth,
           gender: updated.gender || formData.gender,
           mobileNumber: updated.mobileNumber || updated.mobile || formData.mobileNumber,
-          village: updated.village || formData.village,
+          place: resolvedPlace,
+          village: resolvedPlace,
           address: updated.address || formData.address,
           emergencyContact: updated.emergencyContact || formData.emergencyContact,
         });
@@ -257,21 +290,29 @@ export const PatientProfilePage: React.FC = () => {
         setIsEditing(false);
 
         // Update global AppContext state
-        if (currentUser) {
-          const merged = {
-            ...currentUser,
-            ...updated,
-            profilePhoto: finalPhoto,
-            avatar: finalPhoto,
-          };
-          setCurrentUser(merged);
-          localStorage.setItem('gramarogya_user', JSON.stringify(merged));
+        const merged: any = {
+          ...(currentUser || {}),
+          ...updated,
+          place: resolvedPlace,
+          village: resolvedPlace,
+          profilePhoto: finalPhoto,
+          avatar: finalPhoto,
+        };
+        setCurrentUser(merged);
+        localStorage.setItem('gramarogya_user', JSON.stringify(merged));
+        localStorage.setItem('gramarogya_user_profile', JSON.stringify(merged));
+
+        // Redundant persistence via SupabaseService
+        try {
+          await SupabaseService.updateProfile(merged);
+        } catch (supaErr) {
+          console.warn('Supabase profile sync notice:', supaErr);
         }
 
         const msg =
           language === 'mr'
-            ? 'माहिती डेटाबेसमध्ये यशस्वीरित्या जतन केली!'
-            : 'Patient profile changes successfully saved to database!';
+            ? 'सर्व बदल (नाव, फोटो, वय, लिंग, ठिकाण) डेटाबेसमध्ये यशस्वीरित्या जतन झाले!'
+            : 'All profile changes (name, photo, age, gender, place) successfully saved to database!';
         setSuccessMessage(msg);
         showToast(msg);
         setTimeout(() => setSuccessMessage(null), 4000);
@@ -495,9 +536,57 @@ export const PatientProfilePage: React.FC = () => {
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">
                     {language === 'mr'
-                      ? 'बदलेली सर्व माहिती थेट सुरक्षित डेटाबेसमध्ये सेव्ह होईल.'
-                      : 'All updated information will be saved directly to the database.'}
+                      ? 'बदलेली सर्व माहिती (नाव, फोटो, वय, लिंग, ठिकाण) थेट सुरक्षित डेटाबेसमध्ये सेव्ह होईल.'
+                      : 'All changes (name, photo, age, gender, place) will be saved directly to the database.'}
                   </p>
+                </div>
+
+                {/* Photo Selector inside Edit Form */}
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center gap-4">
+                  <div className="w-20 h-20 rounded-full border-2 border-emerald-500 overflow-hidden shrink-0 bg-white dark:bg-slate-800 flex items-center justify-center shadow-xs">
+                    {photoPreview ? (
+                      <img
+                        src={photoPreview}
+                        alt="Preview"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-10 h-10 text-slate-400" />
+                    )}
+                  </div>
+                  <div className="flex-1 text-center sm:text-left space-y-1">
+                    <div className="text-xs font-bold text-slate-800 dark:text-slate-100">
+                      {language === 'mr' ? 'प्रोफाईल फोटो (Profile Photo)' : 'Profile Photo'}
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      {language === 'mr'
+                        ? 'तुमचा स्पष्ट फोटो निवडा किंवा बदला (JPG, PNG)'
+                        : 'Upload or change your profile picture (JPG, PNG)'}
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
+                      <button
+                        type="button"
+                        id="btn-form-choose-photo"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#0F6B4F] text-white hover:bg-emerald-800 transition-colors cursor-pointer shadow-xs"
+                      >
+                        <Camera className="w-3.5 h-3.5" />
+                        <span>{language === 'mr' ? 'फोटो बदला / निवडा' : 'Choose Photo'}</span>
+                      </button>
+                      {photoPreview && (
+                        <button
+                          type="button"
+                          id="btn-form-remove-photo"
+                          onClick={handleRemovePhoto}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 dark:bg-rose-950/40 dark:border-rose-900 transition-colors cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>{language === 'mr' ? 'फोटो काढा' : 'Remove'}</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -586,16 +675,16 @@ export const PatientProfilePage: React.FC = () => {
                     />
                   </div>
 
-                  {/* Village / Town */}
+                  {/* Village / Place */}
                   <div>
-                    <label htmlFor="input-profile-village" className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                      {language === 'mr' ? 'गाव / परिसर (Village)' : 'Village'}
+                    <label htmlFor="input-profile-place" className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                      {language === 'mr' ? 'गाव / ठिकाण (Place / Village)' : 'Place / Village'}
                     </label>
                     <input
-                      id="input-profile-village"
-                      name="village"
+                      id="input-profile-place"
+                      name="place"
                       type="text"
-                      value={formData.village}
+                      value={formData.place || formData.village}
                       onChange={handleChange}
                       placeholder={language === 'mr' ? 'उदा. रामटेक' : 'e.g. Ramtek'}
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-colors"
@@ -721,14 +810,14 @@ export const PatientProfilePage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Village / Location */}
+                  {/* Village / Place */}
                   <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                     <div className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold mb-1 flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>{language === 'mr' ? 'गाव / परिसर' : 'Village'}</span>
+                      <span>{language === 'mr' ? 'गाव / ठिकाण (Place)' : 'Place / Village'}</span>
                     </div>
                     <div id="display-profile-village" className="text-sm font-bold text-slate-900 dark:text-white">
-                      {formData.village || '-'}
+                      {formData.place || formData.village || '-'}
                     </div>
                   </div>
 

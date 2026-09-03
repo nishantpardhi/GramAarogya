@@ -82,7 +82,7 @@ interface ChatMessage {
 }
 
 export const AIAssistantPage: React.FC = () => {
-  const { language, setLanguage, formatTime, currentUser, setCurrentPage } = useApp();
+  const { t, language, setLanguage, formatTime, currentUser, setCurrentPage } = useApp();
   const [aiLang, setAiLang] = useState<Language>(language);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputQuery, setInputQuery] = useState('');
@@ -220,7 +220,25 @@ export const AIAssistantPage: React.FC = () => {
     setIsLoading(true);
 
     try {
+      
+      // Fetch geolocation if available
+      let userLat = 21.3966;
+      let userLng = 79.3274;
+      try {
+        if ('geolocation' in navigator) {
+          const pos = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
+          });
+          userLat = pos.coords.latitude;
+          userLng = pos.coords.longitude;
+        }
+      } catch (err) {
+        console.warn('Geolocation failed', err);
+      }
+      
       const res = await apiClient.sendChatMessage({
+        userLat,
+        userLng,
         message: query,
         language: aiLang,
         userId: currentUser?.id,
@@ -553,10 +571,10 @@ export const AIAssistantPage: React.FC = () => {
                       <Building2 className="w-3.5 h-3.5 text-emerald-600" />
                       <span>
                         {aiLang === 'mr'
-                          ? 'शिफारस केलेले शासकीय आरोग्य पर्याय (Recommended Healthcare Options)'
+                          ? 'निदानासाठी शासकीय रुग्णालये व डॉक्टर (Hospitals & Doctors to Diagnose Problem)'
                           : aiLang === 'hi'
-                          ? 'अनुशंसित सरकारी स्वास्थ्य विकल्प (Recommended Healthcare Options)'
-                          : 'Recommended Healthcare Options'}
+                          ? 'निदान हेतु सरकारी अस्पताल एवं डॉक्टर (Hospitals & Doctors to Diagnose Problem)'
+                          : 'Hospitals & Doctors to Diagnose Your Symptoms'}
                       </span>
                     </div>
 
@@ -671,7 +689,10 @@ export const AIAssistantPage: React.FC = () => {
                                     setCurrentPage('appointments', {
                                       doctorId: doctor.id,
                                       facilityId: fac.facilityId,
-                                      reason: sessionConcerns.join(', '),
+                                      reason:
+                                        sessionConcerns.length > 0
+                                          ? `Diagnosis for reported: ${sessionConcerns.join(', ')}`
+                                          : 'Clinical examination & diagnosis for reported symptoms',
                                     })
                                   }
                                   className="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-xs transition-colors flex items-center gap-1 cursor-pointer"
@@ -679,10 +700,10 @@ export const AIAssistantPage: React.FC = () => {
                                   <Calendar className="w-3.5 h-3.5" />
                                   <span>
                                     {aiLang === 'mr'
-                                      ? 'अपॉइंटमेंट बुक करा'
+                                      ? 'तपासणीसाठी अपॉइंटमेंट बुक करा'
                                       : aiLang === 'hi'
-                                      ? 'अपॉइंटमेंट बुक करें'
-                                      : 'Book Appointment'}
+                                      ? 'निदान हेतु अपॉइंटमेंट बुक करें'
+                                      : 'Book Diagnosis Appointment'}
                                   </span>
                                 </button>
                               )}

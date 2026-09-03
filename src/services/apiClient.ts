@@ -3,6 +3,8 @@ import {
   Doctor,
   DoctorAvailability,
   Appointment,
+  Prescription,
+  HealthRecord,
   GovernmentScheme,
   MedicineStock,
   HealthCamp,
@@ -175,6 +177,8 @@ class ApiClient {
     payload: {
       status?: string;
       doctorNotes?: string;
+      diagnosis?: string;
+      prescription?: any;
       newDate?: string;
       newTimeSlot?: string;
       telemedicineRoomId?: string;
@@ -186,6 +190,37 @@ class ApiClient {
   ): Promise<ApiResponse<Appointment>> {
     return this.request<Appointment>(`/api/appointments/${id}/status`, {
       method: 'PATCH',
+      body: JSON.stringify(payload),
+    });
+  }
+
+  // Prescriptions & Medical Records
+  public async getPrescriptions(filters?: { patientId?: string; doctorId?: string }): Promise<ApiResponse<Prescription[]>> {
+    const params = new URLSearchParams();
+    if (filters?.patientId) params.append('patientId', filters.patientId);
+    if (filters?.doctorId) params.append('doctorId', filters.doctorId);
+    const queryStr = params.toString() ? `?${params.toString()}` : '';
+    return this.request<Prescription[]>(`/api/prescriptions${queryStr}`);
+  }
+
+  public async createPrescription(payload: Partial<Prescription>): Promise<ApiResponse<Prescription>> {
+    return this.request<Prescription>('/api/prescriptions', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  }
+
+  public async getHealthRecords(filters?: { patientId?: string; category?: string }): Promise<ApiResponse<HealthRecord[]>> {
+    const params = new URLSearchParams();
+    if (filters?.patientId) params.append('patientId', filters.patientId);
+    if (filters?.category) params.append('category', filters.category);
+    const queryStr = params.toString() ? `?${params.toString()}` : '';
+    return this.request<HealthRecord[]>(`/api/health-records${queryStr}`);
+  }
+
+  public async uploadHealthRecord(payload: Partial<HealthRecord>): Promise<ApiResponse<HealthRecord>> {
+    return this.request<HealthRecord>('/api/health-records', {
+      method: 'POST',
       body: JSON.stringify(payload),
     });
   }

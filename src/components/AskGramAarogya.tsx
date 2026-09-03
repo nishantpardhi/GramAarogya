@@ -77,7 +77,7 @@ export const AskGramAarogya: React.FC = () => {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = language === 'mr' ? 'mr-IN' : language === 'hi' ? 'hi-IN' : 'en-IN';
+      recognition.lang = t('auto.text_1012');
 
       recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
@@ -106,7 +106,7 @@ export const AskGramAarogya: React.FC = () => {
       if (recognitionRef.current) {
         try {
           recognitionRef.current.lang =
-            language === 'mr' ? 'mr-IN' : language === 'hi' ? 'hi-IN' : 'en-IN';
+            t('auto.text_1013');
           recognitionRef.current.start();
           setIsListening(true);
         } catch {
@@ -114,11 +114,7 @@ export const AskGramAarogya: React.FC = () => {
         }
       } else {
         const fallbackText =
-          language === 'mr'
-            ? 'मला दोन दिवसांपासून ताप आहे आणि खोकला येत आहे.'
-            : language === 'hi'
-            ? 'मुझे दो दिनों से तेज बुखार और खांसी है।'
-            : 'I have had high fever and cough for past 2 days.';
+          t('auto.text_1014');
         setQuery(fallbackText);
         handleAnalyze(fallbackText);
       }
@@ -141,13 +137,13 @@ export const AskGramAarogya: React.FC = () => {
         },
         () => {
           setLocationDetecting(false);
-          setUserLocation(language === 'mr' ? 'मनसर, रामटेक, नागपूर' : language === 'hi' ? 'मनसर, रामटेक, नागपुर' : 'Mansar, Ramtek, Nagpur');
+          setUserLocation(t('auto.text_1015'));
         },
         { timeout: 4000 }
       );
     } else {
       setLocationDetecting(false);
-      setUserLocation(language === 'mr' ? 'मनसर, रामटेक, नागपूर' : language === 'hi' ? 'मनसर, रामटेक, नागपुर' : 'Mansar, Ramtek, Nagpur');
+      setUserLocation(t('auto.text_1016'));
     }
   };
 
@@ -191,7 +187,7 @@ export const AskGramAarogya: React.FC = () => {
           matchedDoctorId: data.matchedDoctorId || doctors[0]?.id,
           matchedDoctorName: language === 'mr' ? doctors[0]?.nameMr : doctors[0]?.name,
           applicableScheme: data.applicableScheme || 'Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)',
-          schemeBenefit: data.schemeBenefit || (language === 'mr' ? '५ लाख रुपयांपर्यंत मोफत कॅशलेस उपचार' : language === 'hi' ? '₹5 लाख तक का कैशलेस इलाज' : '100% Free cashless treatment up to ₹5,00,000'),
+          schemeBenefit: data.schemeBenefit || (t('auto.text_1017')),
           aiSummary: data.aiSummary || text,
           aiSummaryMr: data.aiSummaryMr || data.aiSummary,
           aiSummaryHi: data.aiSummaryHi || data.aiSummary,
@@ -223,19 +219,15 @@ export const AskGramAarogya: React.FC = () => {
         urgency: 'Emergency',
         isEmergency: true,
         emergencyGuidance:
-          language === 'mr'
-            ? 'तातडीने १०८ रुग्णवाहिकेशी संपर्क साधा. बाधित अवयव स्थिर ठेवा. प्राथमिक आरोग्य केंद्र रामटेक येथे २४x७ मोफत अँटी-स्नेक व्हेनम लस उपलब्ध आहे.'
-            : language === 'hi'
-            ? 'तुरंत 108 एम्बुलेंस से संपर्क करें। पीड़ित अंग को स्थिर रखें। प्राथमिक स्वास्थ्य केंद्र रामटेक पर 24x7 एंटी-स्नेक वेनम उपलब्ध है।'
-            : 'Immediate 108 Emergency dispatch recommended. PHC Ramtek has 24x7 Anti-Snake Venom (ASV) and doctor on duty.',
+          t('auto.text_1018'),
         recommendedFacilityType: 'PHC / 24x7 Trauma Center',
         recommendedSpecialty: 'Emergency Medicine Officer',
         matchedFacilityId: phc.id,
         matchedFacilityName: language === 'mr' ? phc.nameMr : phc.name,
         matchedDoctorId: 'doc-1',
-        matchedDoctorName: language === 'mr' ? 'डॉ. रामेश्वर देशमुख' : 'Dr. Rameshwar Deshmukh',
+        matchedDoctorName: t('auto.text_1030'),
         applicableScheme: 'Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)',
-        schemeBenefit: language === 'mr' ? 'सर्व नागरिकांसाठी १००% मोफत आपत्कालीन उपचार' : language === 'hi' ? '100% मुफ्त आपातकालीन चिकित्सा' : '100% Free emergency and ICU treatment for all Maharashtra residents.',
+        schemeBenefit: t('auto.text_1019'),
         aiSummary:
           'Critical emergency identified. Recommending immediate transit to nearest verified government facility with 24x7 emergency and ASV stock.',
         aiSummaryMr:
@@ -260,7 +252,7 @@ export const AskGramAarogya: React.FC = () => {
         matchedDoctorId: matchedDoc?.id,
         matchedDoctorName: language === 'mr' ? matchedDoc?.nameMr : matchedDoc?.name,
         applicableScheme: 'Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)',
-        schemeBenefit: language === 'mr' ? 'शासकीय रुग्णालयांत मोफत ओपीडी, तपासण्या व औषधे' : language === 'hi' ? 'सरकारी अस्पतालों में मुफ्त ओपीडी, जांच व दवाएं' : 'Free doctor consultation and 100% free essential medicines at government dispensary.',
+        schemeBenefit: t('auto.text_1020'),
         aiSummary:
           'Recommending OPD token with Dr. Rameshwar Deshmukh at PHC Ramtek (3.4 km). Free consultation and medicines available.',
         aiSummaryMr:
@@ -284,18 +276,14 @@ export const AskGramAarogya: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-800 dark:text-emerald-300">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>
-              {language === 'mr'
-                ? 'महाराष्ट्र सार्वजनिक आरोग्य सहाय्यक'
-                : language === 'hi'
-                ? 'महाराष्ट्र सार्वजनिक स्वास्थ्य सहायक'
-                : 'Maharashtra Public Healthcare Assistant'}
+              {t('auto.text_1021')}
             </span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
             {t('hero.title')}{' '}
             <span className="text-[#0F6B4F] dark:text-emerald-400">
-              {language === 'mr' ? 'प्रत्येक नागरिकासाठी दर्जेदार सेवा.' : language === 'hi' ? 'हर नागरिक के लिए गुणवत्तापूर्ण सेवा।' : 'Quality Care for Every Citizen.'}
+              {t('auto.text_1022')}
             </span>
           </h2>
 
@@ -323,7 +311,7 @@ export const AskGramAarogya: React.FC = () => {
             >
               <LocateFixed className={`w-3.5 h-3.5 ${locationDetecting ? 'animate-spin text-emerald-600' : 'text-emerald-600'}`} />
               <span className="truncate max-w-[130px] sm:max-w-[200px]">
-                {userLocation || (language === 'mr' ? 'माझे स्थान वापरा' : language === 'hi' ? 'मेरा स्थान प्रयोग करें' : 'Use My Location')}
+                {userLocation || (t('auto.text_1023'))}
               </span>
             </button>
           </div>
@@ -351,7 +339,7 @@ export const AskGramAarogya: React.FC = () => {
                     ? 'bg-rose-600 text-white animate-pulse'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
-                title={isListening ? 'Listening...' : language === 'mr' ? 'बोलून सांगा' : language === 'hi' ? 'बोलकर बताएं' : 'Voice Input'}
+                title={isListening ? 'Listening...' : t('auto.text_1024')}
                 aria-label="Voice Input"
               >
                 <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -379,7 +367,7 @@ export const AskGramAarogya: React.FC = () => {
           {/* Quick Chips */}
           <div className="space-y-1.5 pt-1">
             <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
-              {language === 'mr' ? 'उदाहरणे (खालीलपैकी एकावर क्लिक करा):' : language === 'hi' ? 'उदाहरण (किसी एक पर क्लिक करें):' : 'Suggested quick queries:'}
+              {t('auto.text_1025')}
             </div>
             <div className="flex flex-wrap gap-2">
               {quickChips.map((chip, idx) => (
@@ -418,7 +406,7 @@ export const AskGramAarogya: React.FC = () => {
                     {result.urgency}
                   </span>
                   <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
-                    {language === 'mr' ? 'AI आरोग्य नेव्हिगेशन' : language === 'hi' ? 'AI स्वास्थ्य नेविगेशन' : 'AI Clinical Navigation'}
+                    {t('auto.text_1026')}
                   </span>
                 </div>
                 <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
@@ -432,7 +420,7 @@ export const AskGramAarogya: React.FC = () => {
                   className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center gap-2 shadow-md cursor-pointer animate-bounce"
                 >
                   <PhoneCall className="w-4 h-4" />
-                  <span>{language === 'mr' ? '१०८ रुग्णवाहिका बोलवा' : language === 'hi' ? '108 एम्बुलेंस बुलाएं' : 'Call 108 Ambulance'}</span>
+                  <span>{t('buttons.call108')}</span>
                 </button>
               )}
             </div>
@@ -456,10 +444,10 @@ export const AskGramAarogya: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
                 <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold">
                   <Building2 className="w-4 h-4" />
-                  <span>{language === 'mr' ? 'शिफारस केलेले केंद्र' : language === 'hi' ? 'अनुशंसित स्वास्थ्य केंद्र' : 'Recommended Facility'}</span>
+                  <span>{t('auto.text_1027')}</span>
                 </div>
                 <div className="font-bold text-slate-900 dark:text-white">
-                  {result.matchedFacilityName || (language === 'mr' ? 'प्राथमिक आरोग्य केंद्र रामटेक' : 'PHC Ramtek')}
+                  {result.matchedFacilityName || (t('auto.text_1031'))}
                 </div>
                 <div className="text-[11px] text-slate-500">{result.recommendedFacilityType}</div>
                 <button
@@ -475,10 +463,10 @@ export const AskGramAarogya: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
                 <div className="flex items-center gap-1.5 text-blue-700 dark:text-blue-400 font-bold">
                   <Stethoscope className="w-4 h-4" />
-                  <span>{language === 'mr' ? 'तज्ज्ञ डॉक्टर' : language === 'hi' ? 'उपलब्ध चिकित्सक' : 'Available Doctor'}</span>
+                  <span>{t('auto.text_1028')}</span>
                 </div>
                 <div className="font-bold text-slate-900 dark:text-white">
-                  {result.matchedDoctorName || (language === 'mr' ? 'डॉ. रामेश्वर देशमुख' : 'Dr. Rameshwar Deshmukh')}
+                  {result.matchedDoctorName || (t('auto.text_1032'))}
                 </div>
                 <div className="text-[11px] text-slate-500">{result.recommendedSpecialty}</div>
                 <button
@@ -494,19 +482,19 @@ export const AskGramAarogya: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
                 <div className="flex items-center gap-1.5 text-purple-700 dark:text-purple-400 font-bold">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>{language === 'mr' ? 'लागू होणारी योजना' : language === 'hi' ? 'सरकारी योजना' : 'Government Scheme'}</span>
+                  <span>{t('auto.text_1029')}</span>
                 </div>
                 <div className="font-bold text-slate-900 dark:text-white truncate">
                   {result.applicableScheme || 'Mahatma Jyotirao Phule Jan Arogya Yojana (MJPJAY)'}
                 </div>
                 <div className="text-[11px] text-slate-500 line-clamp-2">
-                  {result.schemeBenefit || (language === 'mr' ? '५ लाख रुपयांपर्यंत मोफत उपचार' : 'Free cashless treatment up to ₹5,00,000.')}
+                  {result.schemeBenefit || (t('auto.text_1033'))}
                 </div>
                 <button
                   onClick={() => setCurrentPage('schemes')}
                   className="text-purple-700 dark:text-purple-400 hover:underline font-bold text-[11px] pt-1 inline-flex items-center gap-1 cursor-pointer"
                 >
-                  <span>{language === 'mr' ? 'पात्रता तपासा' : language === 'hi' ? 'पात्रता जांचें' : 'Check Eligibility'}</span>
+                  <span>{t('buttons.checkEligibility')}</span>
                   <ArrowRight className="w-3 h-3" />
                 </button>
               </div>

@@ -127,6 +127,8 @@ export interface AppointmentRecord {
   reason: string;
   status: AppointmentStatus;
   doctorNotes?: string;
+  diagnosis?: string;
+  prescription?: any;
   telemedicineRoomId?: string;
   telemedicineLink?: string;
   telemedicineNotes?: string;
@@ -141,18 +143,30 @@ export interface UserRecord {
   role: 'patient' | 'doctor' | 'admin' | 'guest';
   name: string;
   nameMr?: string;
+  nameHi?: string;
   mobile: string;
   email?: string;
+  avatar?: string;
+  profilePhoto?: string;
   abhaId?: string;
   age?: number;
   gender?: 'Male' | 'Female' | 'Other';
+  dob?: string;
+  dateOfBirth?: string;
+  place?: string;
   village?: string;
   taluka?: string;
   district?: string;
   pinCode?: string;
   address?: string;
+  emergencyContact?: string;
+  emergencyContactName?: string;
+  emergencyContactMobile?: string;
   bloodGroup?: string;
+  isPhoneVerified?: boolean;
+  preferredLanguage?: 'mr' | 'hi' | 'en';
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface HealthSchemeRecord {

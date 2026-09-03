@@ -27,28 +27,28 @@ export const BottomNavBar: React.FC = () => {
     const patientItems = [
       {
         id: 'patient-dashboard',
-        label: language === 'mr' ? 'होम' : language === 'hi' ? 'होम' : 'Home',
+        label: t('auto.text_1034'),
         icon: LayoutDashboard,
         page: 'patient-dashboard',
         active: currentPage === 'patient-dashboard',
       },
       {
         id: 'facilities',
-        label: language === 'mr' ? 'आरोग्य सेवा' : language === 'hi' ? 'स्वास्थ्य सेवा' : 'Healthcare',
+        label: t('auto.text_1035'),
         icon: Building2,
         page: 'facilities',
         active: currentPage === 'facilities',
       },
       {
         id: 'notifications',
-        label: language === 'mr' ? 'अपडेट्स' : language === 'hi' ? 'अपडेट्स' : 'Updates',
+        label: t('auto.text_1036'),
         icon: Activity,
         page: 'notifications', // Assuming there's a notifications page or we'll route to it
         active: currentPage === 'notifications',
       },
       {
         id: 'patient-profile',
-        label: language === 'mr' ? 'प्रोफाईल' : language === 'hi' ? 'प्रोफ़ाइल' : 'Profile',
+        label: t('auto.text_1037'),
         icon: User,
         page: 'patient-profile',
         active: currentPage === 'patient-profile',
@@ -58,7 +58,7 @@ export const BottomNavBar: React.FC = () => {
     return (
       <nav
         id="mobile-bottom-navigation-bar"
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-2 py-1.5 shadow-lg safe-area-bottom"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-2 py-1.5 shadow-lg safe-area-bottom"
       >
         <div className="flex items-center justify-around max-w-lg mx-auto">
           {patientItems.map((item) => {
@@ -78,7 +78,7 @@ export const BottomNavBar: React.FC = () => {
                   className={`p-1 rounded-xl transition-colors ${
                     item.active
                       ? 'bg-emerald-50 dark:bg-emerald-950/80 text-[#0F6B4F] dark:text-emerald-300'
-                      : item.highlight
+                      : (item as any).highlight
                       ? 'bg-emerald-50/60 dark:bg-slate-800 text-emerald-600'
                       : ''
                   }`}
@@ -104,14 +104,14 @@ export const BottomNavBar: React.FC = () => {
     const doctorItems = [
       {
         id: 'doctor-dashboard',
-        label: language === 'mr' ? 'क्लिनिकल OPD' : language === 'hi' ? 'क्लिनिकल OPD' : 'Clinical OPD',
+        label: t('auto.text_1038'),
         icon: LayoutDashboard,
         page: 'doctor-dashboard',
         active: currentPage === 'doctor-dashboard',
       },
       {
         id: 'doctor-profile',
-        label: language === 'mr' ? 'प्रोफाईल' : language === 'hi' ? 'प्रोफ़ाइल' : 'Profile',
+        label: t('auto.text_1039'),
         icon: User,
         page: 'profile', // assuming clicking profile opens modal or a profile page
         active: currentPage === 'profile',
@@ -121,7 +121,7 @@ export const BottomNavBar: React.FC = () => {
     return (
       <nav
         id="mobile-bottom-navigation-bar"
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-2 py-1.5 shadow-lg safe-area-bottom"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-2 py-1.5 shadow-lg safe-area-bottom"
       >
         <div className="flex items-center justify-around max-w-lg mx-auto">
           {doctorItems.map((item) => {

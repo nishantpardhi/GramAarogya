@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { SupabaseService } from '../services/supabaseService';
+import { apiClient } from '../services/apiClient';
 import {
   X,
   Camera,
@@ -26,7 +27,7 @@ interface ProfileManagementModalProps {
 }
 
 export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ isOpen, onClose }) => {
-  const { currentUser, language, showToast } = useApp();
+  const { t, currentUser, language, showToast, setCurrentUser } = useApp();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
@@ -38,13 +39,14 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
   const [nameMr, setNameMr] = useState(currentUser?.nameMr || '');
   const [mobile, setMobile] = useState(currentUser?.mobile || '');
   const [email, setEmail] = useState(currentUser?.email || '');
-  const [avatar, setAvatar] = useState(currentUser?.avatar || '');
+  const [avatar, setAvatar] = useState(currentUser?.avatar || currentUser?.profilePhoto || '');
 
   // Patient Fields
-  const [age, setAge] = useState<number | string>(currentUser?.age || '');
-  const [gender, setGender] = useState(currentUser?.gender || 'Male');
+  const [age, setAge] = useState<number | string>(currentUser?.age !== undefined && currentUser?.age !== null ? currentUser.age : '');
+  const [gender, setGender] = useState(currentUser?.gender || 'Female');
   const [bloodGroup, setBloodGroup] = useState(currentUser?.bloodGroup || 'B+');
-  const [village, setVillage] = useState(currentUser?.village || 'Ramtek');
+  const [place, setPlace] = useState(currentUser?.place || currentUser?.village || 'Ramtek');
+  const [village, setVillage] = useState(currentUser?.village || currentUser?.place || 'Ramtek');
   const [taluka, setTaluka] = useState(currentUser?.taluka || 'Ramtek');
   const [district, setDistrict] = useState(currentUser?.district || 'Nagpur');
   const [pinCode, setPinCode] = useState(currentUser?.pinCode || '441106');
@@ -76,19 +78,29 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
     setUploadingPhoto(true);
     try {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64Data = event.target?.result as string;
+        setAvatar(base64Data);
+        try {
+          const apiRes = await apiClient.uploadProfilePhoto(base64Data);
+          const uploadedUrl = apiRes.data?.photoUrl || (apiRes as any).photoUrl || (apiRes as any).profilePhoto;
+          if (apiRes.success && uploadedUrl) {
+            setAvatar(uploadedUrl);
+          }
+        } catch (apiErr) {
+          console.warn('API photo upload notice:', apiErr);
+        }
+      };
+      reader.readAsDataURL(file);
+
       const res = await SupabaseService.uploadUserPhoto(currentUser.id, file);
       if (res.success && res.url) {
         setAvatar(res.url);
-        showToast(
-          language === 'mr'
-            ? 'प्रोफाईल फोटो यशस्वीरित्या सेव्ह झाला!'
-            : language === 'hi'
-            ? 'प्रोफ़ाइल फोटो सफलतापूर्वक सेव हो गया!'
-            : 'Profile photo updated successfully!'
-        );
-      } else {
-        showToast(res.error || 'Failed to upload photo');
       }
+      showToast(
+        t('auto.text_1084')
+      );
     } catch (err: any) {
       showToast(err?.message || 'Photo upload error');
     } finally {
@@ -105,25 +117,31 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
     setLoading(true);
     setSuccessMessage(null);
 
+    const resolvedPlace = (place || village || 'Ramtek').trim();
     const updatedProfile: UserProfile = {
       ...currentUser,
-      name,
-      nameMr: nameMr || name,
-      mobile,
-      email,
-      avatar,
+      name: name.trim(),
+      nameMr: (nameMr || name).trim(),
+      mobile: mobile.trim(),
+      email: email.trim(),
+      avatar: avatar || '',
+      profilePhoto: avatar || '',
+      place: resolvedPlace,
+      village: resolvedPlace,
       // Patient
       ...(role === 'patient' && {
         age: age ? Number(age) : undefined,
         gender: gender as any,
         bloodGroup,
-        village,
-        taluka,
-        district,
-        pinCode,
-        address,
-        emergencyContactName,
-        emergencyContactMobile,
+        place: resolvedPlace,
+        village: resolvedPlace,
+        taluka: taluka.trim(),
+        district: district.trim(),
+        pinCode: pinCode.trim(),
+        address: address.trim(),
+        emergencyContactName: emergencyContactName.trim(),
+        emergencyContactMobile: emergencyContactMobile.trim(),
+        emergencyContact: emergencyContactMobile.trim() || emergencyContactName.trim(),
         allergies: allergiesText ? allergiesText.split(',').map((s) => s.trim()) : [],
         chronicConditions: chronicText ? chronicText.split(',').map((s) => s.trim()) : [],
       }),
@@ -141,27 +159,50 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
       }),
     };
 
+    // 1. Persist directly to backend database
+    try {
+      await apiClient.updateProfile({
+        name: updatedProfile.name,
+        nameMr: updatedProfile.nameMr,
+        mobile: updatedProfile.mobile,
+        avatar: updatedProfile.avatar,
+        profilePhoto: updatedProfile.profilePhoto,
+        age: updatedProfile.age,
+        gender: updatedProfile.gender,
+        place: resolvedPlace,
+        village: resolvedPlace,
+        address: updatedProfile.address,
+        taluka: updatedProfile.taluka,
+        district: updatedProfile.district,
+        pinCode: updatedProfile.pinCode,
+        emergencyContact: updatedProfile.emergencyContact,
+        emergencyContactMobile: updatedProfile.emergencyContactMobile,
+        emergencyContactName: updatedProfile.emergencyContactName,
+      });
+    } catch (apiErr) {
+      console.warn('API updateProfile notice:', apiErr);
+    }
+
+    // 2. Persist to Supabase store
     const res = await SupabaseService.updateProfile(updatedProfile);
     setLoading(false);
 
+    // 3. Update AppContext and LocalStorage immediately
+    const finalProfile = res.success && res.data ? res.data : updatedProfile;
+    setCurrentUser(finalProfile);
+    localStorage.setItem('gramarogya_user', JSON.stringify(finalProfile));
+    localStorage.setItem('gramarogya_user_profile', JSON.stringify(finalProfile));
+
     if (res.success) {
       setSuccessMessage(
-        language === 'mr'
-          ? 'तुमची प्रोफाईल माहिती Supabase मध्ये यशस्वीरित्या अद्यतनित झाली आहे.'
-          : language === 'hi'
-          ? 'आपकी प्रोफ़ाइल जानकारी Supabase में सफलतापूर्वक अपडेट हो गई है।'
-          : 'Your profile has been saved to Supabase successfully.'
+        t('auto.text_1085')
       );
       showToast(
-        language === 'mr'
-          ? 'प्रोफाईल माहिती सेव्ह झाली!'
-          : language === 'hi'
-          ? 'प्रोफ़ाइल सुरक्षित हो गई!'
-          : 'Profile saved successfully!'
+        t('auto.text_1086')
       );
       setTimeout(() => {
         onClose();
-      }, 1200);
+      }, 1000);
     }
   };
 
@@ -192,18 +233,10 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black">
-                {language === 'mr'
-                  ? 'वापरकर्ता प्रोफाईल व्यवस्थापन (Supabase)'
-                  : language === 'hi'
-                  ? 'उपयोगकर्ता प्रोफ़ाइल प्रबंधन (Supabase)'
-                  : 'User Profile Management (Supabase)'}
+                {t('auto.text_1087')}
               </h2>
               <p className="text-xs text-emerald-200">
-                {language === 'mr'
-                  ? 'अधिकृत माहिती बदला व Supabase स्टोरेजवर फोटो अपलोड करा'
-                  : language === 'hi'
-                  ? 'अधिकृत जानकारी बदलें और Supabase स्टोरेज पर फोटो अपलोड करें'
-                  : 'Update authorized profile fields and manage storage photos'}
+                {t('auto.text_1088')}
               </p>
             </div>
           </div>
@@ -255,14 +288,10 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
             <div className="space-y-2 text-center sm:text-left">
               <h4 className="text-sm font-black text-slate-900 dark:text-white">
-                {language === 'mr' ? 'प्रोफाईल छायाचित्र (Supabase Storage)' : language === 'hi' ? 'प्रोफ़ाइल फ़ोटो (Supabase Storage)' : 'Profile Photo (Supabase Storage)'}
+                {t('auto.text_1089')}
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {language === 'mr'
-                  ? 'फोटो थेट Supabase Storage बकेटमध्ये सुरक्षित अपलोड केला जाईल.'
-                  : language === 'hi'
-                  ? 'फोटो सीधे Supabase Storage बकेट में सुरक्षित अपलोड होगा।'
-                  : 'Photo is securely stored in Supabase Storage. Default initial avatar shown when empty.'}
+                {t('auto.text_1090')}
               </p>
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                 <button
@@ -272,7 +301,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
                   className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 cursor-pointer shadow-sm"
                 >
                   <Upload className="w-3.5 h-3.5" />
-                  <span>{uploadingPhoto ? 'Uploading...' : (language === 'mr' ? 'फोटो अपलोड करा' : language === 'hi' ? 'फोटो अपलोड करें' : 'Upload Photo')}</span>
+                  <span>{uploadingPhoto ? 'Uploading...' : (t('auto.text_1091'))}</span>
                 </button>
                 {avatar && (
                   <button
@@ -281,7 +310,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
                     className="px-3 py-1.5 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 hover:bg-rose-200 text-xs font-bold rounded-xl flex items-center gap-1.5 cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                    <span>{language === 'mr' ? 'काढून टाका' : language === 'hi' ? 'हटाएं' : 'Remove'}</span>
+                    <span>{t('auto.text_1092')}</span>
                   </button>
                 )}
               </div>
@@ -292,7 +321,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-1">
-                {language === 'mr' ? 'पूर्ण नाव (English)' : language === 'hi' ? 'पूरा नाम (English)' : 'Full Name (English)'} *
+                {t('auto.text_1093')} *
               </label>
               <input
                 type="text"
@@ -305,7 +334,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
             <div>
               <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-1">
-                {language === 'mr' ? 'नाव (मराठी / स्थानिक भाषा)' : language === 'hi' ? 'नाम (हिंदी / स्थानीय भाषा)' : 'Name (Regional / Marathi)'}
+                {t('auto.text_1094')}
               </label>
               <input
                 type="text"
@@ -317,7 +346,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
             <div>
               <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-1">
-                {language === 'mr' ? 'मोबाईल क्रमांक' : language === 'hi' ? 'मोबाइल नंबर' : 'Mobile Number'} *
+                {t('appointments.mobileNumber')} *
               </label>
               <div className="relative">
                 <Phone className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -333,7 +362,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
             <div>
               <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-1">
-                {language === 'mr' ? 'ईमेल पत्ता' : language === 'hi' ? 'ईमेल पता' : 'Email Address'}
+                {t('auto.text_1095')}
               </label>
               <input
                 type="email"
@@ -349,13 +378,13 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
             <div className="space-y-4 pt-3 border-t border-slate-200 dark:border-slate-700">
               <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-xs">
                 <HeartPulse className="w-4 h-4" />
-                <span>{language === 'mr' ? 'रुग्ण वैयक्तिक व आरोग्य तपशील' : language === 'hi' ? 'मरीज व्यक्तिगत व स्वास्थ्य विवरण' : 'Patient Health & Residential Details'}</span>
+                <span>{t('auto.text_1096')}</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'वय (Age)' : language === 'hi' ? 'उम्र (Age)' : 'Age'}
+                    {t('auto.text_1097')}
                   </label>
                   <input
                     type="number"
@@ -367,7 +396,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'लिंग (Gender)' : language === 'hi' ? 'लिंग (Gender)' : 'Gender'}
+                    {t('auto.text_1098')}
                   </label>
                   <select
                     value={gender}
@@ -382,7 +411,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'रक्तगट (Blood Group)' : language === 'hi' ? 'रक्त समूह (Blood Group)' : 'Blood Group'}
+                    {t('auto.text_1099')}
                   </label>
                   <select
                     value={bloodGroup}
@@ -404,19 +433,23 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'गाव / शहर' : language === 'hi' ? 'गाँव / शहर' : 'Village / City'}
+                    {t('auto.text_1100')}
                   </label>
                   <input
                     type="text"
-                    value={village}
-                    onChange={(e) => setVillage(e.target.value)}
+                    value={place}
+                    onChange={(e) => {
+                      setPlace(e.target.value);
+                      setVillage(e.target.value);
+                    }}
+                    placeholder="उदा. रामटेक / Ramtek"
                     className="w-full px-3.5 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-slate-900 dark:text-white"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'तालुका' : language === 'hi' ? 'तालुका' : 'Taluka'}
+                    {t('auto.text_1101')}
                   </label>
                   <input
                     type="text"
@@ -428,7 +461,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'जिल्हा' : language === 'hi' ? 'जिला' : 'District'}
+                    {t('auto.text_1102')}
                   </label>
                   <input
                     type="text"
@@ -442,7 +475,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'आपत्कालीन संपर्क व्यक्तीचे नाव' : language === 'hi' ? 'आपातकालीन संपर्क व्यक्ति का नाम' : 'Emergency Contact Person'}
+                    {t('auto.text_1103')}
                   </label>
                   <input
                     type="text"
@@ -454,7 +487,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'आपत्कालीन संपर्क मोबाईल' : language === 'hi' ? 'आपातकालीन संपर्क मोबाइल' : 'Emergency Contact Mobile'}
+                    {t('auto.text_1104')}
                   </label>
                   <input
                     type="text"
@@ -472,13 +505,13 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
             <div className="space-y-4 pt-3 border-t border-slate-200 dark:border-slate-700">
               <div className="flex items-center gap-2 text-blue-700 dark:text-blue-400 font-bold text-xs">
                 <Award className="w-4 h-4" />
-                <span>{language === 'mr' ? 'वैद्यकीय पात्रता व पद तपशील' : language === 'hi' ? 'चिकित्सीय योग्यता व पद विवरण' : 'Medical Credentials & Registration'}</span>
+                <span>{t('auto.text_1105')}</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'वैद्यकीय पात्रता (Qualification)' : language === 'hi' ? 'योग्यता (Qualification)' : 'Qualification'}
+                    {t('auto.text_1106')}
                   </label>
                   <input
                     type="text"
@@ -490,7 +523,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'विशेषज्ञता (Specialization)' : language === 'hi' ? 'विशेषज्ञता (Specialization)' : 'Specialization'}
+                    {t('auto.text_1107')}
                   </label>
                   <input
                     type="text"
@@ -502,7 +535,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'MMC नोंदणी क्रमांक' : language === 'hi' ? 'MMC पंजीकरण संख्या' : 'MMC Registration Number'}
+                    {t('auto.text_1108')}
                   </label>
                   <input
                     type="text"
@@ -514,7 +547,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
 
                 <div>
                   <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1">
-                    {language === 'mr' ? 'कामाचे तास (Working Hours)' : language === 'hi' ? 'कार्य समय (Working Hours)' : 'Working Hours'}
+                    {t('auto.text_1109')}
                   </label>
                   <input
                     type="text"
@@ -534,7 +567,7 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
               onClick={onClose}
               className="px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors"
             >
-              {language === 'mr' ? 'रद्द करा' : language === 'hi' ? 'रद्द करें' : 'Cancel'}
+              {t('buttons.cancel')}
             </button>
 
             <button
@@ -545,8 +578,8 @@ export const ProfileManagementModal: React.FC<ProfileManagementModalProps> = ({ 
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               <span>
                 {loading
-                  ? (language === 'mr' ? 'जतन करत आहे...' : 'Saving to Supabase...')
-                  : (language === 'mr' ? 'बदल जतन करा (Save to Supabase)' : language === 'hi' ? 'बदलाव सेव करें' : 'Save Changes to Supabase')}
+                  ? (t('auto.text_1111'))
+                  : (t('auto.text_1110'))}
               </span>
             </button>
           </div>

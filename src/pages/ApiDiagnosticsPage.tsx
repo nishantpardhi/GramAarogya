@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const ApiDiagnosticsPage: React.FC = () => {
-  const { language,  showToast } = useApp();
+  const { t, language,  showToast } = useApp();
   const [config, setConfig] = useState<ApiConfig>(() => integrationService.getConfig());
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(() => integrationService.getAuditLogs());
   const [isTesting, setIsTesting] = useState(false);
@@ -27,11 +27,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
     e.preventDefault();
     integrationService.saveConfig(config);
     showToast(
-      language === 'mr'
-        ? 'API गेटवे सेटिंग्ज जतन केल्या!'
-        : language === 'hi'
-        ? 'API गेटवे सेटिंग्स सहेजी गईं!'
-        : 'API Gateway settings saved!'
+      t('auto.text_1229')
     );
   };
 
@@ -51,11 +47,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
       newResults[ep.key] = {
         status: 'testing',
         message:
-          language === 'mr'
-            ? 'TLS हँडशेक व टोकन पडताळणी सुरू आहे...'
-            : language === 'hi'
-            ? 'TLS हैंडशेक व टोकन सत्यापन जारी है...'
-            : 'Initiating TLS Handshake & Token verification...',
+          t('auto.text_1230'),
       };
       setTestResults({ ...newResults });
 
@@ -71,11 +63,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
     setAuditLogs(integrationService.getAuditLogs());
     setIsTesting(false);
     showToast(
-      language === 'mr'
-        ? 'गेटवे चाचणी पूर्ण झाली.'
-        : language === 'hi'
-        ? 'गेटवे परीक्षण पूर्ण हुआ।'
-        : 'Gateway Diagnostics complete.'
+      t('auto.text_1231')
     );
   };
 
@@ -90,18 +78,10 @@ export const ApiDiagnosticsPage: React.FC = () => {
             </div>
             <div>
               <h1 className="text-2xl font-black text-slate-900 dark:text-white">
-                {language === 'mr'
-                  ? 'आरोग्य डेटा गेटवे व API निदान केंद्र'
-                  : language === 'hi'
-                  ? 'स्वास्थ्य डेटा गेटवे व API डायग्नोस्टिक्स'
-                  : 'Real-Data Architecture & API Diagnostics'}
+                {t('auto.text_1232')}
               </h1>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                {language === 'mr'
-                  ? 'शासकीय आरोग्य नोंदी, ABDM रजिस्ट्री व डेटा पारदर्शकता व्यवस्थापन'
-                  : language === 'hi'
-                  ? 'सरकारी स्वास्थ्य रिकॉर्ड, ABDM रजिस्ट्री व डेटा पारदर्शिता प्रबंधन'
-                  : 'Ayushman Bharat Digital Mission (ABDM), DVDMS, and 108 CAD Integration Hub'}
+                {t('auto.text_1233')}
               </p>
             </div>
           </div>
@@ -110,17 +90,13 @@ export const ApiDiagnosticsPage: React.FC = () => {
         {/* Global Mode Switcher Banner */}
         <div className="flex items-center gap-3 bg-white dark:bg-slate-900 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-300 pl-2">
-            {language === 'mr' ? 'कार्यरत मोड:' : language === 'hi' ? 'सक्रिय मोड:' : 'Active Architecture:'}
+            {t('auto.text_1234')}
           </span>
           <button
             onClick={() => {
               
               showToast(
-                language === 'mr'
-                  ? 'थेट शासकीय डेटा मोड सक्रिय केला गेला'
-                  : language === 'hi'
-                  ? 'लाइव सरकारी डेटा मोड सक्रिय किया गया'
-                  : 'Switched to Live Production Architecture (Real-Data Enforced)'
+                t('auto.text_1235')
               );
             }}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
@@ -130,17 +106,13 @@ export const ApiDiagnosticsPage: React.FC = () => {
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5 inline mr-1" />
-            {language === 'mr' ? 'थेट शासकीय मोड' : language === 'hi' ? 'लाइव सरकारी मोड' : 'Live Verified Mode'}
+            {t('auto.text_1236')}
           </button>
           <button
             onClick={() => {
               
               showToast(
-                language === 'mr'
-                  ? 'SIH डेमो मोड सक्रिय केला गेला'
-                  : language === 'hi'
-                  ? 'SIH डेमो मोड सक्रिय किया गया'
-                  : 'Switched to SIH Demo Mode'
+                t('auto.text_1237')
               );
             }}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
@@ -150,7 +122,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
             }`}
           >
             <Cpu className="w-3.5 h-3.5 inline mr-1" />
-            {language === 'mr' ? 'SIH डेमो मोड' : language === 'hi' ? 'SIH डेमो मोड' : 'SIH Demo Mode'}
+            {t('auto.text_1238')}
           </button>
         </div>
       </div>
@@ -172,32 +144,16 @@ export const ApiDiagnosticsPage: React.FC = () => {
           <div className="text-xs sm:text-sm">
             <strong className="font-bold block mb-0.5">
               {false
-                ? language === 'mr'
-                  ? 'SIH डेमो मोड सध्या सक्रिय आहे'
-                  : language === 'hi'
-                  ? 'SIH डेमो मोड वर्तमान में सक्रिय है'
-                  : 'SIH Demo Mode is currently active'
-                : language === 'mr'
-                ? 'थेट उत्पादन (रिअल डेटा) मोड सक्रिय आहे'
-                : language === 'hi'
-                ? 'लाइव उत्पादन (वास्तविक डेटा) मोड सक्रिय है'
-                : 'Live Production (Real-Data Enforced) is active'}
+                ? t('auto.text_1239')
+                : t('auto.text_1240')}
             </strong>
             {false ? (
               <span>
-                {language === 'mr'
-                  ? 'मूल्यांकनासाठी नमुना डेटा स्पष्ट पारदर्शकता बॅजसह प्रदर्शित केला जातो जेणेकरून शासकीय डेटा बाबत कोणताही संभ्रम राहू नये.'
-                  : language === 'hi'
-                  ? 'मूल्यांकन के लिए नमूना डेटा स्पष्ट पारदर्शिता बैज के साथ प्रदर्शित किया जाता है।'
-                  : 'All screens display sample datasets for SIH evaluation, tagged clearly with DEMO DATA badges to guarantee full data provenance.'}
+                {t('auto.text_1241')}
               </span>
             ) : (
               <span>
-                {language === 'mr'
-                  ? 'थेट मोडमध्ये केवळ अधिकृत सरकारी API कडून येणारा खरा डेटा दाखवला जातो.'
-                  : language === 'hi'
-                  ? 'लाइव मोड में केवल अधिकृत सरकारी API से आने वाला वास्तविक डेटा दिखाया जाता है।'
-                  : 'Live Mode strictly enforces zero fake data. If an authorized endpoint lacks credentials, it will explicitly display data unavailable.'}
+                {t('auto.text_1242')}
               </span>
             )}
           </div>
@@ -212,11 +168,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Radio className="w-5 h-5 text-emerald-600 animate-pulse" />
                 <h2 className="font-bold text-base text-slate-900 dark:text-white">
-                  {language === 'mr'
-                    ? 'शासकीय API गेटवे स्थिती'
-                    : language === 'hi'
-                    ? 'सरकारी API गेटवे स्थिति'
-                    : 'Authorized Government API Gateways'}
+                  {t('auto.text_1243')}
                 </h2>
               </div>
 
@@ -228,16 +180,8 @@ export const ApiDiagnosticsPage: React.FC = () => {
                 <RefreshCw className={`w-3.5 h-3.5 ${isTesting ? 'animate-spin' : ''}`} />
                 <span>
                   {isTesting
-                    ? language === 'mr'
-                      ? 'तपासणी सुरू...'
-                      : language === 'hi'
-                      ? 'जांच जारी...'
-                      : 'Testing Handshakes...'
-                    : language === 'mr'
-                    ? 'सर्व एंडपॉइंट्स तपासा'
-                    : language === 'hi'
-                    ? 'सभी एंडपॉइंट्स जांचें'
-                    : 'Test All Endpoints'}
+                    ? t('auto.text_1244')
+                    : t('auto.text_1245')}
                 </span>
               </button>
             </div>
@@ -380,15 +324,11 @@ export const ApiDiagnosticsPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <FileCode className="w-5 h-5 text-emerald-600" />
                 <h2 className="font-bold text-base text-slate-900 dark:text-white">
-                  {language === 'mr'
-                    ? 'रीअल-टाइम ऑडिट लॉग्स'
-                    : language === 'hi'
-                    ? 'रीअल-टाइम ऑडिट लॉग्स'
-                    : 'Real-Time Data Integration Audit Logs'}
+                  {t('auto.text_1246')}
                 </h2>
               </div>
               <span className="text-xs text-slate-500 font-medium">
-                {language === 'mr' ? 'मागील ५० नोंदी' : language === 'hi' ? 'पिछले 50 रिकॉर्ड' : 'Last 50 queries'}
+                {t('auto.text_1247')}
               </span>
             </div>
 
@@ -425,11 +365,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
             <div className="flex items-center gap-2 pb-4 border-b border-slate-100 dark:border-slate-800 mb-4">
               <KeyRound className="w-5 h-5 text-emerald-600" />
               <h2 className="font-bold text-base text-slate-900 dark:text-white">
-                {language === 'mr'
-                  ? 'गेटवे क्रेडेन्शियल्स'
-                  : language === 'hi'
-                  ? 'गेटवे क्रेडेंशियल्स'
-                  : 'Authorized Credentials'}
+                {t('auto.text_1248')}
               </h2>
             </div>
 
@@ -459,11 +395,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-mono text-xs focus:ring-2 focus:ring-emerald-500"
                 />
                 <p className="text-[11px] text-slate-500 mt-1">
-                  {language === 'mr'
-                    ? 'राज्य आरोग्य डेटाबेससह सुरक्षित एनक्रिप्टेड संपर्क सक्षम करतो.'
-                    : language === 'hi'
-                    ? 'राज्य स्वास्थ्य पोर्टल के साथ सुरक्षित एन्क्रिप्टेड अनुरोध सक्षम करता है।'
-                    : 'Enables live encrypted requests to state health portals.'}
+                  {t('auto.text_1249')}
                 </p>
               </div>
 
@@ -495,7 +427,7 @@ export const ApiDiagnosticsPage: React.FC = () => {
                 type="submit"
                 className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors shadow-sm cursor-pointer"
               >
-                {language === 'mr' ? 'क्रेडेन्शियल जतन करा' : language === 'hi' ? 'क्रेडेंशियल सहेजें' : 'Save Credentials'}
+                {t('auto.text_1250')}
               </button>
             </form>
           </div>
@@ -504,19 +436,11 @@ export const ApiDiagnosticsPage: React.FC = () => {
             <div className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
               <Lock className="w-4 h-4 text-emerald-600" />
               <span>
-                {language === 'mr'
-                  ? 'सुरक्षा आणि गोपनीयता धोरण'
-                  : language === 'hi'
-                  ? 'सुरक्षा एवं गोपनीयता नीति'
-                  : 'Security & Privacy Policy'}
+                {t('auto.text_1251')}
               </span>
             </div>
             <p>
-              {language === 'mr'
-                ? 'ग्रामआरोग्य डिजिटल वैयक्तिक डेटा संरक्षण (DPDP) कायदा आणि ABDM HIP/HIU मानकांचे काटेकोरपणे पालन करते.'
-                : language === 'hi'
-                ? 'ग्रामआरोग्य डिजिटल व्यक्तिगत डेटा संरक्षण (DPDP) अधिनियम व ABDM मानकों का कड़ाई से पालन करता है।'
-                : 'GramArogya strictly complies with the Digital Personal Data Protection (DPDP) Act and ABDM HIP/HIU standards.'}
+              {t('auto.text_1252')}
             </p>
           </div>
         </div>

@@ -19,7 +19,7 @@ interface SqlSchemaModalProps {
 }
 
 export const SqlSchemaModal: React.FC<SqlSchemaModalProps> = ({ isOpen, onClose }) => {
-  const { language, showToast } = useApp();
+  const { t, language, showToast } = useApp();
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'tables' | 'rls' | 'storage' | 'env'>('tables');
 
@@ -204,9 +204,7 @@ GEMINI_API_KEY="your-gemini-api-key"`;
     navigator.clipboard.writeText(content);
     setCopied(true);
     showToast(
-      language === 'mr'
-        ? 'SQL स्क्रिप्ट क्लिपबोर्डवर कॉपी झाली!'
-        : 'SQL Script copied to clipboard!'
+      t('auto.text_1122')
     );
     setTimeout(() => setCopied(false), 2500);
   };
@@ -228,14 +226,10 @@ GEMINI_API_KEY="your-gemini-api-key"`;
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black">
-                {language === 'mr'
-                  ? 'Supabase डेटाबेस आर्किटेक्चर व SQL स्कीमा'
-                  : 'Supabase Database Schema & Architecture'}
+                {t('auto.text_1123')}
               </h2>
               <p className="text-xs text-emerald-200">
-                {language === 'mr'
-                  ? '18 पोस्टग्रेस टेबल्स, RLS सुरक्षा धोरणे व स्टोरेज बकेट संरचना'
-                  : 'Production PostgreSQL Tables, Row Level Security (RLS) & Storage Policies'}
+                {t('auto.text_1124')}
               </p>
             </div>
           </div>

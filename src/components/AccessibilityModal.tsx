@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { accessibility, updateAccessibility, lowDataMode, setLowDataMode, language } = useApp();
+  const { t, accessibility, updateAccessibility, lowDataMode, setLowDataMode, language } = useApp();
 
   if (!isOpen) return null;
 
@@ -20,7 +20,7 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="flex items-center space-x-2">
             <Eye className="w-5 h-5" />
             <h3 className="font-bold text-lg">
-              {language === 'mr' ? 'सुलभता आणि दृश्य पर्याय (Accessibility)' : language === 'hi' ? 'अभिगम्यता और दृश्य विकल्प' : 'Accessibility & Visual Settings'}
+              {t('auto.text_1000')}
             </h3>
           </div>
           <button
@@ -37,7 +37,7 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <div>
             <label className="flex items-center space-x-2 font-medium mb-3 text-sm text-slate-700 dark:text-slate-300">
               <Type className="w-4 h-4 text-emerald-600" />
-              <span>{language === 'mr' ? 'अक्षरांचा आकार (Text Size)' : language === 'hi' ? 'अक्षर का आकार' : 'Font Size Scaling'}</span>
+              <span>{t('auto.text_1001')}</span>
             </label>
             <div className="grid grid-cols-3 gap-2">
               <button
@@ -49,7 +49,7 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     : 'border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
-                A {language === 'mr' ? 'सामान्य' : 'Regular'}
+                A {t('auto.text_1005')}
               </button>
               <button
                 type="button"
@@ -60,7 +60,7 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     : 'border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
-                A+ {language === 'mr' ? 'मोठा' : 'Large'}
+                A+ {t('auto.text_1006')}
               </button>
               <button
                 type="button"
@@ -71,7 +71,7 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
                     : 'border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
-                A++ {language === 'mr' ? 'अति मोठा' : 'Extra Large'}
+                A++ {t('auto.text_1007')}
               </button>
             </div>
           </div>
@@ -82,10 +82,10 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <Eye className="w-5 h-5 text-emerald-600" />
               <div>
                 <div className="font-semibold text-sm">
-                  {language === 'mr' ? 'उच्च कॉन्ट्रास्ट मोड (High Contrast)' : language === 'hi' ? 'उच्च कंट्रास्ट मोड' : 'High Contrast Mode'}
+                  {t('auto.text_1002')}
                 </div>
                 <div className="text-xs text-slate-500">
-                  {language === 'mr' ? 'वाचायला अधिक सोपे काळे व पिवळे रंग' : 'Optimized for high readability'}
+                  {t('auto.text_1008')}
                 </div>
               </div>
             </div>
@@ -103,10 +103,10 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <WifiOff className="w-5 h-5 text-amber-600" />
               <div>
                 <div className="font-semibold text-sm">
-                  {language === 'mr' ? 'कमी डेटा मोड (Low Data Mode)' : language === 'hi' ? 'कम डेटा मोड' : 'Low-Bandwidth Mode'}
+                  {t('auto.text_1003')}
                 </div>
                 <div className="text-xs text-slate-500">
-                  {language === 'mr' ? '२G/३G नेटवर्कवर जलद लोड होण्यासाठी' : 'Optimized for 2G/3G rural networks'}
+                  {t('auto.text_1009')}
                 </div>
               </div>
             </div>
@@ -124,10 +124,10 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
               <Volume2 className="w-5 h-5 text-blue-600" />
               <div>
                 <div className="font-semibold text-sm">
-                  {language === 'mr' ? 'ध्वनी सहाय्यक (Voice Assistance)' : language === 'hi' ? 'ध्वनि सहायक' : 'Voice Assistance'}
+                  {t('auto.text_1004')}
                 </div>
                 <div className="text-xs text-slate-500">
-                  {language === 'mr' ? 'मजकूर ऑडिओद्वारे ऐकण्यासाठी' : 'Audio guidance for low literacy'}
+                  {t('auto.text_1010')}
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ export const AccessibilityModal: React.FC<Props> = ({ isOpen, onClose }) => {
             className="flex items-center space-x-2 bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2 rounded-lg transition-colors text-sm shadow-sm"
           >
             <Check className="w-4 h-4" />
-            <span>{language === 'mr' ? 'पूर्ण झाले (Done)' : 'Apply Settings'}</span>
+            <span>{t('auto.text_1011')}</span>
           </button>
         </div>
       </div>

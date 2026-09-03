@@ -27,6 +27,7 @@ export interface UserProfile {
   mobileNumber?: string;
   bloodGroup?: string;
   village?: string;
+  place?: string;
   taluka?: string;
   district?: string;
   pinCode?: string;
@@ -203,6 +204,8 @@ export interface Appointment {
   symptomsDescription?: string;
   status: AppointmentStatus;
   doctorNotes?: string;
+  diagnosis?: string;
+  prescription?: Prescription;
   telemedicineRoomId?: string;
   telemedicineLink?: string;
   telemedicineNotes?: string;

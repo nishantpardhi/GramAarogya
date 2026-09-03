@@ -136,7 +136,7 @@ export const PatientDashboardPage: React.FC = () => {
               <PhoneCall className="w-4 h-4 animate-pulse" />
             </div>
             <h3 className="text-lg font-bold text-rose-700 dark:text-rose-400">
-              🚨 {language === 'mr' ? 'आपत्कालीन' : language === 'hi' ? 'आपातकालीन' : 'Emergency'}
+              🚨 {t('common.emergency')}
             </h3>
           </div>
           

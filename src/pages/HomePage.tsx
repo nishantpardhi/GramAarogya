@@ -90,7 +90,7 @@ export const HomePage: React.FC = () => {
     },
     {
       id: 'appointments',
-      title: language === 'mr' ? 'अपॉइंटमेंट बुक करा' : language === 'hi' ? 'अपॉइंटमेंट बुक करें' : 'Book Appointment',
+      title: t('buttons.bookAppointment'),
       desc:
         language === 'mr'
           ? 'ओपीडी किंवा टेलिमेडिसिनसाठी त्वरित डिजिटल टोकन'
@@ -103,7 +103,7 @@ export const HomePage: React.FC = () => {
     },
     {
       id: 'emergency',
-      title: language === 'mr' ? 'आपत्कालीन मदत (१०८)' : language === 'hi' ? 'आपातकालीन सहायता (108)' : 'Emergency Help (108)',
+      title: t('nav.emergency'),
       desc:
         language === 'mr'
           ? 'तातडीच्या मदतीसाठी रुग्णवाहिका व ट्रॉमा केअर'
@@ -142,7 +142,7 @@ export const HomePage: React.FC = () => {
     },
     {
       id: 'medicines',
-      title: language === 'mr' ? 'औषध उपलब्धता' : language === 'hi' ? 'दवा उपलब्धता' : 'Medicine Availability',
+      title: t('nav.medicines'),
       desc:
         language === 'mr'
           ? 'जवळच्या केंद्रांमधील मोफत आवश्यक औषध साठा तपासा'
@@ -168,7 +168,7 @@ export const HomePage: React.FC = () => {
     },
     {
       id: 'ai-assistant',
-      title: language === 'mr' ? 'AI आरोग्य सहाय्यक' : language === 'hi' ? 'AI स्वास्थ्य सहायक' : 'AI Health Assistant',
+      title: t('nav.aiAssistant'),
       desc:
         language === 'mr'
           ? 'आपल्या मातृभाषेत आरोग्यविषयक प्रश्नांची उत्तरे मिळवा'
@@ -354,7 +354,7 @@ export const HomePage: React.FC = () => {
                   </div>
                   <div className="min-w-0">
                     <div className="font-bold text-xs text-white group-hover:text-emerald-200">
-                      {language === 'mr' ? 'रुग्ण / नागरिक' : language === 'hi' ? 'मरीज / नागरिक' : 'Patient / Citizen'}
+                      {t('auth.patientTab')}
                     </div>
                     <div className="text-[11px] text-emerald-300/80 truncate">
                       {language === 'mr' ? 'नोंदणी व तपासणी' : 'ABHA & Appointments'}
@@ -444,7 +444,7 @@ export const HomePage: React.FC = () => {
                 onClick={() => setCurrentPage('facilities')}
                 className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 transition-colors pt-1 cursor-pointer"
               >
-                <span>{language === 'mr' ? 'तपशील पहा' : language === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                <span>{t('buttons.viewDetails')}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
@@ -528,7 +528,7 @@ export const HomePage: React.FC = () => {
                 onClick={() => setCurrentPage('emergency')}
                 className="inline-flex items-center gap-1 text-xs font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 transition-colors pt-0.5 cursor-pointer"
               >
-                <span>{language === 'mr' ? 'कॉल करा' : language === 'hi' ? 'कॉल करें' : 'Call Now'}</span>
+                <span>{t('buttons.callNow')}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>

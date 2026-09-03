@@ -67,7 +67,7 @@ export const DoctorLoginView: React.FC<DoctorLoginViewProps> = ({
       const response = await authService.loginDoctor(cleanEmail, password, rememberMe);
       if (response.success) {
         setSuccessMessage(t('common.success'));
-        showToast(language === 'mr' ? 'डॉक्टर लॉगिन यशस्वी!' : language === 'hi' ? 'डॉक्टर लॉगिन सफल!' : 'Doctor login successful!');
+        showToast(t('auto.text_1170'));
         if (onLoginSuccess) {
           onLoginSuccess(response.data);
         } else {

@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 export const EmergencyPage: React.FC = () => {
-  const { language, formatNumber, showToast,   emergencyRequests, submitEmergencyRequest } = useApp();
+  const { t, language, formatNumber, showToast,   emergencyRequests, submitEmergencyRequest } = useApp();
   const [sosTriggered, setSosTriggered] = useState(false);
   const [etaMinutes, setEtaMinutes] = useState(11);
   const [activeEmergencyType, setActiveEmergencyType] = useState<string>('snakebite');
@@ -125,28 +125,16 @@ export const EmergencyPage: React.FC = () => {
           <div className="inline-flex items-center gap-1.5 text-xs font-black bg-rose-950 px-3 py-1 rounded-full border border-rose-500 animate-pulse">
             <ShieldAlert className="w-4 h-4 text-amber-400" />
             <span>
-              {language === 'mr'
-                ? '२४x७ महाराष्ट्र शासन आपत्कालीन प्रतिसाद'
-                : language === 'hi'
-                ? '24x7 महाराष्ट्र शासन आपातकालीन सेवा'
-                : '24x7 Maharashtra Emergency Response'}
+              {t('auto.text_1308')}
             </span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black">
-            {language === 'mr'
-              ? '१०८ आपत्कालीन रुग्णवाहिका व तातडीची वैद्यकीय मदत'
-              : language === 'hi'
-              ? '108 आपातकालीन एम्बुलेंस व तत्काल चिकित्सा सहायता'
-              : '108 Emergency Ambulance & Critical Care SOS'}
+            {t('auto.text_1309')}
           </h1>
 
           <p className="text-xs sm:text-sm text-rose-100 leading-relaxed">
-            {language === 'mr'
-              ? 'सर्पदंश, हृदयविकार, अपघात, प्रसूती किंवा गंभीर आजारासाठी एका क्लिकवर GPS द्वारे सर्वात जवळची १०८ रुग्णवाहिका तात्काळ रवाना केली जाते.'
-              : language === 'hi'
-              ? 'सर्पदंश, हृदय रोग, दुर्घटना, प्रसव या गंभीर स्थिति के लिए एक क्लिक पर GPS द्वारा निकटतम 108 एम्बुलेंस तुरंत रवाना की जाती है।'
-              : 'Instant GPS dispatch of nearest 108 Life Support Ambulance and real-time Anti-Snake Venom stock routing.'}
+            {t('auto.text_1310')}
           </p>
 
           {/* SOS 1-Click Trigger Button */}
@@ -157,11 +145,7 @@ export const EmergencyPage: React.FC = () => {
             >
               <PhoneCall className="w-6 h-6 text-rose-600 animate-bounce" />
               <span>
-                {language === 'mr'
-                  ? '१०८ रुग्णवाहिका बोलवा (DISPATCH SOS)'
-                  : language === 'hi'
-                  ? '108 एम्बुलेंस बुलाएं (DISPATCH SOS)'
-                  : 'DISPATCH 108 AMBULANCE NOW'}
+                {t('auto.text_1311')}
               </span>
             </button>
 
@@ -170,7 +154,7 @@ export const EmergencyPage: React.FC = () => {
               className="px-5 py-4 rounded-2xl bg-rose-950/80 hover:bg-rose-950 text-white font-black text-sm border border-rose-600 transition-all flex items-center gap-2 cursor-pointer"
             >
               <PhoneCall className="w-5 h-5" />
-              <span>{language === 'mr' ? 'थेट फोन करा: १०८' : language === 'hi' ? 'सीधा कॉल: 108' : 'Direct Call: 108'}</span>
+              <span>{t('auto.text_1312')}</span>
             </a>
           </div>
         </div>
@@ -181,11 +165,7 @@ export const EmergencyPage: React.FC = () => {
       {!emergencyResult.isAvailable ? (
         <DataUnavailableCard
           sourceName={
-            language === 'mr'
-              ? 'महाराष्ट्र १०८ संगणकीकृत डिस्पॅच (CAD) नेटवर्क'
-              : language === 'hi'
-              ? 'महाराष्ट्र 108 कम्प्यूटरीकृत डिस्पैच नेटवर्क'
-              : 'Maharashtra 108 Computer-Aided Dispatch (CAD) Fleet Gateway'
+            t('auto.text_1313')
           }
           requiredEndpoint="https://ems108.maharashtra.gov.in/api/v1/cad/dispatch"
         />
@@ -204,11 +184,7 @@ export const EmergencyPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
                   <h3 className="font-black text-base text-slate-900 dark:text-white">
-                    {language === 'mr'
-                      ? 'रुग्णवाहिका मार्गावर आहे (Ambulance En Route)'
-                      : language === 'hi'
-                      ? 'एम्बुलेंस रास्ते में है (Ambulance En Route)'
-                      : '108 Ambulance Dispatched & En Route'}
+                    {t('auto.text_1314')}
                   </h3>
                 </div>
                 <span className="text-xs font-bold bg-rose-100 text-rose-800 px-3 py-1 rounded-full">
@@ -223,21 +199,21 @@ export const EmergencyPage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                 <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl space-y-1">
                   <div className="text-slate-500 font-semibold">
-                    {language === 'mr' ? 'रुग्णवाहिका क्रमांक:' : language === 'hi' ? 'एम्बुलेंस संख्या:' : 'Vehicle Reg:'}
+                    {t('auto.text_1315')}
                   </div>
                   <div className="font-black text-slate-900 dark:text-white text-sm">MH-31-EM-1082 (ALS Life Support)</div>
                 </div>
 
                 <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl space-y-1">
                   <div className="text-slate-500 font-semibold">
-                    {language === 'mr' ? 'चालक व ईएमटी अधिकारी:' : language === 'hi' ? 'चालक व पैरामेडिक:' : 'Driver & EMT Paramedic:'}
+                    {t('auto.text_1316')}
                   </div>
                   <div className="font-bold text-slate-900 dark:text-white">Sachin Patil (📞 9822108108)</div>
                 </div>
 
                 <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl space-y-1">
                   <div className="text-slate-500 font-semibold">
-                    {language === 'mr' ? 'मूळ केंद्र (Base PHC):' : language === 'hi' ? 'मूल केंद्र (Base PHC):' : 'Base Station:'}
+                    {t('auto.text_1317')}
                   </div>
                   <div className="font-bold text-slate-900 dark:text-white">PHC Ramtek Emergency Wing</div>
                 </div>
@@ -250,18 +226,10 @@ export const EmergencyPage: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
               <div>
                 <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                  {language === 'mr'
-                    ? 'ग्रामीण आणीबाणी प्रथमोपचार मार्गदर्शक'
-                    : language === 'hi'
-                    ? 'ग्रामीण आपातकालीन प्राथमिक उपचार निर्देश'
-                    : 'Rural Emergency First-Aid Protocols'}
+                  {t('auto.text_1318')}
                 </h3>
                 <p className="text-xs text-slate-500">
-                  {language === 'mr'
-                    ? 'रुग्णवाहिका येईपर्यंत काय करावे व काय टाळावे याबद्दल वैद्यकीय नियम'
-                    : language === 'hi'
-                    ? 'एम्बुलेंस आने तक क्या करें और क्या न करें के नियम'
-                    : 'Crucial do’s and don’ts while waiting for ambulance arrival.'}
+                  {t('auto.text_1319')}
                 </p>
               </div>
 
@@ -275,7 +243,7 @@ export const EmergencyPage: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                   }`}
                 >
-                  🐍 {language === 'mr' ? 'सर्पदंश' : language === 'hi' ? 'सर्पदंश' : 'Snakebite'}
+                  🐍 {t('auto.text_1320')}
                 </button>
                 <button
                   onClick={() => setActiveEmergencyType('cardiac')}
@@ -285,7 +253,7 @@ export const EmergencyPage: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                   }`}
                 >
-                  ❤️ {language === 'mr' ? 'हृदयविकार' : language === 'hi' ? 'दिल का दौरा' : 'Heart Attack'}
+                  ❤️ {t('auto.text_1321')}
                 </button>
                 <button
                   onClick={() => setActiveEmergencyType('stroke')}
@@ -295,7 +263,7 @@ export const EmergencyPage: React.FC = () => {
                       : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                   }`}
                 >
-                  🧠 {language === 'mr' ? 'पक्षाघात' : language === 'hi' ? 'स्ट्रोक' : 'Brain Stroke'}
+                  🧠 {t('auto.text_1322')}
                 </button>
               </div>
             </div>

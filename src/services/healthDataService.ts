@@ -13,7 +13,7 @@ import { apiClient } from './apiClient';
 
 export interface DataFetchResult<T> {
   data: T | null;
-  isDemoData: boolean;
+  isDemoData?: boolean;
   source: string;
   sourceUrl?: string;
   lastUpdated: string;

@@ -136,6 +136,8 @@ export const updateAppointmentStatus = async (req: AuthRequest, res: Response) =
     const {
       status,
       doctorNotes,
+      diagnosis,
+      prescription,
       newDate,
       newTimeSlot,
       telemedicineRoomId,
@@ -175,6 +177,8 @@ export const updateAppointmentStatus = async (req: AuthRequest, res: Response) =
     const updated = db.updateAppointmentStatus(id, {
       status: status || 'Confirmed',
       doctorNotes,
+      diagnosis,
+      prescription,
       newDate,
       newTimeSlot,
       telemedicineRoomId: finalRoomId,

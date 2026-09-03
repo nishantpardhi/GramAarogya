@@ -78,7 +78,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
   height = '520px',
   showFilters = true,
 }) => {
-  const { language, formatDistance, formatNumber } = useApp();
+  const { t, language, formatDistance, formatNumber } = useApp();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
@@ -145,7 +145,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
     const userMarker = L.marker([activeCoords.lat, activeCoords.lng], { icon: userIcon, zIndexOffset: 1000 });
     userMarker.bindPopup(`
       <div style="padding: 6px; font-family: sans-serif;">
-        <b style="color: #059669;">📍 ${language === 'mr' ? 'आपले सध्याचे स्थान' : language === 'hi' ? 'आपका वर्तमान स्थान' : 'Your Current Location'}</b>
+        <b style="color: #059669;">📍 ${t('auto.text_1062')}</b>
         <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${activeLocationName}</div>
       </div>
     `);
@@ -199,10 +199,10 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
       const marker = L.marker([f.lat, f.lng], { icon: facilityIcon });
       markersLayer.addLayer(marker);
 
-      const callText = language === 'mr' ? 'कॉल करा' : language === 'hi' ? 'कॉल करें' : 'Call';
-      const dirText = language === 'mr' ? 'दिशा-मार्ग' : language === 'hi' ? 'दिशा मार्ग' : 'Directions';
-      const bedsLabel = language === 'mr' ? 'खाटा' : language === 'hi' ? 'बेड्स' : 'Beds';
-      const docsLabel = language === 'mr' ? 'डॉक्टर्स' : language === 'hi' ? 'डॉक्टर्स' : 'Doctors';
+      const callText = t('auto.text_1063');
+      const dirText = t('auto.text_1064');
+      const bedsLabel = t('auto.text_1065');
+      const docsLabel = t('auto.text_1066');
 
       const popupContent = `
         <div style="font-family: sans-serif; min-width: 220px; padding: 4px;">
@@ -224,7 +224,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
             <div>🛏️ <b>${formatNumber(f.bedsAvailable)}/${formatNumber(f.bedsTotal)}</b> ${bedsLabel}</div>
             <div>🩺 <b>${formatNumber(f.doctorsCount)}</b> ${docsLabel}</div>
           </div>
-          ${f.is24x7Emergency ? `<div style="font-size: 10px; font-weight: bold; color: #e11d48; margin-bottom: 6px;">⚡ ${language === 'mr' ? '२४x७ आपत्कालीन व १०८ रुग्णवाहिका' : language === 'hi' ? '24x7 आपातकालीन व 108 एम्बुलेंस' : '24x7 Emergency & 108 Ambulance'}</div>` : ''}
+          ${f.is24x7Emergency ? `<div style="font-size: 10px; font-weight: bold; color: #e11d48; margin-bottom: 6px;">⚡ ${t('auto.text_1067')}</div>` : ''}
           <div style="display: flex; gap: 4px; margin-top: 6px;">
             <a href="tel:${f.contactNumber.replace(/[^0-9+]/g, '')}" style="flex: 1; text-align: center; background: #059669; color: white; padding: 6px 8px; border-radius: 8px; text-decoration: none; font-size: 11px; font-weight: bold;">
               📞 ${callText}
@@ -275,7 +275,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
       (position) => {
         const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
         setActiveCoords(coords);
-        setActiveLocationName(language === 'mr' ? 'माझे GPS स्थान' : language === 'hi' ? 'मेरा GPS स्थान' : 'My GPS Location');
+        setActiveLocationName(t('auto.text_1068'));
         setGeoStatus('success');
 
         if (onUserCoordsChange) {
@@ -335,23 +335,15 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
               <LocateFixed className={`w-4 h-4 ${geoStatus === 'locating' ? 'animate-spin' : ''}`} />
               <span>
                 {geoStatus === 'locating'
-                  ? language === 'mr'
-                    ? 'स्थान शोधत आहे...'
-                    : language === 'hi'
-                    ? 'स्थान खोज रहे हैं...'
-                    : 'Locating...'
-                  : language === 'mr'
-                  ? 'माझे GPS स्थान मिळवा'
-                  : language === 'hi'
-                  ? 'मेरा GPS स्थान प्राप्त करें'
-                  : 'Detect My Location'}
+                  ? t('auto.text_1069')
+                  : t('auto.text_1070')}
               </span>
             </button>
 
             {/* Quick District/Taluka Switcher */}
             <div className="flex items-center gap-1.5 text-xs">
               <span className="text-slate-500 font-semibold hidden sm:inline">
-                {language === 'mr' ? 'स्थान बदला:' : language === 'hi' ? 'स्थान बदलें:' : 'Or Select Area:'}
+                {t('auto.text_1071')}
               </span>
               <select
                 value={activeLocationName}
@@ -369,7 +361,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
 
           {/* Quick Radius Selector */}
           <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
-            <span>{language === 'mr' ? 'अंतर मर्यादा:' : language === 'hi' ? 'त्रिज्या:' : 'Radius:'}</span>
+            <span>{t('auto.text_1072')}</span>
             <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-700 p-1 rounded-lg">
               {[15, 30, 50, 100].map((r) => (
                 <button
@@ -381,7 +373,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
                       : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
                   }`}
                 >
-                  {r === 100 ? (language === 'mr' ? 'सर्व' : language === 'hi' ? 'सभी' : 'All') : `${formatNumber(r)} km`}
+                  {r === 100 ? (t('common.all')) : `${formatNumber(r)} km`}
                 </button>
               ))}
             </div>
@@ -393,11 +385,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
           <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 text-xs border border-amber-200 dark:border-amber-800">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>
-              {language === 'mr'
-                ? 'GPS परवानगी नाकारली आहे. डीफॉल्ट म्हणून रामटेक (नागपूर) दाखवत आहे. आपण वरील ड्रॉपडाउनमधून गाव निवडू शकता.'
-                : language === 'hi'
-                ? 'GPS अनुमति अस्वीकृत हुई। डिफ़ॉल्ट रूप से रामटेक (नागपुर) का उपयोग हो रहा है।'
-                : 'GPS permission was not granted. Using Ramtek (Nagpur) as default. Select another rural area from the dropdown.'}
+              {t('auto.text_1073')}
             </span>
           </div>
         )}
@@ -413,11 +401,11 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
                   onChange={(e) => setFilterType(e.target.value)}
                   className="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-bold"
                 >
-                  <option value="ALL">{language === 'mr' ? 'सर्व संस्था (All Types)' : language === 'hi' ? 'सभी संस्थान (All Types)' : 'All Facility Types'}</option>
-                  <option value="PHC">PHC ({language === 'mr' ? 'प्राथमिक आरोग्य केंद्र' : language === 'hi' ? 'प्राथमिक स्वास्थ्य केंद्र' : 'Primary Health Centre'})</option>
-                  <option value="CHC">CHC ({language === 'mr' ? 'ग्रामीण रुग्णालय' : language === 'hi' ? 'सामुदायिक स्वास्थ्य केंद्र' : 'Community Health Centre'})</option>
-                  <option value="District Hospital">{language === 'mr' ? 'जिल्हा रुग्णालय' : language === 'hi' ? 'जिला अस्पताल' : 'District Hospital'}</option>
-                  <option value="Sub-District Hospital">{language === 'mr' ? 'उपजिल्हा रुग्णालय' : language === 'hi' ? 'उप-जिला अस्पताल' : 'Sub-District Hospital'}</option>
+                  <option value="ALL">{t('auto.text_1074')}</option>
+                  <option value="PHC">PHC ({t('auto.text_1075')})</option>
+                  <option value="CHC">CHC ({t('auto.text_1076')})</option>
+                  <option value="District Hospital">{t('auto.text_1077')}</option>
+                  <option value="Sub-District Hospital">{t('auto.text_1078')}</option>
                 </select>
               </div>
 
@@ -428,7 +416,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
                   onChange={(e) => setFilterEmergencyOnly(e.target.checked)}
                   className="w-3.5 h-3.5 text-emerald-600 rounded"
                 />
-                <span>{language === 'mr' ? '२४x७ आपत्कालीन' : language === 'hi' ? '24x7 आपातकालीन' : '24x7 Emergency'}</span>
+                <span>{t('auto.text_1079')}</span>
               </label>
 
               <label className="flex items-center gap-1.5 cursor-pointer text-slate-700 dark:text-slate-300">
@@ -438,7 +426,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
                   onChange={(e) => setFilterFreeMedsOnly(e.target.checked)}
                   className="w-3.5 h-3.5 text-emerald-600 rounded"
                 />
-                <span>{language === 'mr' ? 'मोफत औषध साठा' : language === 'hi' ? 'मुफ्त दवा भंडार' : 'Free Medicines'}</span>
+                <span>{t('auto.text_1080')}</span>
               </label>
             </div>
 
@@ -448,7 +436,7 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
               className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1 cursor-pointer"
             >
               <Compass className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{language === 'mr' ? 'पुन्हा केंद्रस्थानी घ्या' : language === 'hi' ? 'पुनः केंद्रित करें' : 'Recenter Map'}</span>
+              <span>{t('auto.text_1081')}</span>
             </button>
           </div>
         )}
@@ -470,11 +458,11 @@ export const HealthcareMap: React.FC<HealthcareMapProps> = ({
           </div>
           <div className="flex items-center gap-1">
             <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
-            <span>{language === 'mr' ? 'जिल्हा रुग्णालय' : 'District Hospital'}</span>
+            <span>{t('auto.text_1082')}</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
-            <span>{language === 'mr' ? 'उपजिल्हा रुग्णालय' : 'SDH'}</span>
+            <span>{t('auto.text_1083')}</span>
           </div>
         </div>
       </div>

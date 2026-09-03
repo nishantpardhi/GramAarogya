@@ -14,15 +14,13 @@ import {
 } from 'lucide-react';
 
 export const FacilitiesPage: React.FC = () => {
-  const {
-    language,
+  const { t, language,
     formatNumber,
     formatDistance,
     setCurrentPage,
     facilities,
     doctors,
-    refreshData,
-  } = useApp();
+    refreshData, } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState<string>('ALL');
@@ -56,7 +54,28 @@ export const FacilitiesPage: React.FC = () => {
 
   const districts = ['ALL', 'Nagpur', 'Wardha', 'Gadchiroli', 'Nashik', 'Pune', 'Amravati', 'Chandrapur'];
 
-  const filteredFacilities = (facilities || []).filter((f) => {
+  
+  const calculateHaversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+    const R = 6371; // km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
+
+  const currentLat = userCoords ? userCoords.lat : 21.3966;
+  const currentLng = userCoords ? userCoords.lng : 79.3274;
+
+  const processedFacilities = (facilities || []).map(f => ({
+    ...f,
+    distanceKm: calculateHaversineDistance(currentLat, currentLng, f.lat, f.lng)
+  }));
+
+  const filteredFacilities = processedFacilities.filter((f) => {
+
     if (!f) return false;
     const q = (searchQuery || '').trim().toLowerCase();
     const matchesSearch =
@@ -90,27 +109,15 @@ export const FacilitiesPage: React.FC = () => {
           <div className="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-700/80 px-3 py-1 rounded-full border border-emerald-500/40">
             <Building2 className="w-3.5 h-3.5" />
             <span>
-              {language === 'mr'
-                ? 'शासकीय आरोग्य संस्था व जीआयएस नकाशा'
-                : language === 'hi'
-                ? 'सरकारी स्वास्थ्य संस्थान व जीआईएस मानचित्र'
-                : 'Public Healthcare Facilities & GIS Map'}
+              {t('auto.text_1323')}
             </span>
       
           </div>
           <h1 className="text-2xl sm:text-3xl font-black">
-            {language === 'mr'
-              ? 'प्राथमिक आरोग्य केंद्र (PHC), ग्रामीण रुग्णालय (CHC) व जिल्हा रुग्णालये'
-              : language === 'hi'
-              ? 'प्राथमिक स्वास्थ्य केंद्र (PHC), सामुदायिक स्वास्थ्य केंद्र (CHC) व जिला अस्पताल'
-              : 'Find Government PHC, CHC & District Hospitals'}
+            {t('auto.text_1324')}
           </h1>
           <p className="text-xs sm:text-sm text-emerald-100 leading-relaxed">
-            {language === 'mr'
-              ? 'महाराष्ट्रातील सर्व शासकीय आरोग्य केंद्रांची २४x७ आपत्कालीन उपलब्धता, खाटांची संख्या, उपलब्ध तज्ज्ञ डॉक्टर, थेट दिशा व अंतर.'
-              : language === 'hi'
-              ? 'महाराष्ट्र के सभी सरकारी स्वास्थ्य केंद्रों की 24x7 आपातकालीन उपलब्धता, बिस्तरों की संख्या, विशेषज्ञ डॉक्टर और दूरी।'
-              : 'Real-time interactive OpenStreetMap GIS tracking of emergency doctors, vacant beds, anti-snake venom stock, and distances.'}
+            {t('auto.text_1325')}
           </p>
       
         </div>
@@ -130,11 +137,7 @@ export const FacilitiesPage: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={
-                language === 'mr'
-                  ? 'तालुका, गाव किंवा केंद्राचे नाव शोधा...'
-                  : language === 'hi'
-                  ? 'तहसील, गांव या अस्पताल खोजें...'
-                  : 'Search taluka, village, or hospital name...'
+                t('auto.text_1326')
               }
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
@@ -151,11 +154,7 @@ export const FacilitiesPage: React.FC = () => {
               {districts.map((d) => (
                 <option key={d} value={d}>
                   {d === 'ALL'
-                    ? language === 'mr'
-                      ? 'सर्व जिल्हे (All Districts)'
-                      : language === 'hi'
-                      ? 'सभी जिले (All Districts)'
-                      : 'All Districts'
+                    ? t('facilities.allDistricts')
                     : language === 'mr'
                     ? `${d} जिल्हा`
                     : language === 'hi'
@@ -175,7 +174,7 @@ export const FacilitiesPage: React.FC = () => {
               className="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium cursor-pointer"
             >
               <option value="ALL">
-                {language === 'mr' ? 'सर्व प्रकार (All Types)' : language === 'hi' ? 'सभी प्रकार (All Types)' : 'All Types'}
+                {t('auto.text_1327')}
               </option>
               {facilityTypes.map((t) => (
                 <option key={t} value={t}>
@@ -199,11 +198,7 @@ export const FacilitiesPage: React.FC = () => {
                 className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
               />
               <span>
-                {language === 'mr'
-                  ? '२४x७ आपत्कालीन सेवा उपलब्ध'
-                  : language === 'hi'
-                  ? '24x7 आपातकालीन सेवा उपलब्ध'
-                  : '24x7 Emergency Available'}
+                {t('auto.text_1328')}
               </span>
             </label>
 
@@ -215,11 +210,7 @@ export const FacilitiesPage: React.FC = () => {
                 className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
               />
               <span>
-                {language === 'mr'
-                  ? 'मोफत औषध काउंटर'
-                  : language === 'hi'
-                  ? 'मुफ्त औषधि काउंटर'
-                  : 'Free Medicines Counter'}
+                {t('auto.text_1329')}
               </span>
             </label>
       
@@ -236,7 +227,7 @@ export const FacilitiesPage: React.FC = () => {
               }`}
             >
               <MapIcon className="w-3.5 h-3.5" />
-              <span>{language === 'mr' ? 'नकाशा (Map)' : language === 'hi' ? 'मानचित्र (Map)' : 'Interactive Map'}</span>
+              <span>{t('auto.text_1330')}</span>
             </button>
 
             <button
@@ -248,7 +239,7 @@ export const FacilitiesPage: React.FC = () => {
               }`}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
-              <span>{language === 'mr' ? 'कार्ड यादी (Cards)' : language === 'hi' ? 'कार्ड सूची (Cards)' : 'Card View'}</span>
+              <span>{t('auto.text_1331')}</span>
             </button>
       
           </div>
@@ -259,15 +250,37 @@ export const FacilitiesPage: React.FC = () => {
 
       {/* Empty State */}
       {filteredFacilities.length === 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-          <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+        <div className="bg-white dark:bg-slate-800 rounded-3xl p-10 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
+          <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-4" />
           <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">
-            {language === 'mr' ? 'प्रमाणित माहिती सध्या उपलब्ध नाही.' : language === 'hi' ? 'सत्यापित जानकारी वर्तमान में अनुपलब्ध है।' : 'Verified information is currently unavailable.'}
+            {t('auto.text_1332')}
           </h3>
-          <p className="text-sm text-slate-500 mt-2">
-            {language === 'mr' ? 'तुमच्या जवळील प्रमाणित आरोग्य केंद्रांची माहिती लवकरच उपलब्ध होईल.' : language === 'hi' ? 'आपके निकट सत्यापित स्वास्थ्य केंद्रों की जानकारी शीघ्र ही उपलब्ध होगी।' : 'Verified healthcare facilities near you will be available soon.'}
+          <p className="text-sm text-slate-500 mt-2 max-w-md mx-auto">
+            {t('auto.text_1333')}
           </p>
-      
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedDistrict('ALL');
+                setSelectedType('ALL');
+                setOnlyEmergency(false);
+                setOnlyFreeMeds(false);
+              }}
+              className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold transition-all shadow-md cursor-pointer"
+            >
+              {t('auto.text_1334')}
+            </button>
+            <button
+              onClick={() => {
+                const el = document.querySelector('input[type="text"]');
+                if(el) (el as HTMLInputElement).focus();
+              }}
+              className="px-6 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 rounded-xl text-sm font-bold transition-all cursor-pointer"
+            >
+              {t('auto.text_1335')}
+            </button>
+          </div>
         </div>
       )}
 
@@ -280,6 +293,7 @@ export const FacilitiesPage: React.FC = () => {
             onSelectFacility={(fac) => setSelectedFacilityId(fac.id)}
             userCoords={userCoords}
             onUserCoordsChange={(coords) => setUserCoords(coords)}
+            showFilters={false}
             height="560px"
           />
 
@@ -287,15 +301,11 @@ export const FacilitiesPage: React.FC = () => {
           <div className="space-y-2 text-left">
             <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-300 px-1">
               <span>
-                {language === 'mr'
-                  ? 'नकाशावरील केंद्रे (द्रुत निवड):'
-                  : language === 'hi'
-                  ? 'मानचित्र पर केंद्र (त्वरित चयन):'
-                  : 'Facilities on Map (Quick Focus):'}
+                {t('auto.text_1336')}
               </span>
               <span>
                 {formatNumber(filteredFacilities.length)}{' '}
-                {language === 'mr' ? 'केंद्रे उपलब्ध' : language === 'hi' ? 'केंद्र उपलब्ध' : 'locations'}
+                {t('auto.text_1337')}
               </span>
       
             </div>
@@ -335,7 +345,7 @@ export const FacilitiesPage: React.FC = () => {
                       {formatDistance(f.distanceKm)}
                     </span>
                     <div className="text-[10px] text-slate-500">
-                      🛏️ {formatNumber(f.bedsAvailable)} {language === 'mr' ? 'खाटा' : language === 'hi' ? 'बिस्तर' : 'beds'}
+                      🛏️ {formatNumber(f.bedsAvailable)} {t('auto.text_1338')}
       
                     </div>
       
@@ -384,7 +394,7 @@ export const FacilitiesPage: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-100 dark:border-slate-700">
                   <div className="bg-slate-50 dark:bg-slate-900/60 p-2 rounded-xl">
                     <div className="text-[10px] text-slate-500">
-                      {language === 'mr' ? 'उपलब्ध खाटा' : language === 'hi' ? 'उपलब्ध बिस्तर' : 'Available Beds'}
+                      {t('auto.text_1339')}
       
                     </div>
                     <div className="font-black text-slate-800 dark:text-slate-200">
@@ -395,21 +405,13 @@ export const FacilitiesPage: React.FC = () => {
                   </div>
                   <div className="bg-slate-50 dark:bg-slate-900/60 p-2 rounded-xl">
                     <div className="text-[10px] text-slate-500">
-                      {language === 'mr' ? '२४x७ आपत्कालीन' : language === 'hi' ? '24x7 आपातकाल' : '24x7 Emergency'}
+                      {t('auto.text_1340')}
       
                     </div>
                     <div className="font-black text-emerald-600">
                       {facility.is24x7Emergency
-                        ? language === 'mr'
-                          ? 'उपलब्ध (Active)'
-                          : language === 'hi'
-                          ? 'उपलब्ध (Active)'
-                          : 'Available'
-                        : language === 'mr'
-                        ? 'नाही'
-                        : language === 'hi'
-                        ? 'नहीं'
-                        : 'No'}
+                        ? t('auto.text_1341')
+                        : t('auto.text_1342')}
       
                     </div>
       
@@ -420,7 +422,7 @@ export const FacilitiesPage: React.FC = () => {
                 {facility.specialistsAvailable && facility.specialistsAvailable.length > 0 && (
                   <div className="space-y-1">
                     <div className="text-[10px] font-bold text-slate-500 uppercase">
-                      {language === 'mr' ? 'उपलब्ध तज्ज्ञ डॉक्टर:' : language === 'hi' ? 'उपलब्ध विशेषज्ञ डॉक्टर:' : 'Specialists Available:'}
+                      {t('auto.text_1343')}
       
                     </div>
                     <div className="flex flex-wrap gap-1">
@@ -442,11 +444,11 @@ export const FacilitiesPage: React.FC = () => {
 
               <div className="pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center gap-2">
                 <button
-                  onClick={() => handleFacilitySelectFromList(facility)}
-                  className="flex-1 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer"
+                  onClick={() => setSelectedFacilityId(facility.id)}
+                  className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer"
                 >
-                  <Navigation className="w-3.5 h-3.5" />
-                  <span>{language === 'mr' ? 'नकाशावर पहा' : language === 'hi' ? 'मानचित्र पर देखें' : 'View on Map'}</span>
+                  <Building2 className="w-3.5 h-3.5" />
+                  <span>{t('buttons.viewDetails')}</span>
                 </button>
                 <button
                   onClick={() => {
@@ -455,7 +457,7 @@ export const FacilitiesPage: React.FC = () => {
                   className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all shadow-md shadow-emerald-600/20 cursor-pointer"
                 >
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>{language === 'mr' ? 'दिशा मिळवा' : language === 'hi' ? 'दिशा प्राप्त करें' : 'Get Directions'}</span>
+                  <span>{t('auto.text_1344')}</span>
                 </button>
       
               </div>

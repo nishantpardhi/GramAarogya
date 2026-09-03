@@ -29,6 +29,7 @@ export interface IUser extends Document {
   dob?: string;
   dateOfBirth?: string;
   bloodGroup?: string;
+  place?: string;
   village?: string;
   taluka?: string;
   district?: string;
@@ -95,6 +96,7 @@ const UserSchema = new Schema(
     dob: { type: String },
     dateOfBirth: { type: String },
     bloodGroup: { type: String },
+    place: { type: String, default: 'Ramtek' },
     village: { type: String, default: 'Ramtek' },
     taluka: { type: String, default: 'Ramtek' },
     district: { type: String, default: 'Nagpur' },

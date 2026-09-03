@@ -9,7 +9,7 @@ interface FacilityDetailsModalProps {
 }
 
 export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ facility, onClose }) => {
-  const { language, doctors, setCurrentPage, formatDistance, formatNumber } = useApp();
+  const { t, language, doctors, setCurrentPage, formatDistance, formatNumber } = useApp();
 
   if (!facility) return null;
 
@@ -62,7 +62,7 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
             <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
               <div className="text-xs text-slate-500 mb-1 flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
-                {language === 'mr' ? 'OPD वेळ' : 'OPD Timings'}
+                {t('auto.text_1046')}
               </div>
               <div className="text-sm font-bold text-slate-800 dark:text-slate-200">
                 09:00 AM - 02:00 PM
@@ -71,7 +71,7 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
             <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
               <div className="text-xs text-slate-500 mb-1 flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5" />
-                {language === 'mr' ? 'अंतर' : 'Distance'}
+                {t('auto.text_1047')}
               </div>
               <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
                 {formatDistance(facility.distanceKm)}
@@ -81,11 +81,11 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
 
           <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 flex flex-col gap-2 text-sm text-slate-700 dark:text-slate-300">
              <div className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
-               <span>{language === 'mr' ? 'एकूण खाटा' : 'Total Beds'}:</span>
+               <span>{t('auto.text_1048')}:</span>
                <span className="font-bold">{formatNumber(facility.bedsTotal)}</span>
              </div>
              <div className="flex justify-between">
-               <span>{language === 'mr' ? 'उपलब्ध खाटा' : 'Available Beds'}:</span>
+               <span>{t('auto.text_1049')}:</span>
                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(facility.bedsAvailable)}</span>
              </div>
           </div>
@@ -94,15 +94,13 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
           <div>
             <h3 className="text-sm font-black uppercase text-slate-500 mb-3 flex items-center gap-2">
               <Stethoscope className="w-4 h-4" />
-              {language === 'mr' ? 'उपलब्ध डॉक्टर्स' : 'Available Doctors'}
+              {t('auto.text_1050')}
             </h3>
             
             {facilityDoctors.length === 0 ? (
               <div className="text-center p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700/50">
                 <p className="text-sm text-slate-500">
-                  {language === 'mr' 
-                    ? 'या केंद्रावर सध्या डॉक्टर उपलब्ध नाहीत.' 
-                    : 'No verified doctors currently available at this facility.'}
+                  {t('auto.text_1051')}
                 </p>
               </div>
             ) : (
@@ -113,9 +111,9 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
                       <h4 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                         {language === 'mr' ? doc.nameMr : doc.name}
                         {doc.isAvailableToday !== false ? (
-                           <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-bold">🟢 {language === 'mr' ? 'उपलब्ध' : 'Available'}</span>
+                           <span className="text-[10px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full font-bold">🟢 {t('auto.text_1052')}</span>
                         ) : (
-                           <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-full font-bold">⚪ {language === 'mr' ? 'व्यस्त' : 'Offline'}</span>
+                           <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-full font-bold">⚪ {t('auto.text_1053')}</span>
                         )}
                       </h4>
                       <p className="text-xs text-slate-500 mt-0.5">{doc.specialization}</p>
@@ -126,13 +124,15 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
                     
                     {/* Action Buttons */}
                     <div className="flex items-center gap-2 w-full sm:w-auto">
-                      <button
-                        onClick={() => handleRequestTelemedicine(doc.id)}
-                        className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-sm"
-                      >
-                        <Video className="w-3.5 h-3.5" />
-                        {language === 'mr' ? 'टेलिमेडिसिन विनंती' : language === 'hi' ? 'टेलीमेडिसिन अनुरोध' : 'Request Telemedicine'}
-                      </button>
+                      {doc.consultationType && doc.consultationType.includes('Telemedicine') && (
+                        <button
+                          onClick={() => handleRequestTelemedicine(doc.id)}
+                          className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                        >
+                          <Video className="w-3.5 h-3.5" />
+                          {t('auto.text_1044')}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -147,7 +147,7 @@ export const FacilityDetailsModal: React.FC<FacilityDetailsModalProps> = ({ faci
               className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
             >
               <Building2 className="w-4 h-4" />
-              {language === 'mr' ? 'प्रत्यक्ष भेट द्या (दिशा)' : 'Visit Offline (Directions)'}
+              {t('auto.text_1045')}
             </a>
           </div>
 

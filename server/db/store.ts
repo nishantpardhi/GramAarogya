@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import {
   FacilityRecord,
   DoctorRecord,
@@ -511,6 +513,8 @@ class HealthcareDatabase {
       | {
           status: string;
           doctorNotes?: string;
+          diagnosis?: string;
+          prescription?: any;
           newDate?: string;
           newTimeSlot?: string;
           telemedicineRoomId?: string;
@@ -527,6 +531,8 @@ class HealthcareDatabase {
       } else {
         if (update.status) apt.status = update.status as any;
         if (update.doctorNotes) apt.doctorNotes = update.doctorNotes;
+        if (update.diagnosis) apt.diagnosis = update.diagnosis;
+        if (update.prescription) apt.prescription = update.prescription;
         if (update.newDate) apt.date = update.newDate;
         if (update.newTimeSlot) apt.timeSlot = update.newTimeSlot;
         if (update.telemedicineRoomId) apt.telemedicineRoomId = update.telemedicineRoomId;
@@ -762,6 +768,227 @@ class HealthcareDatabase {
     };
     this.auditLogs.unshift(entry);
     if (this.auditLogs.length > 100) this.auditLogs.pop();
+  }
+
+  // --- USER PROFILE PERSISTENCE ENGINE ---
+  private usersFilePath: string = path.join(process.cwd(), 'server', 'db', 'users_data.json');
+
+  public loadUsers() {
+    try {
+      if (fs.existsSync(this.usersFilePath)) {
+        const raw = fs.readFileSync(this.usersFilePath, 'utf8');
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          this.users = parsed;
+          return;
+        }
+      }
+    } catch (e: any) {
+      console.warn('Failed to read users_data.json:', e.message);
+    }
+
+    // Default Seed Patient (Shantabai Gawande / Citizen Patient)
+    const verifiedTimestamp = new Date().toISOString();
+    this.users = [
+      {
+        id: 'pat-1',
+        role: 'patient',
+        name: 'Shantabai Gawande (शांताबाई)',
+        nameMr: 'शांताबाई गावंडे',
+        nameHi: 'शांताबाई गावंडे',
+        mobile: '9822011223',
+        age: 48,
+        gender: 'Female',
+        dob: '1978-05-12',
+        dateOfBirth: '1978-05-12',
+        bloodGroup: 'B+',
+        place: 'Ramtek',
+        village: 'Ramtek',
+        taluka: 'Ramtek',
+        district: 'Nagpur',
+        pinCode: '441106',
+        address: 'Ward No. 4, Near Gandhi Chowk, Ramtek, Dist. Nagpur',
+        emergencyContact: '+91 98221 55667',
+        emergencyContactName: 'Ramesh Gawande (Son)',
+        emergencyContactMobile: '+91 98221 55667',
+        avatar: '',
+        profilePhoto: '',
+        preferredLanguage: 'mr',
+        createdAt: verifiedTimestamp,
+        updatedAt: verifiedTimestamp,
+      },
+      {
+        id: 'pat-9822011223',
+        role: 'patient',
+        name: 'Shantabai Gawande (शांताबाई)',
+        nameMr: 'शांताबाई गावंडे',
+        nameHi: 'शांताबाई गावंडे',
+        mobile: '9822011223',
+        age: 48,
+        gender: 'Female',
+        dob: '1978-05-12',
+        dateOfBirth: '1978-05-12',
+        bloodGroup: 'B+',
+        place: 'Ramtek',
+        village: 'Ramtek',
+        taluka: 'Ramtek',
+        district: 'Nagpur',
+        pinCode: '441106',
+        address: 'Ward No. 4, Near Gandhi Chowk, Ramtek, Dist. Nagpur',
+        emergencyContact: '+91 98221 55667',
+        emergencyContactName: 'Ramesh Gawande (Son)',
+        emergencyContactMobile: '+91 98221 55667',
+        avatar: '',
+        profilePhoto: '',
+        preferredLanguage: 'mr',
+        createdAt: verifiedTimestamp,
+        updatedAt: verifiedTimestamp,
+      },
+    ];
+    this.persistUsers();
+  }
+
+  public persistUsers() {
+    try {
+      const dir = path.dirname(this.usersFilePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(this.usersFilePath, JSON.stringify(this.users, null, 2), 'utf8');
+    } catch (e: any) {
+      console.warn('Failed to persist users to disk:', e.message);
+    }
+  }
+
+  public getUser(identifier?: string): UserRecord | null {
+    if (!this.users || this.users.length === 0) {
+      this.loadUsers();
+    }
+    if (!identifier || identifier === 'pat-default' || identifier === 'undefined') {
+      return this.users.find((u) => u.role === 'patient') || this.users[0] || null;
+    }
+    const cleanId = String(identifier).trim().toLowerCase();
+    const cleanMobile = cleanId.replace(/\D/g, '');
+
+    const found = this.users.find(
+      (u) =>
+        u.id?.toLowerCase() === cleanId ||
+        (cleanMobile && u.mobile?.replace(/\D/g, '') === cleanMobile) ||
+        u.email?.toLowerCase() === cleanId
+    );
+
+    if (found) return found;
+
+    // Fallback to active patient record
+    return this.users.find((u) => u.role === 'patient') || this.users[0] || null;
+  }
+
+  public getUserByMobile(mobile: string): UserRecord | null {
+    if (!mobile) return null;
+    if (!this.users || this.users.length === 0) {
+      this.loadUsers();
+    }
+    const cleanMobile = mobile.replace(/\D/g, '');
+    return this.users.find((u) => u.mobile?.replace(/\D/g, '') === cleanMobile) || null;
+  }
+
+  public upsertUser(data: Partial<UserRecord> & { id?: string; mobile?: string }): UserRecord {
+    if (!this.users || this.users.length === 0) {
+      this.loadUsers();
+    }
+
+    const cleanMobile = data.mobile ? data.mobile.replace(/\D/g, '') : '';
+    const userId = data.id || (cleanMobile ? `pat-${cleanMobile}` : `user-${Date.now()}`);
+
+    let userIndex = this.users.findIndex(
+      (u) =>
+        (data.id && u.id === data.id) ||
+        (cleanMobile && u.mobile?.replace(/\D/g, '') === cleanMobile)
+    );
+
+    // If still not found and role is patient, update first patient
+    if (userIndex < 0 && (data.role === 'patient' || !data.role)) {
+      userIndex = this.users.findIndex((u) => u.role === 'patient');
+    }
+
+    const now = new Date().toISOString();
+
+    if (userIndex >= 0) {
+      const existing = this.users[userIndex];
+      const updated: UserRecord = {
+        ...existing,
+        ...data,
+        id: existing.id || userId,
+        name: data.name !== undefined && data.name !== '' ? data.name : existing.name,
+        nameMr: data.nameMr !== undefined ? data.nameMr : (data.name || existing.nameMr),
+        nameHi: data.nameHi !== undefined ? data.nameHi : (data.name || existing.nameHi),
+        mobile: data.mobile !== undefined && data.mobile !== '' ? data.mobile : existing.mobile,
+        avatar: data.avatar !== undefined ? data.avatar : (data.profilePhoto !== undefined ? data.profilePhoto : existing.avatar),
+        profilePhoto: data.profilePhoto !== undefined ? data.profilePhoto : (data.avatar !== undefined ? data.avatar : existing.profilePhoto),
+        age: data.age !== undefined ? Number(data.age) : existing.age,
+        gender: data.gender !== undefined ? data.gender : existing.gender,
+        place: data.place !== undefined ? data.place : (data.village !== undefined ? data.village : existing.place),
+        village: data.village !== undefined ? data.village : (data.place !== undefined ? data.place : existing.village),
+        taluka: data.taluka !== undefined ? data.taluka : existing.taluka,
+        district: data.district !== undefined ? data.district : existing.district,
+        pinCode: data.pinCode !== undefined ? data.pinCode : existing.pinCode,
+        address: data.address !== undefined ? data.address : existing.address,
+        dob: data.dob !== undefined ? data.dob : (data.dateOfBirth !== undefined ? data.dateOfBirth : existing.dob),
+        dateOfBirth: data.dateOfBirth !== undefined ? data.dateOfBirth : (data.dob !== undefined ? data.dob : existing.dateOfBirth),
+        emergencyContact: data.emergencyContact !== undefined ? data.emergencyContact : existing.emergencyContact,
+        emergencyContactName: data.emergencyContactName !== undefined ? data.emergencyContactName : existing.emergencyContactName,
+        emergencyContactMobile: data.emergencyContactMobile !== undefined ? data.emergencyContactMobile : existing.emergencyContactMobile,
+        updatedAt: now,
+      };
+      this.users[userIndex] = updated;
+      this.persistUsers();
+      return updated;
+    } else {
+      const newUser: UserRecord = {
+        id: userId,
+        role: data.role || 'patient',
+        name: data.name || 'Citizen Patient',
+        nameMr: data.nameMr || data.name || 'नागरिक रुग्ण',
+        nameHi: data.nameHi || data.name || 'नागरिक मरीज',
+        mobile: data.mobile || cleanMobile || '9822011223',
+        email: data.email || '',
+        avatar: data.avatar || data.profilePhoto || '',
+        profilePhoto: data.profilePhoto || data.avatar || '',
+        age: data.age !== undefined ? Number(data.age) : 48,
+        gender: data.gender || 'Female',
+        dob: data.dob || data.dateOfBirth || '1978-05-12',
+        dateOfBirth: data.dateOfBirth || data.dob || '1978-05-12',
+        place: data.place || data.village || 'Ramtek',
+        village: data.village || data.place || 'Ramtek',
+        taluka: data.taluka || 'Ramtek',
+        district: data.district || 'Nagpur',
+        pinCode: data.pinCode || '441106',
+        address: data.address || 'Ward No. 4, Ramtek',
+        emergencyContact: data.emergencyContact || '+91 98221 55667',
+        emergencyContactName: data.emergencyContactName || 'Ramesh Gawande (Son)',
+        emergencyContactMobile: data.emergencyContactMobile || '+91 98221 55667',
+        bloodGroup: data.bloodGroup || 'B+',
+        preferredLanguage: data.preferredLanguage || 'mr',
+        createdAt: now,
+        updatedAt: now,
+      };
+      this.users.push(newUser);
+      this.persistUsers();
+      return newUser;
+    }
+  }
+
+  public updateUserPhoto(userId: string, photoUrl: string): UserRecord | null {
+    const user = this.getUser(userId);
+    if (user) {
+      return this.upsertUser({
+        ...user,
+        id: user.id,
+        avatar: photoUrl,
+        profilePhoto: photoUrl,
+      });
+    }
+    return null;
   }
 }
 

@@ -14,7 +14,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   portalName,
 }) => {
-  const { currentUser, isAuthLoading, setCurrentPage, language } = useApp();
+  const { t, currentUser, isAuthLoading, setCurrentPage, language } = useApp();
 
   // Automatic redirect to /login if user is unauthenticated
   React.useEffect(() => {
@@ -31,12 +31,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           <Activity className="w-7 h-7 animate-spin" />
         </div>
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">
-          {language === 'mr' ? 'प्रमाणीकरण तपासत आहे...' : 'Verifying Security Credentials...'}
+          {t('auto.text_1113')}
         </h3>
         <p className="text-xs text-slate-500 mt-1 max-w-sm">
-          {language === 'mr'
-            ? 'Supabase डेटाबेसद्वारे आपली भूमिका आणि सुरक्षा पडताळली जात आहे.'
-            : 'Checking active session and database role permissions.'}
+          {t('auto.text_1114')}
         </p>
       </div>
     );
@@ -50,11 +48,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           <Lock className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
         </div>
         <h2 className="text-xl font-black text-slate-900 dark:text-white">
-          {language === 'mr'
-            ? 'प्रवेशासाठी लॉगिन आवश्यक आहे'
-            : language === 'hi'
-            ? 'प्रवेश के लिए लॉगिन आवश्यक है'
-            : 'Authentication Required'}
+          {t('auto.text_1112')}
         </h2>
         <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 mb-6 leading-relaxed">
           {language === 'mr'
@@ -67,7 +61,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           className="w-full py-3.5 px-6 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
         >
           <LogIn className="w-4 h-4" />
-          <span>{language === 'mr' ? 'लॉगिन पृष्ठावर जा' : 'Sign In to GramAarogya'}</span>
+          <span>{t('auto.text_1115')}</span>
         </button>
       </div>
     );
@@ -82,9 +76,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     };
 
     const getRoleName = (role: string) => {
-      if (role === 'patient') return language === 'mr' ? 'नागरिक / रुग्ण' : 'Patient';
-      if (role === 'doctor') return language === 'mr' ? 'डॉक्टर' : 'Doctor';
-      if (role === 'admin') return language === 'mr' ? 'प्रशासक' : 'Admin';
+      if (role === 'patient') return t('auto.text_1116');
+      if (role === 'doctor') return t('auto.text_1117');
+      if (role === 'admin') return t('auto.text_1118');
       return role;
     };
 
@@ -95,7 +89,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         </div>
         
         <h2 className="text-xl font-black text-slate-900 dark:text-white">
-          {language === 'mr' ? 'प्रवेश नाकारला (Access Denied)' : 'Access Denied: Role Unauthorized'}
+          {t('auto.text_1119')}
         </h2>
         
         <div className="mt-3 p-4 bg-amber-50 dark:bg-amber-950/40 rounded-2xl border border-amber-200 dark:border-amber-900 text-xs text-amber-900 dark:text-amber-200 text-left space-y-1.5 w-full">
@@ -116,7 +110,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             onClick={() => setCurrentPage(getTargetDashboard())}
             className="flex-1 py-3 px-5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
           >
-            <span>{language === 'mr' ? 'माझ्या अधिकृत डॅशबोर्डवर जा' : 'Go to My Authorized Portal'}</span>
+            <span>{t('auto.text_1120')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
 
@@ -125,7 +119,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             className="py-3 px-5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>{language === 'mr' ? 'दुसऱ्या खात्याने लॉगिन करा' : 'Switch Account'}</span>
+            <span>{t('auto.text_1121')}</span>
           </button>
         </div>
       </div>
