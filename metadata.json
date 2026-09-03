@@ -1,0 +1,6 @@
+{
+  "name": "GramArogya - SwasthyaSetu Maharashtra",
+  "description": "Maharashtra Public Healthcare Network bridging rural and underserved communities with government healthcare providers, telemedicine, emergency services, and health schemes.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
